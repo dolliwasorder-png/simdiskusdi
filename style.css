@@ -1,0 +1,864 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* General Body & Container Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f4f8; /* Light gray-blue background */
+    margin: 0;
+    padding-top: 80px; /* Tambahkan padding di atas agar konten tidak tertutup fixed header */
+    line-height: 1.6;
+    color: #334e68; /* Dark blue-gray text */
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* --- Fixed Header & Nav --- */
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo-link {
+    display: flex;
+    margin-right: 20px;
+}
+
+.logo-img {
+    height: 60px; /* Ukuran logo yang proporsional */
+    width: auto;
+}
+
+.header-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a73e8;
+}
+
+.header-subtitle {
+    display: none; /* Menyembunyikan subtitle karena sudah kosong */
+}
+
+/* --- Main Navigation --- */
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.main-nav li a {
+    display: block;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    color: #555;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 8px;
+}
+
+.main-nav li a:hover {
+    background-color: #f1f3f8;
+    color: #1a73e8;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.arrow-icon {
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.dropdown:hover .arrow-icon {
+    transform: rotate(180deg);
+}
+
+/* Perbaikan untuk Dropdown Menu */
+.dropdown-menu {
+    position: absolute;
+    top: 100%; /* Turun ke bawah, di bawah item Identifikasi */
+    left: 0;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    min-width: 250px;
+    z-index: 10;
+    display: none;
+    flex-direction: column; /* Mengubah arah menjadi vertikal */
+}
+
+.dropdown-menu li {
+    width: 100%;
+}
+
+.dropdown-menu li a {
+    color: #333;
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block; /* Menjadikan tautan mengisi seluruh lebar */
+    transition: background-color 0.2s;
+    font-size: 0.95rem;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #f1f1f1;
+}
+
+/* --- Section Styling (Konten Utama) --- */
+.section {
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    background-color: #ffffff;
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a73e8;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.section-description {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    font-size: 1.1rem;
+    color: #556;
+}
+
+.info-section {
+    background-color: #e3f2fd;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.info-card {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    color: #1a73e8;
+    margin-bottom: 1rem;
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    font-size: 0.95rem;
+    color: #667;
+}
+
+.card-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.card-list li {
+    background-color: #f1f8e9;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+}
+
+.guide-section {
+    background-color: #ffffff;
+}
+
+.step-card {
+    border-left: 4px solid #1a73e8;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    background-color: #fafbfd;
+    position: relative;
+    border-radius: 8px;
+    transition: box-shadow 0.3s;
+}
+
+.step-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.step-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    background-color: #1a73e8;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.step-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.step-text {
+    font-size: 1rem;
+    color: #556;
+}
+
+.step-action {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+    background-color: #28a745;
+    border-radius: 50px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.cta-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.step-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.step-grid-item {
+    background-color: #f1f8e9;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    color: #334e68;
+    text-align: center;
+}
+
+/* --- Footer & WhatsApp Button --- */
+footer {
+    background-color: #2c3e50;
+    color: #e0e6ed;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.whatsapp-button-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+.whatsapp-button {
+    background-color: #25D366;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+}
+
+.whatsapp-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+/* --- Gaya Khusus untuk biodata.html --- */
+main {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.questionnaire-container {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.questionnaire-container h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #1a73e8;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.disclaimer {
+    text-align: center;
+    color: #8898aa;
+    font-style: italic;
+    margin-bottom: 2rem;
+}
+
+.input-item {
+    margin-bottom: 1.5rem;
+}
+
+.input-item label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #334e68;
+    margin-bottom: 0.5rem;
+}
+
+.input-item input,
+.input-item select {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #cdd5df;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-item input:focus,
+.input-item select:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 1rem;
+    transform: scale(1.2);
+    flex-shrink: 0;
+}
+
+.checkbox-item label {
+    color: #556;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.back-button, .submit-button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.back-button {
+    color: #556;
+    background-color: #e9ecef;
+}
+
+.back-button:hover {
+    background-color: #cfd8e3;
+    transform: translateY(-2px);
+}
+
+.submit-button {
+    color: white;
+    background-color: #28a745;
+    border: none;
+}
+
+.submit-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+/* Responsive Adjustments for Mobile */
+@media (max-width: 768px) {
+    /* Perbaikan untuk Header */
+    .header-container {
+        flex-direction: column; /* Ubah tata letak header menjadi vertikal */
+        align-items: flex-start; /* Sejajarkan semua elemen ke kiri */
+        padding: 1rem; /* Kurangi padding untuk menghemat ruang */
+    }
+
+    .header-left {
+        width: 100%;
+        justify-content: center; /* Tengahkan logo dan judul */
+        margin-bottom: 1rem; /* Beri jarak dengan nav */
+    }
+
+    .header-title {
+        font-size: 1.2rem; /* Perkecil ukuran judul */
+    }
+
+    .logo-img {
+        height: 50px; /* Perkecil ukuran logo */
+        margin-right: 15px;
+    }
+
+    .main-nav {
+        width: 100%;
+    }
+
+    .main-nav ul {
+        flex-direction: column; /* Ubah menu navigasi menjadi kolom */
+        align-items: center; /* Tengahkan item menu */
+    }
+    
+    .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Perbaikan untuk Konten Utama */
+    body {
+        padding-top: 150px; /* Tambahkan padding lebih besar karena header lebih tinggi */
+    }
+    
+    .main-content {
+        padding: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr; /* Jadikan grid menjadi satu kolom */
+    }
+
+    .step-card {
+        padding: 1rem;
+    }
+
+    .step-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .step-number {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .back-button, .submit-button {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .whatsapp-button-container {
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+---
+/* Gaya Halaman Tentang Web */
+.about-section {
+    text-align: center;
+    padding-top: 2rem; /* Tambahkan jarak dari header */
+}
+
+.profile-card {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f8fafc;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #1a73e8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    color: #334e68;
+}
+
+.profile-card h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
+    color: #556;
+    font-style: italic;
+}
+
+.profile-card p {
+    text-align: justify;
+    max-width: 500px;
+    color: #667;
+}
+
+.contact-info {
+    margin-top: 1rem;
+    text-align: left;
+    width: 100%;
+}
+
+.contact-info h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #1a73e8;
+    font-size: 1.1rem;
+}
+
+.contact-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contact-info li {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.contact-info a {
+    color: #1a73e8;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+/* Responsif untuk halaman Tentang Web */
+@media (max-width: 768px) {
+    .profile-card {
+        padding: 1.5rem;
+    }
+
+    .profile-photo {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Styles for the modal pop-up */
+.modal {
+    display: none; /* Sembunyikan secara default */
+    position: fixed;
+    z-index: 1001; /* Pastikan di atas elemen lain */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay semi-transparan */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-title {
+    color: #1a73e8;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.modal-description {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #667;
+    margin-bottom: 1.5rem;
+}
+
+.close-btn {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: #555;
+}
+
+.quiz-question {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+}
+
+.quiz-question p {
+    font-weight: 600;
+    color: #334e68;
+    margin-bottom: 0.5rem;
+}
+
+.quiz-question label {
+    display: inline-block;
+    margin-right: 1.5rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.quiz-question input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+/* Animasi untuk pop-up */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Penyesuaian untuk pop-up soal kilat (single question) */
+.modal-content {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+    min-height: 250px; /* Tambahkan tinggi minimum */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal-title {
+    color: #1a73e8;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.question-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #334e68;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.quiz-options {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.quiz-options label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Gaya untuk hasil */
+.result-card {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.result-card .card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.result-card .card-title {
+    margin-bottom: 0.5rem;
+}
+
+/* Gaya untuk Halaman Hasil (Dokumen Resmi) */
+#document-content {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 3rem;
+    font-family: 'Times New Roman', Times, serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.document-header {
+    text-align: center;
+    border-bottom: 2px solid #1a73e8;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* Gaya untuk Header Dokumen Hasil (Tanpa Logo) */
+.document-header {
+    text-align: center;
+    border-bottom: 2px solid #1a73e8;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.document-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1a73e8;
+    margin: 0;
+}
+
+.document-subtitle {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 0.2rem;
+}
+
+.document-body {
+    padding: 0 1rem;
+}
+
+.section-title-doc {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1a73e8;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 0.3rem;
+}
+
+.info-item p {
+    margin: 0.5rem 0;
+}
+
+.info-item strong {
+    color: #1a73e8;
+}
+
+.result-section .info-card {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.result-section .card-title {
+    font-size: 1.1rem;
+    margin-top: 0;
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skrining Awal - SIMDIKSUS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="header fixed-header">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="index.html" class="logo-link">
+                    <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" class="logo-img">
+                </a>
+                <div class="header-content">
+                    <h1 class="header-title">Sistem Informasi dan Identifikasi ABK</h1>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li class="dropdown" id="identifikasi-dropdown">
+                        <a href="#" class="dropdown-toggle">Identifikasi <i class="fas fa-chevron-down arrow-icon"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="biodata.html">Identifikasi Awal</a></li>
+                            <li><a href="#">Identifikasi Lanjutan</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="artikel-dropdown">
+                        <a href="#" class="dropdown-toggle">Artikel <i class="fas fa-chevron-down arrow-icon"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Hambatan Intelektual Ringan</a></li>
+                            <li><a href="#">Gangguan Belajar Spesifik</a></li>
+                            <li><a href="#">Gangguan Bicara dan Bahasa</a></li>
+                            <li><a href="#">Gangguan Emosional dan Perilaku</a></li>
+                            <li><a href="#">Spektrum Autis</a></li>
+                            <li><a href="#">ADHD</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">Tentang Web</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="section questionnaire-section">
+            <div class="questionnaire-container">
+                <h2 class="form-title">Kuesioner Tahap Awal</h2>
+                <p class="form-description">
+                    Pilih jawaban "Ya" atau "Tidak" untuk setiap pertanyaan. Jawaban Anda akan membantu memberikan gambaran awal mengenai perkembangan anak.
+                </p>
+
+                <form id="skrining-form">
+                    <div class="question-item">
+                        <p class="question">1. Apakah anak Anda sulit melakukan kontak mata saat diajak bicara?</p>
+                        <div class="radio-options">
+                            <label><input type="radio" name="q1" value="ya" required> Ya</label>
+                            <label><input type="radio" name="q1" value="tidak"> Tidak</label>
+                        </div>
+                    </div>
+
+                    <div class="question-item">
+                        <p class="question">2. Apakah anak Anda sering mengulang kata-kata atau frasa yang sama?</p>
+                        <div class="radio-options">
+                            <label><input type="radio" name="q2" value="ya" required> Ya</label>
+                            <label><input type="radio" name="q2" value="tidak"> Tidak</label>
+                        </div>
+                    </div>
+
+                    <div class="question-item">
+                        <p class="question">3. Apakah anak Anda menunjukkan minat yang sangat terbatas pada mainan atau objek tertentu?</p>
+                        <div class="radio-options">
+                            <label><input type="radio" name="q3" value="ya" required> Ya</label>
+                            <label><input type="radio" name="q3" value="tidak"> Tidak</label>
+                        </div>
+                    </div>
+
+                    <div class="question-item">
+                        <p class="question">4. Apakah anak Anda sensitif terhadap suara, cahaya, atau tekstur tertentu?</p>
+                        <div class="radio-options">
+                            <label><input type="radio" name="q4" value="ya" required> Ya</label>
+                            <label><input type="radio" name="q4" value="tidak"> Tidak</label>
+                        </div>
+                    </div>
+                    
+                    <div class="question-item">
+                        <p class="question">5. Apakah anak Anda kesulitan berinteraksi atau bermain dengan anak-anak lain?</p>
+                        <div class="radio-options">
+                            <label><input type="radio" name="q5" value="ya" required> Ya</label>
+                            <label><input type="radio" name="q5" value="tidak"> Tidak</label>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <a href="index.html" class="back-button">Kembali</a>
+                        <button type="submit" class="submit-button">Lihat Hasil</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SIMDIKSUS. Semua hak cipta dilindungi.</p>
+    </footer>
+
+    <div class="whatsapp-button-container">
+        <a href="https://wa.me/6281234567890?text=Halo%20saya%20ingin%20bertanya%20mengenai%20website%20skrining%20ABK" target="_blank" class="whatsapp-button">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" class="whatsapp-icon">
+            Butuh Bantuan?
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="nav.js"></script> </body>
+</html>
