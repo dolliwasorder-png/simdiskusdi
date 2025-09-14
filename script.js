@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- LOGIKA NAVIGASI (UMUM UNTUK SEMUA HALAMAN) ---
     
-    // Logika Dropdown Navigasi
     const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
     dropdownToggles.forEach(toggle => {
         toggle.addEventListener('click', function(e) {
@@ -30,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-
 
     // --- LOGIKA SOAL KILAT (INDEX.HTML) ---
 
@@ -151,26 +149,63 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- LOGIKA KUESIONER (KUESIONER.HTML) ---
     
+    // Objek untuk mengelompokkan pertanyaan ke dalam kategori
+    const classifications = {
+        'Hambatan Intelektual Ringan': [1, 2, 3, 4, 5],
+        'Kesulitan Belajar Spesifik (Disleksia)': [6, 7, 8],
+        'Kesulitan Belajar Spesifik (Disgrafia)': [9, 10, 11],
+        'Kesulitan Belajar Spesifik (Diskalkulia)': [12, 13, 14],
+        'Gangguan Bicara dan Bahasa': [15, 16, 17],
+        'Gangguan Emosi dan Perilaku': [18, 19, 20, 21],
+        'Spektrum Autis': [22, 23, 24, 25],
+        'ADHD': [26, 27, 28, 29]
+    };
+    
+    // Objek untuk menentukan ambang batas "Ya" untuk setiap kategori
+    const thresholds = {
+        'Hambatan Intelektual Ringan': 4,
+        'Kesulitan Belajar Spesifik (Disleksia)': 2,
+        'Kesulitan Belajar Spesifik (Disgrafia)': 2,
+        'Kesulitan Belajar Spesifik (Diskalkulia)': 2,
+        'Gangguan Bicara dan Bahasa': 2,
+        'Gangguan Emosi dan Perilaku': 3,
+        'Spektrum Autis': 3,
+        'ADHD': 3
+    };
+
     const skriningForm = document.getElementById('skrining-form');
     if (skriningForm) {
         skriningForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            const categoryScores = {};
             const answers = {};
-            let skor = 0;
 
+            // Inisialisasi skor untuk setiap kategori
+            for (const category in classifications) {
+                categoryScores[category] = 0;
+            }
+
+            // Hitung skor untuk setiap kategori
             const questions = document.querySelectorAll('.question-item');
             questions.forEach((item, index) => {
-                const qName = `q${index + 1}`;
+                const qNum = index + 1;
+                const qName = `q${qNum}`;
                 const answer = document.querySelector(`input[name="${qName}"]:checked`);
+                
                 if (answer) {
                     answers[qName] = answer.value;
                     if (answer.value === 'ya') {
-                        skor++;
+                        for (const category in classifications) {
+                            if (classifications[category].includes(qNum)) {
+                                categoryScores[category]++;
+                                break; 
+                            }
+                        }
                     }
                 }
             });
 
-            localStorage.setItem('skor', skor);
+            localStorage.setItem('categoryScores', JSON.stringify(categoryScores));
             localStorage.setItem('answers', JSON.stringify(answers));
 
             window.location.href = 'hasil.html';
@@ -183,20 +218,40 @@ document.addEventListener('DOMContentLoaded', function() {
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
     if (resultContainer) {
-        // Ambil data dari localStorage
         const biodata = JSON.parse(localStorage.getItem('biodata'));
-        const skor = localStorage.getItem('skor');
-        const answers = JSON.parse(localStorage.getItem('answers'));
+        const categoryScores = JSON.parse(localStorage.getItem('categoryScores'));
 
-        if (biodata && skor !== null) {
-            const hasil = skor >= 3 ? "Perlu Perhatian Lebih" : "Perkembangan Terlihat Baik";
-            const rekomendasi = skor >= 3 
-                ? "Berdasarkan jawaban kuesioner, terdapat beberapa tanda yang mengindikasikan perlunya perhatian lebih terhadap perkembangan anak. Disarankan untuk melanjutkan ke langkah identifikasi lanjutan atau berkonsultasi dengan tenaga ahli seperti psikolog atau guru pendamping."
-                : "Berdasarkan jawaban kuesioner, perkembangan anak terlihat baik dan sesuai dengan tahapan usianya. Tetap pantau terus perkembangannya dan berikan stimulasi yang positif.";
+        if (biodata && categoryScores) {
+            const recommendedClassifications = [];
+            let totalYaCount = 0;
+
+            for (const category in categoryScores) {
+                totalYaCount += categoryScores[category];
+                if (categoryScores[category] >= thresholds[category]) {
+                    recommendedClassifications.push(category);
+                }
+            }
+
+            let hasilTitle = "";
+            let rekomendasiText = "";
+            let recommendedListHtml = "";
+
+            if (recommendedClassifications.length > 0) {
+                hasilTitle = "Perlu Perhatian Lebih";
+                rekomendasiText = `Berdasarkan jawaban kuesioner, terdapat beberapa tanda yang mengindikasikan perlunya perhatian lebih terhadap perkembangan anak pada klasifikasi berikut. Disarankan untuk melanjutkan ke langkah identifikasi lanjutan atau berkonsultasi dengan tenaga ahli.`;
+                
+                recommendedListHtml = `<ul style="list-style-type: disc; padding-left: 20px; margin-top: 15px;">`;
+                recommendedClassifications.forEach(category => {
+                    recommendedListHtml += `<li><strong>${category}</strong></li>`;
+                });
+                recommendedListHtml += `</ul>`;
+            } else {
+                hasilTitle = "Perkembangan Terlihat Baik";
+                rekomendasiText = "Berdasarkan jawaban kuesioner, perkembangan anak terlihat baik dan sesuai dengan tahapan usianya. Tetap pantau terus perkembangannya dan berikan stimulasi yang positif.";
+            }
             
             const tanggal = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
 
-            // Buat konten dokumen secara dinamis
             const documentContent = `
                 <div class="document-header">
                     <h1 class="document-title">LAPORAN HASIL SKRINING AWAL</h1>
@@ -221,12 +276,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         <h3 class="section-title-doc">Hasil dan Rekomendasi</h3>
                         <div class="info-card">
                             <div class="card-icon">
-                                <i class="fas ${skor >= 3 ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i>
+                                <i class="fas ${recommendedClassifications.length > 0 ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i>
                             </div>
-                            <h4 class="card-title">Kesimpulan Skrining: **${hasil}**</h4>
-                            <p class="card-text">Total jawaban "Ya" pada kuesioner: **${skor}** dari 5 pertanyaan.</p>
+                            <h4 class="card-title">Kesimpulan Skrining: **${hasilTitle}**</h4>
+                            <p class="card-text">Total jawaban "Ya" pada kuesioner: **${totalYaCount}** dari 29 pertanyaan.</p>
                         </div>
-                        <p class="rekomendasi-text">${rekomendasi}</p>
+                        <p class="rekomendasi-text">${rekomendasiText}</p>
+                        ${recommendedListHtml}
                     </div>
                 </div>
             `;
