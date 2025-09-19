@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Skrining Lanjutan</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Gaya tambahan untuk halaman skrining agar lebih jelas */
+        .question-group {
+            margin-top: 2rem;
+        }
+        .question-item {
+            border: 1px solid #e0e6ed;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .question-item label {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .radio-options {
+            margin-top: 1rem;
+            display: flex;
+            gap: 2rem;
+        }
+        .radio-options label {
+            font-weight: 400;
+        }
+        /* Gaya untuk menandai pertanyaan yang belum dijawab */
+        .question-item.invalid {
+            border-color: #e74c3c; /* Warna merah untuk peringatan */
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header fixed-header">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="index.html" class="logo-link">
+                    <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" class="logo-img">
+                </a>
+                <div class="header-content">
+                    <h1 class="header-title">Sistem Informasi dan Identifikasi ABK</h1>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li class="dropdown" id="identifikasi-dropdown">
+                        <a href="#" class="dropdown-toggle">Identifikasi <i class="fas fa-chevron-down arrow-icon"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="biodata.html">Identifikasi Awal</a></li>
+                            <li><a href="biodata-lanjutan.html">Identifikasi Lanjutan</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="artikel-dropdown">
+                        <a href="#" class="dropdown-toggle">Artikel <i class="fas fa-chevron-down arrow-icon"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Hambatan Intelektual Ringan</a></li>
+                            <li><a href="#">Gangguan Belajar Spesifik</a></li>
+                            <li><a href="#">Gangguan Bicara dan Bahasa</a></li>
+                            <li><a href="#">Gangguan Emosional dan Perilaku</a></li>
+                            <li><a href="#">Spektrum Autis</a></li>
+                            <li><a href="#">ADHD</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">Tentang Web</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="questionnaire-container">
+            <h2 class="form-title" id="dynamic-title">Skrining Lanjutan</h2>
+            <p class="disclaimer">
+                Jawablah pertanyaan berikut dengan jujur dan akurat.
+            </p>
+            <form id="skrining-form">
+                <div class="question-group" id="questions-container">
+                </div>
+
+                <div class="button-group">
+                    <a href="biodata-lanjutan.html" class="back-button">Kembali</a>
+                    <button type="submit" class="submit-button">Selesaikan Skrining</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SIMDIKSUS. Semua hak cipta dilindungi.</p>
+    </footer>
+
+    <div class="whatsapp-button-container">
+        <a href="https://wa.me/6281234567890?text=Halo%20saya%20ingin%20bertanya%20mengenai%20website%20skrining%20ABK" target="_blank" class="whatsapp-button">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" class="whatsapp-icon">
+            Butuh Bantuan?
+        </a>
+    </div>
+
+    <script src="nav.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const klasifikasi = urlParams.get('klasifikasi');
+            const formTitle = document.getElementById('dynamic-title');
+            const questionsContainer = document.getElementById('questions-container');
+
+            // Peta untuk mengubah nama klasifikasi dari URL menjadi teks yang rapi
+            const titles = {
+                'hambatan-intelektual-ringan': 'Hambatan Intelektual Ringan',
+                'disleksia': 'Disleksia',
+                'disgrafia': 'Disgrafia',
+                'diskalkulia': 'Diskalkulia',
+                'gangguan-bicara-bahasa': 'Gangguan Bicara dan Bahasa',
+                'gangguan-emosional-perilaku': 'Gangguan Emosional dan Perilaku',
+                'spektrum-autis': 'Spektrum Autis',
+                'adhd': 'ADHD'
+            };
+
+            // Database pertanyaan untuk setiap klasifikasi
+            const questions = {
+                'hambatan-intelektual-ringan': [
+                    "Anak memiliki IQ pada rentang 50-69?",
+                    "Anak sulit belajar membaca, menulis, atau berhitung dasar?",
+                    "Anak tidak bisa mengatur waktu dan uang dengan baik sesuai usianya?",
+                    "Anak sulit membuat rencana atau mengambil keputusan sendiri?",
+                    "Anak lebih mudah mengingat hal-hal praktis daripada ide-ide yang rumit atau banyak langkah?",
+                    "Anak sulit memahami pelajaran yang memerlukan pemikiran abstrak, seperti perbandingan atau konsep yang tidak konkret?",
+                    "Anak sulit berteman karena kadang bersikap kurang tepat atau tidak bisa mengendalikan diri?",
+                    "Anak tidak tahu bagaimana harus bersikap dalam situasi sosial tertentu?",
+                    "Anak berbicara dengan kata-kata sederhana dan tidak sesuai dengan usia?",
+                    "Anak tidak bisa menilai mana yang benar dan salah dalam pergaulan?",
+                    "Anak mudah percaya pada orang lain dan mudah dimanipulasi?"
+                ],
+                'disleksia': [
+                    "Anak membaca kata dengan lambat dan sering menebak-nebak?",
+                    "Anak kesulitan memahami isi bacaan?",
+                    "Anak sering terbalik membaca huruf mirip seperti b/d, p/q, atau m/w?",
+                    "Anak sering salah dalam mengeja, misalnya huruf hilang, tertukar, atau ditambah?",
+                    "Anak kesulitan membaca kata panjang atau tidak umum?",
+                    "Anak kesulitan mengingat kosakata baru?",
+                    "Anak sering mengandalkan konteks gambar atau kalimat untuk memahami bacaan?",
+                    "Sering bingung dengan arah kiri-kanan, atas-bawah?"
+                ],
+                'disgrafia': [
+                    "Tulisan anak sulit dibaca atau tidak rapi?",
+                    "Bentuk huruf tidak konsisten?",
+                    "Anak menulis dengan tekanan terlalu kuat atau terlalu lemah?",
+                    "Anak memegang pensil dengan cara yang tidak nyaman atau kaku?",
+                    "Jarak antar huruf atau kata tidak teratur?",
+                    "Anak sering menghapus atau mencoret-coret tulisannya?",
+                    "Anak lambat saat menulis, meskipun tahu apa yang ingin ditulis?",
+                    "Anak membalik huruf atau angka saat menulis (misal: b menjadi d)?",
+                    "Anak kesulitan menuangkan ide dalam tulisan?",
+                    "Anak kesulitan menyalin tulisan dari papan atau buku?"
+                ],
+                'diskalkulia': [
+                    "Anak tidak paham hubungan antara angka dan jumlah benda (misalnya, tidak tahu bahwa angka 5 berarti lima benda)?",
+                    "Anak bingung membedakan mana angka yang lebih besar atau lebih kecil?",
+                    "Anak kesulitan menyusun angka sesuai nilai tempat (satuan, puluhan, ratusan)?",
+                    "Anak tidak hafal fakta dasar, seperti (2 + 3 = 5 atau 4 × 2 = 8)?",
+                    "Anak bingung saat mengerjakan soal cerita matematika yang melibatkan lebih dari satu langkah?",
+                    "Anak masih menggunakan jari untuk menghitung meski usia sudah lebih tinggi?",
+                    "Anak mudah bingung jika soal mengandung angka besar atau banyak informasi?"
+                ],
+                'gangguan-bicara-bahasa': [
+                    "Bunyi kata anak sering berubah atau tidak jelas (contoh: sapi jadi tapi)?",
+                    "Ucapan anak sering sulit dimengerti oleh guru atau teman?",
+                    "Anak sering terbata-bata atau tersendat saat berbicara?",
+                    "Suara anak sering terlalu pelan, terlalu keras, atau serak sehingga susah didengar?",
+                    "Anak tampak kesulitan mengucapkan bunyi tertentu (misal r, s, l), mulut seperti “macet”?",
+                    "Anak enggan atau takut bicara di depan kelas karena merasa tidak lancar?",
+                    "Anak sering salah menyebut nama benda atau memakai kata yang tidak tepat?",
+                    "Anak sulit mengikuti perintah dengan dua langkah atau lebih (misal: “Ambil buku lalu duduk”)?",
+                    "Kalimat anak sangat pendek (hanya 1–2 kata) padahal teman sudah bisa berbicara lebih panjang?",
+                    "Anak kesulitan menjawab pertanyaan sederhana seperti “apa”, “siapa”, atau “di mana”?",
+                    "Anak sulit menceritakan kembali cerita atau kejadian yang baru terjadi?",
+                    "Anak lebih sering menunjuk atau menarik tangan orang dewasa daripada mengatakan apa yang diinginkan?"
+                ],
+                'gangguan-emosional-perilaku': [
+                    "Apakah anak sering menunjukkan ledakan emosi yang tidak terkendali?",
+                    "Apakah anak sering terlihat cemas, sedih, atau menarik diri dari lingkungan sosial?",
+                    "Apakah anak sering melanggar peraturan atau menunjukkan perilaku agresif?"
+                ],
+                'spektrum-autis': [
+                    "Anak jarang melakukan kontak mata saat diajak bicara?",
+                    "Anak sulit memulai atau mempertahankan percakapan dua arah?",
+                    "Anak tidak menunjukkan ekspresi wajah yang sesuai saat senang, sedih, atau marah?",
+                    "Anak tidak memahami isyarat sosial seperti melambaikan tangan, menunjuk, atau ekspresi wajah orang lain?",
+                    "Anak tidak tertarik bermain atau berinteraksi dengan teman sebayanya?",
+                    "Anak tidak menunjukkan empati atau tidak peka terhadap perasaan orang lain?",
+                    "Anak sulit menyesuaikan perilaku saat berada di situasi sosial yang berbeda?",
+                    "Anak sering melakukan gerakan berulang seperti mengepakkan tangan, memutar benda, atau melompat-lompat?",
+                    "Anak sangat terganggu jika ada perubahan kecil dalam rutinitas atau kegiatan sehari-hari?",
+                    "Anak mengulang kata, kalimat, atau suara yang sama tanpa konteks (ekolalia)?",
+                    "Anak menunjukkan minat yang sangat kuat hanya pada satu hal saja (misalnya sangat tertarik pada angka, peta, atau benda tertentu saja)?",
+                    "Anak menunjukkan pola pikir yang kaku, sulit menerima perubahan, dan ingin semuanya berjalan sesuai kebiasaannya?",
+                    "Anak sangat sensitif terhadap suara, cahaya, atau sentuhan tertentu?",
+                    "Anak tampak tidak peduli terhadap rasa sakit atau suhu panas/dingin?"
+                ],
+                'adhd': [
+                    "Anak sering melakukan kesalahan ceroboh dalam tugas sekolah karena tidak teliti?",
+                    "Anak sulit fokus saat belajar atau bermain?",
+                    "Anak terlihat tidak mendengarkan saat diajak bicara langsung?",
+                    "Anak sering tidak menyelesaikan tugas yang diberikan, meskipun sudah diberi instruksi?",
+                    "Anak kesulitan mengatur tugas, barang, atau jadwal kegiatannya?",
+                    "Anak enggan atau menolak mengerjakan tugas yang memerlukan konsentrasi lama (seperti membaca atau mengerjakan PR)?",
+                    "Anak sering kehilangan barang-barang yang diperlukan untuk sekolah (seperti pensil, buku, atau penghapus)?",
+                    "Anak mudah terdistraksi oleh suara atau hal kecil di sekitarnya?",
+                    "Anak tidak bisa duduk diam, sering menggeliat atau mengetukkan tangan/kaki saat duduk?",
+                    "Anak sering meninggalkan tempat duduk di kelas tanpa izin?",
+                    "Anak tidak bisa bermain dengan tenang, selalu tampak gelisah atau ingin bergerak?",
+                    "Anak sangat aktif, seperti tidak bisa diam, bahkan saat di tempat umum?",
+                    "Anak sering berbicara terus-menerus tanpa jeda?",
+                    "Anak menjawab pertanyaan sebelum pertanyaannya selesai dibacakan?",
+                    "Anak tidak sabar menunggu giliran dan sering memotong pembicaraan atau aktivitas orang lain?"
+                ]
+            };
+
+            if (klasifikasi && titles[klasifikasi]) {
+                document.title = `Skrining Lanjutan: ${titles[klasifikasi]}`;
+                formTitle.innerText = `Skrining: ${titles[klasifikasi]}`;
+                
+                const selectedQuestions = questions[klasifikasi];
+                questionsContainer.innerHTML = '';
+
+                selectedQuestions.forEach((question, index) => {
+                    const questionItem = document.createElement('div');
+                    questionItem.className = 'input-item question-item';
+                    
+                    questionItem.innerHTML = `
+                        <label for="q${index + 1}">${index + 1}. ${question}</label>
+                        <div class="radio-options">
+                            <input type="radio" id="q${index + 1}-ya" name="q${index + 1}" value="ya">
+                            <label for="q${index + 1}-ya">Ya</label>
+                            <input type="radio" id="q${index + 1}-tidak" name="q${index + 1}" value="tidak">
+                            <label for="q${index + 1}-tidak">Tidak</label>
+                        </div>
+                    `;
+                    questionsContainer.appendChild(questionItem);
+                });
+            } else {
+                formTitle.innerText = "Klasifikasi tidak valid.";
+                questionsContainer.innerHTML = "<p>Silakan kembali ke halaman sebelumnya untuk memilih klasifikasi.</p>";
+            }
+
+            document.getElementById('skrining-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                // --- LOGIKA VALIDASI BARU ---
+                const totalQuestions = questions[klasifikasi].length;
+                let answeredQuestions = 0;
+                let hasEmptyQuestions = false;
+
+                // Membersihkan highlight merah dari pertanyaan sebelumnya
+                const allQuestionItems = document.querySelectorAll('.question-item');
+                allQuestionItems.forEach(item => item.classList.remove('invalid'));
+
+                for (let i = 1; i <= totalQuestions; i++) {
+                    const questionName = `q${i}`;
+                    const answered = document.querySelector(`input[name="${questionName}"]:checked`);
+                    
+                    if (!answered) {
+                        hasEmptyQuestions = true;
+                        // Menambahkan highlight merah pada pertanyaan yang belum dijawab
+                        const questionItem = document.querySelector(`#questions-container .input-item:nth-child(${i})`);
+                        if (questionItem) {
+                            questionItem.classList.add('invalid');
+                        }
+                    } else {
+                        answeredQuestions++;
+                    }
+                }
+
+                if (hasEmptyQuestions) {
+                    alert('Mohon lengkapi semua pertanyaan sebelum melanjutkan.');
+                    return; // Menghentikan proses form jika ada yang belum terjawab
+                }
+
+                // --- LOGIKA HASIL SKRINING (TETAP SAMA) ---
+                let countYa = 0;
+                const formElements = this.elements;
+                for (let i = 0; i < formElements.length; i++) {
+                    if (formElements[i].type === 'radio' && formElements[i].checked && formElements[i].value === 'ya') {
+                        countYa++;
+                    }
+                }
+
+                if (klasifikasi === 'hambatan-intelektual-ringan' && countYa >= 6) {
+                    alert(`Berdasarkan hasil skrining, anak Anda menunjukkan indikasi kuat untuk ${titles[klasifikasi]}. Disarankan untuk berkonsultasi lebih lanjut dengan ahli.`);
+                } else if (klasifikasi === 'spektrum-autis' && countYa >= 7) {
+                    alert(`Berdasarkan hasil skrining, anak Anda menunjukkan indikasi kuat untuk ${titles[klasifikasi]}. Disarankan untuk berkonsultasi lebih lanjut dengan ahli.`);
+                } else if (klasifikasi === 'adhd' && countYa >= 8) {
+                    alert(`Berdasarkan hasil skrining, anak Anda menunjukkan indikasi kuat untuk ${titles[klasifikasi]}. Disarankan untuk berkonsultasi lebih lanjut dengan ahli.`);
+                } else if (klasifikasi === 'gangguan-bicara-bahasa' && countYa >= 6) {
+                    alert(`Berdasarkan hasil skrining, anak Anda menunjukkan indikasi kuat untuk ${titles[klasifikasi]}. Disarankan untuk berkonsultasi lebih lanjut dengan ahli.`);
+                } else if (klasifikasi === 'disleksia' && countYa >= 4) {
+                    alert(`Berdasarkan hasil skrining, anak Anda menunjukkan indikasi kuat untuk ${titles[klasifikasi]}. Disarankan untuk berkonsultasi lebih lanjut dengan ahli.`);
+                } else if (klasifikasi === 'disgrafia' && countYa >= 5) {
+                    alert(`Berdasarkan hasil skrining, anak Anda menunjukkan indikasi kuat untuk ${titles[klasifikasi]}. Disarankan untuk berkonsultasi lebih lanjut dengan ahli.`);
+                } else if (klasifikasi === 'diskalkulia' && countYa >= 4) {
+                    alert(`Berdasarkan hasil skrining, anak Anda menunjukkan indikasi kuat untuk ${titles[klasifikasi]}. Disarankan untuk berkonsultasi lebih lanjut dengan ahli.`);
+                } else if (countYa >= 2) {
+                    alert(`Berdasarkan hasil skrining, anak Anda menunjukkan indikasi kuat untuk ${titles[klasifikasi]}. Disarankan untuk berkonsultasi lebih lanjut dengan ahli.`);
+                } else {
+                    alert(`Berdasarkan hasil skrining, anak Anda tidak menunjukkan indikasi kuat untuk ${titles[klasifikasi]}.`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,37 +1,70 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- LOGIKA NAVIGASI (UMUM UNTUK SEMUA HALAMAN) ---
+    // --- LOGIKA NAVIGASI ---
     
-    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-    dropdownToggles.forEach(toggle => {
+    // Sembunyikan semua menu dropdown saat halaman dimuat (jika CSS tidak menangani ini)
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        // Menggunakan classList untuk mengelola tampilan, lebih baik daripada style.display
+        menu.classList.remove('active');
+    });
+
+    // Menangani klik pada dropdown utama
+    const dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.dropdown-toggle');
+        const menu = dropdown.querySelector('.dropdown-menu');
+        
+        // Logika untuk dropdown utama
         toggle.addEventListener('click', function(e) {
             e.preventDefault();
-            const dropdownMenu = this.nextElementSibling;
-            const isExpanded = this.getAttribute('aria-expanded') === 'true';
-
-            dropdownToggles.forEach(otherToggle => {
-                if (otherToggle !== toggle) {
-                    otherToggle.setAttribute('aria-expanded', 'false');
-                    otherToggle.nextElementSibling.style.display = 'none';
+            
+            // Tutup semua dropdown lain
+            dropdowns.forEach(d => {
+                if (d !== dropdown) {
+                    const m = d.querySelector('.dropdown-menu');
+                    if (m) {
+                        m.classList.remove('active');
+                        // Tutup juga submenu di dropdown lain
+                        const submenus = d.querySelectorAll('.dropdown-menu-submenu');
+                        submenus.forEach(submenu => submenu.classList.remove('active'));
+                    }
                 }
             });
+            
+            // Buka/tutup dropdown yang diklik
+            menu.classList.toggle('active');
+        });
 
-            this.setAttribute('aria-expanded', !isExpanded);
-            dropdownMenu.style.display = isExpanded ? 'none' : 'flex';
+        // Logika untuk dropdown submenu (Identifikasi Lanjutan)
+        const submenus = dropdown.querySelectorAll('.dropdown-submenu');
+        submenus.forEach(submenu => {
+            const submenuToggle = submenu.querySelector('.dropdown-toggle-submenu');
+            const submenuMenu = submenu.querySelector('.dropdown-menu-submenu');
+            if (submenuToggle && submenuMenu) {
+                submenuToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); // Mencegah event "bubble up" ke dropdown utama
+                    submenuMenu.classList.toggle('active');
+                });
+            }
         });
     });
 
+    // Tutup semua dropdown saat klik di luar area navigasi
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('.dropdown')) {
-            dropdownToggles.forEach(toggle => {
-                toggle.setAttribute('aria-expanded', 'false');
-                toggle.nextElementSibling.style.display = 'none';
+        if (!e.target.closest('.main-nav')) {
+            dropdowns.forEach(dropdown => {
+                const menu = dropdown.querySelector('.dropdown-menu');
+                if (menu) {
+                    menu.classList.remove('active');
+                    const submenus = dropdown.querySelectorAll('.dropdown-menu-submenu');
+                    submenus.forEach(submenu => submenu.classList.remove('active'));
+                }
             });
         }
     });
 
     // --- LOGIKA SOAL KILAT (INDEX.HTML) ---
-
     const startQuizBtn = document.getElementById('start-quiz-btn');
     const quizModal = document.getElementById('quiz-modal');
     const closeBtn = document.querySelector('.close-btn');
@@ -78,9 +111,18 @@ document.addEventListener('DOMContentLoaded', function() {
         showQuestion();
     }
 
+    // Fungsi closeModal harus bisa diakses secara global, jadi pastikan didefinisikan di luar atau di dalam event listener.
+    window.closeModal = function() {
+        quizModal.style.display = 'none';
+        quizContainer.style.display = 'block';
+        quizResult.style.display = 'none';
+        currentQuestionIndex = 0;
+        iyaCount = 0;
+    };
+
     function showResult() {
         quizContainer.style.display = 'none';
-        quizResult.style.display = 'flex'; 
+        quizResult.style.display = 'flex';
 
         let resultContent = '';
         const resultTitle = iyaCount >= 3 ? "Hasil Anda: Perlu Perhatian Lebih" : "Hasil Anda: Perkembangan Terlihat Baik";
@@ -105,14 +147,6 @@ document.addEventListener('DOMContentLoaded', function() {
         quizResult.innerHTML = resultContent;
     }
 
-    function closeModal() {
-        quizModal.style.display = 'none';
-        quizContainer.style.display = 'block';
-        quizResult.style.display = 'none';
-        currentQuestionIndex = 0;
-        iyaCount = 0;
-    }
-
     if (startQuizBtn) {
         startQuizBtn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -131,8 +165,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- LOGIKA BIODATA (BIODATA.HTML) ---
-
+    // --- LOGIKA BIODATA, KUESIONER, HASIL (DARI script.js ASLI) ---
+    
+    // LOGIKA BIODATA (BIODATA.HTML)
     const biodataForm = document.getElementById('biodata-form');
     if (biodataForm) {
         biodataForm.addEventListener('submit', function(e) {
@@ -142,14 +177,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const penanggungJawab = document.getElementById('penanggungJawab').value;
 
             localStorage.setItem('biodata', JSON.stringify({ nama, usia, penanggungJawab }));
-            
+
             window.location.href = 'kuesioner.html';
         });
     }
 
-    // --- LOGIKA KUESIONER (KUESIONER.HTML) ---
-    
-    // Objek untuk mengelompokkan pertanyaan ke dalam kategori
+    // LOGIKA KUESIONER (KUESIONER.HTML)
     const classifications = {
         'Hambatan Intelektual Ringan': [1, 2, 3, 4, 5],
         'Kesulitan Belajar Spesifik (Disleksia)': [6, 7, 8],
@@ -160,8 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'Spektrum Autis': [22, 23, 24, 25],
         'ADHD': [26, 27, 28, 29]
     };
-    
-    // Objek untuk menentukan ambang batas "Ya" untuk setiap kategori
+
     const thresholds = {
         'Hambatan Intelektual Ringan': 4,
         'Kesulitan Belajar Spesifik (Disleksia)': 2,
@@ -177,28 +209,48 @@ document.addEventListener('DOMContentLoaded', function() {
     if (skriningForm) {
         skriningForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const categoryScores = {};
-            const answers = {};
-
-            // Inisialisasi skor untuk setiap kategori
-            for (const category in classifications) {
-                categoryScores[category] = 0;
-            }
-
-            // Hitung skor untuk setiap kategori
+            
             const questions = document.querySelectorAll('.question-item');
+            let allAnswered = true;
+            let unansweredQuestionNumber = null;
+
             questions.forEach((item, index) => {
                 const qNum = index + 1;
                 const qName = `q${qNum}`;
                 const answer = document.querySelector(`input[name="${qName}"]:checked`);
-                
+
+                if (!answer) {
+                    allAnswered = false;
+                    if (unansweredQuestionNumber === null) {
+                         unansweredQuestionNumber = qNum;
+                    }
+                }
+            });
+
+            if (!allAnswered) {
+                alert('Anda belum mengisi jawaban untuk pertanyaan nomor ' + unansweredQuestionNumber + '. Mohon lengkapi semua pertanyaan.');
+                return;
+            }
+
+            const categoryScores = {};
+            const answers = {};
+
+            for (const category in classifications) {
+                categoryScores[category] = 0;
+            }
+
+            questions.forEach((item, index) => {
+                const qNum = index + 1;
+                const qName = `q${qNum}`;
+                const answer = document.querySelector(`input[name="${qName}"]:checked`);
+
                 if (answer) {
                     answers[qName] = answer.value;
                     if (answer.value === 'ya') {
                         for (const category in classifications) {
                             if (classifications[category].includes(qNum)) {
                                 categoryScores[category]++;
-                                break; 
+                                break;
                             }
                         }
                     }
@@ -212,8 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- LOGIKA HASIL & UNDUH PDF (HASIL.HTML) ---
-    
+    // LOGIKA HASIL & UNDUH PDF (HASIL.HTML)
     const resultContainer = document.getElementById('result-container');
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
@@ -239,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (recommendedClassifications.length > 0) {
                 hasilTitle = "Perlu Perhatian Lebih";
                 rekomendasiText = `Berdasarkan jawaban kuesioner, terdapat beberapa tanda yang mengindikasikan perlunya perhatian lebih terhadap perkembangan anak pada klasifikasi berikut. Disarankan untuk melanjutkan ke langkah identifikasi lanjutan atau berkonsultasi dengan tenaga ahli.`;
-                
+
                 recommendedListHtml = `<ul style="list-style-type: disc; padding-left: 20px; margin-top: 15px;">`;
                 recommendedClassifications.forEach(category => {
                     recommendedListHtml += `<li><strong>${category}</strong></li>`;
@@ -249,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 hasilTitle = "Perkembangan Terlihat Baik";
                 rekomendasiText = "Berdasarkan jawaban kuesioner, perkembangan anak terlihat baik dan sesuai dengan tahapan usianya. Tetap pantau terus perkembangannya dan berikan stimulasi yang positif.";
             }
-            
+
             const tanggal = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
 
             const documentContent = `
@@ -288,7 +339,7 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
 
             document.getElementById('document-content').innerHTML = documentContent;
-            
+
         } else {
             resultContainer.innerHTML = `<p class="error-message">Data tidak ditemukan. Mohon ulangi proses skrining dari awal.</p>`;
         }
@@ -298,9 +349,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (downloadPdfBtn) {
         downloadPdfBtn.addEventListener('click', function() {
             const content = document.getElementById('document-content');
-            
-            html2canvas(content, { 
-                scale: 2, 
+
+            html2canvas(content, {
+                scale: 2,
                 useCORS: true,
                 windowWidth: content.scrollWidth,
                 windowHeight: content.scrollHeight
@@ -323,7 +374,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
                     heightLeft -= pageHeight;
                 }
-                
+
                 pdf.save("Laporan-Skrining-ABK.pdf");
             }).catch(error => {
                 console.error("Gagal membuat PDF:", error);
@@ -331,5 +382,4 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-
 });

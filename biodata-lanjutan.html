@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Identifikasi Lanjutan</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="header fixed-header">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="index.html" class="logo-link">
+                    <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" class="logo-img">
+                </a>
+                <div class="header-content">
+                    <h1 class="header-title">Sistem Informasi dan Identifikasi ABK</h1>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li class="dropdown" id="identifikasi-dropdown">
+                        <a href="#" class="dropdown-toggle">Identifikasi <i class="fas fa-chevron-down arrow-icon"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="biodata.html">Identifikasi Awal</a></li>
+                            <li><a href="biodata-lanjutan.html">Identifikasi Lanjutan</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="artikel-dropdown">
+                        <a href="#" class="dropdown-toggle">Artikel <i class="fas fa-chevron-down arrow-icon"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Hambatan Intelektual Ringan</a></li>
+                            <li><a href="#">Gangguan Belajar Spesifik</a></li>
+                            <li><a href="#">Gangguan Bicara dan Bahasa</a></li>
+                            <li><a href="#">Gangguan Emosional dan Perilaku</a></li>
+                            <li><a href="#">Spektrum Autis</a></li>
+                            <li><a href="#">ADHD</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">Tentang Web</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="questionnaire-container">
+            <h2 class="form-title" id="dynamic-title">Formulir Identifikasi Lanjutan</h2>
+            <p class="disclaimer">
+                Mohon lengkapi data berikut sebelum memulai skrining.
+            </p>
+            <form id="lanjutan-form" action="lanjutan-skrining.html" method="GET">
+                <input type="hidden" name="klasifikasi" id="klasifikasi-input">
+                <div class="input-item">
+                    <label for="nama">Nama Anak:</label>
+                    <input type="text" id="nama" name="nama" required>
+                </div>
+                
+                <div class="input-item">
+                    <label for="usia">Usia Anak (dalam tahun):</label>
+                    <input type="number" id="usia" name="usia" min="0" required>
+                </div>
+                
+                <div class="input-item">
+                    <label for="penanggungJawab">Pengisi Instrumen:</label>
+                    <input type="text" id="penanggungJawab" name="penanggungJawab" required>
+                </div>
+                
+                <div class="disclaimer-text">
+                    <p>Saya memahami bahwa:</p>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="persetujuan1" name="persetujuan1" required>
+                    <label for="persetujuan1">Data anak bersifat rahasia dan hanya digunakan untuk keperluan identifikasi.*</label>
+                </div>
+                
+                <div class="checkbox-item">
+                    <input type="checkbox" id="persetujuan2" name="persetujuan2" required>
+                    <label for="persetujuan2">Identifikasi ini bukan diagnosis medis, melainkan langkah awal untuk mengenali kemungkinan hambatan belajar atau perkembangan anak.* </label>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="persetujuan3" name="persetujuan3" required>
+                    <label for="persetujuan3">Identifikasi ini tidak dimaksudkan untuk memberi label atau vonis kepada anak.*</label>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="persetujuan4" name="persetujuan4" required>
+                    <label for="persetujuan4">Hasil identifikasi hanya digunakan sebagai bahan pertimbangan dalam memahami kebutuhan belajar anak*</label>
+                </div>
+
+                <div class="button-group">
+                    <a href="index.html" class="back-button">Kembali</a>
+                    <button type="submit" class="submit-button">Lanjut Skrining</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SIMDIKSUS. Semua hak cipta dilindungi.</p>
+    </footer>
+
+    <div class="whatsapp-button-container">
+        <a href="https://wa.me/6281234567890?text=Halo%20saya%20ingin%20bertanya%20mengenai%20website%20skrining%20ABK" target="_blank" class="whatsapp-button">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" class="whatsapp-icon">
+            Butuh Bantuan?
+        </a>
+    </div>
+
+    <script src="nav.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const klasifikasi = urlParams.get('klasifikasi');
+            const formTitle = document.getElementById('dynamic-title');
+            const klasifikasiInput = document.getElementById('klasifikasi-input');
+
+            const titles = {
+                'hambatan-intelektual-ringan': 'Hambatan Intelektual Ringan',
+                'disleksia': 'Gangguan Belajar Spesifik (Disleksia)',
+                'disgrafia': 'Gangguan Belajar Spesifik (Disgrafia)',
+                'diskalkulia': 'Gangguan Belajar Spesifik (Diskalkulia)',
+                'gangguan-bicara-bahasa': 'Gangguan Bicara dan Bahasa',
+                'gangguan-emosional-perilaku': 'Gangguan Emosional dan Perilaku',
+                'spektrum-autis': 'Spektrum Autis',
+                'adhd': 'ADHD'
+            };
+
+            // Mengubah judul halaman dan formulir secara dinamis
+            if (klasifikasi && titles[klasifikasi]) {
+                const titleText = titles[klasifikasi];
+                document.title = `Identifikasi Lanjutan: ${titleText}`;
+                formTitle.innerText = `Formulir Identifikasi Lanjutan: ${titleText}`;
+                
+                // Menetapkan nilai input tersembunyi
+                klasifikasiInput.value = klasifikasi;
+            } else {
+                // Atur judul default jika parameter tidak ada atau tidak valid
+                document.title = "Formulir Identifikasi Lanjutan";
+                formTitle.innerText = "Formulir Identifikasi Lanjutan";
+            }
+        });
+    </script>
+</body>
+</html>

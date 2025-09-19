@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
 
+<body>
     <header class="header fixed-header">
         <div class="header-container">
             <div class="header-left">
@@ -26,7 +26,19 @@
                         <a href="#" class="dropdown-toggle">Identifikasi <i class="fas fa-chevron-down arrow-icon"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="biodata.html">Identifikasi Awal</a></li>
-                            <li><a href="#">Identifikasi Lanjutan</a></li>
+                            <li class="dropdown-submenu">
+                                <a href="#" class="dropdown-toggle-submenu">Identifikasi Lanjutan <i class="fas fa-chevron-right arrow-icon"></i></a>
+                                <ul class="dropdown-menu-submenu">
+                                    <li><a href="biodata-lanjutan.html?klasifikasi=hambatan-intelektual-ringan">Hambatan Intelektual Ringan</a></li>
+                                    <li><a href="biodata-lanjutan.html?klasifikasi=disleksia">GBS: Disleksia</a></li>
+                                    <li><a href="biodata-lanjutan.html?klasifikasi=disgrafia">GBS: Disgrafia</a></li>
+                                    <li><a href="biodata-lanjutan.html?klasifikasi=diskalkulia">GBS: Diskalkulia</a></li>
+                                    <li><a href="biodata-lanjutan.html?klasifikasi=gangguan-bicara-bahasa">Gangguan Bicara dan Bahasa</a></li>
+                                    <li><a href="biodata-lanjutan.html?klasifikasi=gangguan-emosional-perilaku">Gangguan Emosional dan Perilaku</a></li>
+                                    <li><a href="biodata-lanjutan.html?klasifikasi=spektrum-autis">Spektrum Autis</a></li>
+                                    <li><a href="biodata-lanjutan.html?klasifikasi=adhd">ADHD</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                     <li class="dropdown" id="artikel-dropdown">
@@ -120,12 +132,14 @@
                     Lakukan identifikasi lanjutan sesuai dengan rekomendasi pada tahap awal untuk menggali lebih dalam tanda dominan yang terlihat.
                 </p>
                 <div class="step-grid">
-                    <div class="step-grid-item">Hambatan Intelektual Ringan</div>
-                    <div class="step-grid-item">Gangguan Belajar Spesifik</div>
-                    <div class="step-grid-item">Gangguan Bicara dan Bahasa</div>
-                    <div class="step-grid-item">Gangguan Emosional dan Perilaku</div>
-                    <div class="step-grid-item">Spektrum Autis</div>
-                    <div class="step-grid-item">ADHD</div>
+                    <a href="biodata-lanjutan.html?klasifikasi=hambatan-intelektual-ringan" class="step-grid-item">Hambatan Intelektual Ringan</a>
+                    <a href="biodata-lanjutan.html?klasifikasi=disleksia" class="step-grid-item">Gangguan Belajar Spesifik (Disleksia)</a>
+                    <a href="biodata-lanjutan.html?klasifikasi=disgrafia" class="step-grid-item">Gangguan Belajar Spesifik (Disgrafia)</a>
+                    <a href="biodata-lanjutan.html?klasifikasi=diskalkulia" class="step-grid-item">Gangguan Belajar Spesifik (Diskalkulia)</a>
+                    <a href="biodata-lanjutan.html?klasifikasi=gangguan-bicara-bahasa" class="step-grid-item">Gangguan Bicara dan Bahasa</a>
+                    <a href="biodata-lanjutan.html?klasifikasi=gangguan-emosional-perilaku" class="step-grid-item">Gangguan Emosional dan Perilaku</a>
+                    <a href="biodata-lanjutan.html?klasifikasi=spektrum-autis" class="step-grid-item">Spektrum Autis</a>
+                    <a href="biodata-lanjutan.html?klasifikasi=adhd" class="step-grid-item">ADHD</a>
                 </div>
             </div>
             
@@ -158,15 +172,13 @@
             <div id="quiz-container">
                 <h2 class="modal-title">Soal Kilat Observasi Awal</h2>
                 <div id="question-area">
-                    </div>
+                </div>
             </div>
             <div id="quiz-result" style="display: none;">
-                </div>
+            </div>
         </div>
     </div>
 
-    <script src="nav.js"></script>
     <script src="script.js"></script>
-
 </body>
 </html>
