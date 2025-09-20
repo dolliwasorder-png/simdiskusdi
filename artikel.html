@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Artikel</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Desain Artikel Modern */
+        .article-content {
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            padding: 3.5rem;
+            margin-top: 2rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .article-content h2 {
+            font-size: 3rem;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+        .article-content h3 {
+            font-size: 1.8rem;
+            color: #34495e;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+        .article-content h4 {
+            font-size: 1.4rem;
+            color: #34495e;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .article-content p {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #555;
+            text-align: justify;
+            margin-bottom: 1.5rem;
+        }
+        .article-content ul, 
+        .article-content ol {
+            margin-left: 1.5rem;
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+        }
+        .article-content li {
+            margin-bottom: 0.8rem;
+        }
+        .article-content ul.no-margin-ul li {
+            margin-bottom: 0.5rem;
+        }
+        .article-content ul.no-margin-ul p {
+            margin-bottom: 0;
+        }
+        .article-content strong {
+            color: #2c3e50;
+        }
+        .article-reference {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px dashed #ccc;
+        }
+        .article-reference h3 {
+            font-size: 1.5rem;
+            color: #7f8c8d;
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 1rem;
+        }
+        .article-reference ul {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header fixed-header">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="index.html" class="logo-link">
+                    <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" class="logo-img">
+                </a>
+                <div class="header-content">
+                    <h1 class="header-title">Sistem Informasi dan Identifikasi ABK</h1>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li class="dropdown" id="identifikasi-dropdown">
+                        <a href="#" class="dropdown-toggle">Identifikasi <i class="fas fa-chevron-down arrow-icon"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="biodata.html">Identifikasi Awal</a></li>
+                            <li><a href="biodata-lanjutan.html">Identifikasi Lanjutan</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="artikel-dropdown">
+                        <a href="#" class="dropdown-toggle">Artikel <i class="fas fa-chevron-down arrow-icon"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="artikel.html?klasifikasi=hambatan-intelektual-ringan">Hambatan Intelektual Ringan</a></li>
+                            <li><a href="artikel.html?klasifikasi=gangguan-belajar-spesifik">Gangguan Belajar Spesifik</a></li>
+                            <li><a href="artikel.html?klasifikasi=gangguan-bicara-dan-bahasa">Gangguan Bicara dan Bahasa</a></li>
+                            <li><a href="artikel.html?klasifikasi=gangguan-emosional-dan-perilaku">Gangguan Emosional dan Perilaku</a></li>
+                            <li><a href="artikel.html?klasifikasi=spektrum-autis">Spektrum Autis</a></li>
+                            <li><a href="artikel.html?klasifikasi=adhd">ADHD</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">Tentang Web</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section">
+            <div class="article-content" id="article-content-container">
+                <p>Memuat konten...</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SIMDIKSUS. Semua hak cipta dilindungi.</p>
+    </footer>
+
+    <div class="whatsapp-button-container">
+        <a href="https://wa.me/6281234567890?text=Halo%20saya%20ingin%20bertanya%20mengenai%20website%20skrining%20ABK" target="_blank" class="whatsapp-button">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" class="whatsapp-icon">
+            Butuh Bantuan?
+        </a>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const klasifikasi = urlParams.get('klasifikasi');
+        const articleContainer = document.getElementById('article-content-container');
+        const pageTitle = document.getElementById('page-title');
+
+        const articles = {
+            'hambatan-intelektual-ringan': {
+                title: 'ANAK DENGAN HAMBATAN INTELEKTUAL RINGAN',
+                content: `
+                    <h3>DEFINISI</h3>
+                    <p>Hambatan intelektual merupakan kondisi yang muncul pada masa perkembangan, yang ditandai dengan **keterbatasan dalam fungsi intelektual** seperti kemampuan bernalar, memecahkan masalah, membuat perencanaan, berpikir abstrak, membuat keputusan, pembelajaran akademik, serta belajar dari pengalaman. Kondisi ini juga ditandai dengan **keterbatasan dalam fungsi adaptif** yang menyebabkan individu tidak mampu memenuhi standar perkembangan dan budaya sosial yang dibutuhkan untuk hidup mandiri dan bertanggung jawab secara sosial. Adapun skor IQ dari hambatan intelektual ringan berada pada rentang 50 – 69.</p>
+
+                    <h3>KARAKTERISTIK</h3>
+                    <ul class="no-margin-ul">
+                        <li><strong>1. Ranah Konseptual</strong>
+                            <ul>
+                                <li>Anak sering menghadapi tantangan dalam mempelajari kemampuan dasar seperti membaca, menulis, dan berhitung.</li>
+                                <li>Kesulitan dalam mengatur waktu dan keuangan secara efektif, serta dalam menerapkan pengetahuan akademik ke situasi nyata dalam kehidupan sehari-hari.</li>
+                                <li>Kemampuan berpikir abstrak serta fungsi eksekutif, seperti merencanakan, menyusun strategi, menetapkan prioritas, dan berpikir fleksibel, biasanya tidak berkembang secara optimal.</li>
+                                <li>Daya ingat jangka pendek mereka terbatas dan cenderung menyelesaikan masalah dengan pendekatan yang lebih sederhana dan konkret.</li>
+                            </ul>
+                        </li>
+                        <li><strong>2. Ranah Sosial</strong>
+                            <ul>
+                                <li>Interaksi sosial cenderung tidak matang dibandingkan teman sebaya.</li>
+                                <li>Sulit membangun pertemanan karena perilaku yang kurang sesuai dan masalah kontrol diri.</li>
+                                <li>Tidak memahami respon sosial yang tepat dalam berbagai situasi.</li>
+                                <li>Komunikasi dan penggunaan bahasa bersifat konkret dan kurang berkembang sesuai usia.</li>
+                                <li>Kesulitan mengatur emosi dan perilaku secara tepat.</li>
+                                <li>Pemahaman terhadap risiko sosial terbatas dan penilaian sosial kurang tepat.</li>
+                                <li>Mudah dimanipulasi karena cenderung percaya pada informasi yang meragukan tanpa bukti.</li>
+                            </ul>
+                        </li>
+                        <li><strong>3. Ranah Praktis</strong>
+                            <ul>
+                                <li>Mampu merawat diri, seperti mandi, makan, dan berpakaian sesuai usianya, tetapi kesulitan menyelesaikan tugas harian yang lebih kompleks dibandingkan teman sebaya.</li>
+                                <li>Kegiatan rekreasi yang dilakukan umumnya mirip dengan teman sebayanya, namun mereka tetap memerlukan bantuan dalam mengelola waktu luang dan mengevaluasi manfaat aktivitas tersebut.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>AKOMODASI DAN STRATEGI MENGAJAR</h3>
+                    <ol>
+                        <li>Sajikan materi melalui alat bantu visual, benda nyata, atau kegiatan simulasi.
+                            <p>Contoh: mengenalkan buah dengan menunjukkan buah asli dan gambarnya, serta berbelanja di warung untuk belajar mengenai uang dan penggunaannya dalam jual beli.</p>
+                        </li>
+                        <li>Sesuaikan pembelajaran dengan kemampuan tiap siswa dan ulangi materi jika diperlukan.
+                            <p>Contoh: mengajarkan huruf satu per satu sesuai kemampuan siswa.</p>
+                        </li>
+                        <li>Libatkan siswa dalam kegiatan bersama/kelompok untuk meningkatkan motivasi dan keterampilan sosial.
+                            <p>Contoh: bermain peran atau menyusun puzzle secara berkelompok.</p>
+                        </li>
+                        <li>Berikan pujian, hadiah kecil, atau sentuhan lembut untuk memperkuat perilaku positif.
+                            <p>Contoh: mengatakan “Bagus sekali!” saat siswa menjawab dengan benar.</p>
+                        </li>
+                        <li>Bagi materi menjadi langkah-langkah kecil dan sajikan dengan bantuan gambar atau diagram.
+                            <p>Contoh: mengajarkan menyikat gigi dengan gambar urutan langkah dari awal sampai akhir.</p>
+                        </li>
+                    </ol>
+
+                    <div class="article-reference">
+                        <h3>REFERENSI</h3>
+                        <ul>
+                            <li>Smith, Deborah Deutsch, Naomi Chowdhuri Tyler, and Kimberly Garner Skow. 2018. Introduction to Contemporary Special Edication: New Horizons (2nd Ed.). USA: Pearson Education.</li>
+                            <li>Hallahan, DP, JM Kauffman, and PC Pullen. 2014. Exceptional Learners: An Introduction to Special Education. England: Pearson Education Limited.</li>
+                            <li>Association, American Psychiatric. 2013. Diagnostic and Statisti-Cal Manual of Mental Disorders, Fifth Edition. Arlington, VA: American Psychiatric Association.</li>
+                            <li>Astuti, W., & Rusdiana, I. (2014). Penggunaan Media Benda Konkret Untuk Meningkatkan Prestasi Belajar Matematika Anak Tunagrahita Pada Pokok Bahasan Perkalian. Jurnal Rehabilitasi Dan Remediasi, 23(1), 23.</li>
+                            <li>Eka Maulidatuz Zulfa, Dinda Fanis Norvalisa, Fita Ariani, & Fina Tri Wahyuni. (2024). Strategi Pembelajaran Matematika Anak Tunagrahita di SLB N Cendono. Tematik : Jurnal Konten Pendidikan Matematika, 2(1), 18–22. https://doi.org/10.55210/tematik.v2i1.1714</li>
+                            <li>Liana, Jamin, H., & Agustina, M. (2021). Strategi Guru Dalam Membantu Siswa Tunagrahita. Proceeding of Dirundeng International Conference on Islamic Studies (DICIS), 281–292.</li>
+                            <li>Lucky Putri Ramadhani, Razela Regina Putri, Vania Destriyanti, N. F. (2022). Analisis Strategi Pembelajaran Bagi Anak Tunagrahita Di Slb B-C Flora Indonesia. Prosiding Seminar Nasional Ilmu Pendidikan Dan Multidisiplin V (SNIPMD V) 2022 ANALISIS, Snipmd V, 29–32.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'gangguan-belajar-spesifik': {
+                title: 'ANAK DENGAN KESULITAN BELAJAR SPESIFIK',
+                content: `
+                    <h3>DEFINISI</h3>
+                    <p>Kesulitan belajar spesifik adalah gangguan pada satu atau lebih proses psikologis dasar yang memengaruhi kemampuan memahami atau menggunakan bahasa, baik secara lisan maupun tertulis. Gangguan ini dapat terlihat dalam bentuk kesulitan mendengarkan, berpikir, berbicara, membaca, menulis, mengeja, atau menghitung secara akurat. Anak dengan kondisi ini umumnya memiliki tingkat kecerdasan rata-rata atau lebih tinggi, namun prestasi akademiknya tidak sebanding dengan potensi intelektualnya.</p>
+
+                    <h3>JENIS-JENIS DAN KARAKTERISTIK KESULITAN BELAJAR</h3>
+                    <ol>
+                        <li><strong>Disleksia (Kesulitan Membaca)</strong>
+                            <ul class="no-margin-ul">
+                                <li>Sulit membedakan bunyi kata yang mirip, seperti “paku” dan “palu”.</li>
+                                <li>Sering lupa nama teman atau kata tertentu, dan memilih menyebut dengan istilah umum seperti “temanku di sekolah”.</li>
+                                <li>Mengalami kesulitan menyusun informasi secara urut, seperti hari, bulan, atau langkah kegiatan.</li>
+                                <li>Sulit memahami instruksi panjang atau berurutan dalam waktu singkat.</li>
+                                <li>Cepat lupa terhadap rencana meskipun sudah diberi pengingat atau catatan.</li>
+                                <li>Bingung dengan tata bahasa, terutama saat menggunakan dua bahasa yang berbeda strukturnya. Misalnya, mereka kesulitan membedakan urutan kata dalam bahasa Indonesia ("tas merah") dan bahasa Inggris ("red bag").</li>
+                                <li>Kesulitan bukan karena gangguan penglihatan atau pendengaran, melainkan karena perbedaan cara otak memproses bahasa.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Disgrafia (Kesulitan Menulis)</strong>
+                            <ul class="no-margin-ul">
+                                <li>Bentuk huruf dalam tulisan anak sering tidak konsisten.</li>
+                                <li>Penggunaan huruf kapital dan huruf kecil masih bercampur dalam satu kata atau kalimat.</li>
+                                <li>Tulisan menunjukkan ukuran dan bentuk huruf yang tidak seimbang atau tidak sesuai.</li>
+                                <li>Anak mengalami hambatan saat ingin menuangkan pengetahuan atau pemahamannya secara tertulis.</li>
+                                <li>Anak kesulitan memegang alat tulis dengan benar, sering memegang terlalu dekat ke ujung hingga hampir menyentuh kertas.</li>
+                                <li>Saat menulis, anak cenderung berbicara sendiri atau terlalu fokus pada gerakan tangannya.</li>
+                                <li>Tulisan tidak mengikuti garis dengan baik dan terlihat tidak rapi atau tidak proporsional.</li>
+                                <li>Anak tetap mengalami kesulitan meskipun hanya diminta menyalin tulisan yang sudah ada.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Diskalkulia (Kesulitan Berhitung)</strong>
+                            <ul class="no-margin-ul">
+                                <li>Kesulitan memahami konsep bilangan, misalnya tidak paham bahwa angka “3” berarti tiga benda dan belum bisa mencocokkan jumlah benda dengan angka secara tepat, misalnya satu benda untuk satu angka.</li>
+                                <li>Sulit menghafal fakta matematika dasar, seperti penjumlahan atau perkalian sederhana.</li>
+                                <li>Belum memahami perbandingan angka, seperti mana yang lebih besar atau lebih kecil.</li>
+                                <li>Masih menggunakan jari untuk menghitung, meskipun anak lain seusianya sudah bisa menghitung tanpa bantuan.</li>
+                                <li>Bingung atau tidak konsisten saat diminta menjumlahkan atau mengurangkan dengan teknik pinjam dan simpan.</li>
+                                <li>Tidak menyadari jika hasil hitungan tidak masuk akal atau tidak logis.</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>KARAKTERISTIK UMUM</h3>
+                    <ul class="no-margin-ul">
+                        <li><strong>Pemrosesan visual</strong>
+                            <p>Anak kesulitan membedakan bentuk huruf/angka yang mirip (seperti b, d, p, q atau 104 dan 410). Ada yang melihat huruf seolah bergerak, sehingga sulit membaca atau mengeja. Mereka juga kesulitan memisahkan objek dari latar belakang gambar atau tulisan.</p>
+                        </li>
+                        <li><strong>Pemrosesan auditori</strong>
+                            <p>Anak sulit memproses bunyi, seperti menggabungkan huruf menjadi kata (contoh: /c/ /u/ /p/ → "cup"). Mereka juga kesulitan mengingat instruksi lisan atau mengulang urutan kata atau angka.</p>
+                        </li>
+                        <li><strong>Kecepatan memproses informasi</strong>
+                            <p>Anak cenderung lebih lambat dalam memahami dan menyelesaikan tugas, misalnya membaca atau menjawab soal, dibanding teman sebayanya.</p>
+                        </li>
+                        <li><strong>Performa tidak konsisten</strong>
+                            <p>Hasil belajar anak bisa naik-turun. Hari ini bisa memahami pelajaran, besok bisa lupa atau bingung lagi, meskipun materi hampir sama.</p>
+                        </li>
+                        <li><strong>Memori kerja lemah</strong>
+                            <p>Anak kesulitan menampung dan memproses informasi dalam waktu singkat. Ini berdampak pada kemampuan mengeja, mencatat, atau menyelesaikan soal matematika berlangkah.</p>
+                        </li>
+                    </ul>
+                    
+                    <h3>AKOMODASI DAN STRATEGI MENGAJAR</h3>
+                    <ul class="no-margin-ul">
+                        <li><strong>Disgrafia</strong>
+                            <ul>
+                                <li><strong>Pra-menulis:</strong> Anak dilatih memegang pensil dengan benar, duduk dengan posisi yang baik, dan menjaga jarak mata ke buku. Gunakan pensil segitiga atau <em>pencil grip</em>. Anak bisa mulai dengan mencorat-coret menggunakan pensil, spidol, atau kapur tulis, termasuk menggambar garis atau lingkaran. Latihan juga bisa dilakukan dengan menulis di udara atau media bertekstur seperti <em>finger painting</em>.</li>
+                                <li><strong>Menjiplak huruf:</strong> Dimulai dari menarik garis, menggambar bentuk sederhana, menyambung titik, hingga menelusuri huruf (*tracing*). Kegiatan dilakukan berulang hingga anak bisa menulis huruf dengan baik.</li>
+                                <li><strong>Menulis huruf balok:</strong> Anak belajar huruf balok dengan pendekatan multisensori—melihat, mendengar, dan menelusuri huruf. Huruf diajarkan mulai dari bentuk yang paling sederhana (E, F, H, L, I). Anak menelusuri huruf tebal, lalu perlahan beralih ke bentuk titik-titik atau garis putus-putus.</li>
+                                <li><strong>Transisi ke tulisan sambung:</strong> Setelah huruf balok dikuasai, anak dikenalkan pada tulisan sambung melalui tahap transisi. Huruf balok dihubungkan dengan garis putus, anak menelusurinya, lalu berlatih menulis sambung secara utuh dan mandiri tanpa bantuan garis.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Universal Design for Learning (UDL)</strong>
+                            <p>UDL adalah pendekatan pembelajaran yang dirancang untuk mengakomodasi kebutuhan semua siswa, termasuk yang memiliki kesulitan belajar. Guru menggunakan berbagai cara untuk menyampaikan materi, memberi pilihan dalam menunjukkan pemahaman, dan mendorong motivasi belajar. Contohnya, siswa yang sulit membaca bisa menggunakan materi digital dengan suara, sementara yang kesulitan menulis dapat menyampaikan pemahaman melalui lisan atau proyek. Dengan fleksibilitas ini, UDL membantu mengurangi hambatan belajar dan meningkatkan keterlibatan siswa.</p>
+                        </li>
+                        <li><strong>Advance Organizer</strong>
+                            <p>Advance Organizer adalah alat bantu yang diberikan sebelum pembelajaran untuk membantu siswa memahami isi materi baru. Bentuknya bisa berupa peta konsep, ringkasan, pertanyaan pemantik, atau kerangka ide utama. Tujuannya adalah menghubungkan informasi baru dengan pengetahuan yang sudah dimiliki agar pemahaman teks lebih baik.</p>
+                        </li>
+                        <li><strong>Collaborative Strategic Reading (CSR)</strong>
+                            <p>CSR adalah strategi membaca dalam kelompok kecil yang menggabungkan kerja sama dan keterampilan memahami teks. Terdiri dari empat tahap: **Sebelum membaca** (pratinjau dan prediksi), **Saat membaca** (memahami isi dan mengatasi kesulitan), dan **Setelah membaca** (merangkum dan membuat pertanyaan untuk diskusi). Strategi ini efektif untuk meningkatkan pemahaman bacaan, terutama teks ekspositori.</p>
+                        </li>
+                        <li><strong>Mnemonik</strong>
+                            <p>Mnemonik adalah teknik mengingat dengan cara menghubungkan informasi baru ke bentuk yang lebih mudah diingat, seperti akronim atau frasa. Contohnya digunakan untuk membantu siswa mengenali ide pokok, mengingat informasi penting, dan menulis dengan lebih sistematis. Strategi ini cocok untuk siswa jenjang dasar atas hingga menengah dalam menghadapi tuntutan belajar yang lebih kompleks.</p>
+                        </li>
+                    </ul>
+
+                    <div class="article-reference">
+                        <h3>REFERENSI</h3>
+                        <ul>
+                            <li>Smith, Deborah Deutsch, Naomi Chowdhuri Tyler, and Kimberly Garner Skow. 2018. Introduction to Contemporary Special Edication: New Horizons (2nd Ed.). USA: Pearson Education.</li>
+                            <li>Rofiah, N. H. (2015). PROSES IDENTIFIKASI : “MENGENAL ANAK KESULITAN BELAJAR TIPE DISLEKSIA BAGI GURU SEKOLAH DASAR INKLUSI.” INKLUSI, 2, No. 1, 109–124.</li>
+                            <li>Suhartono. (2016). Pembelajaran Menulis Untuk Anak Disgrafia di Sekolah Dasar. Transformatika, 12, No.1.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'gangguan-bicara-dan-bahasa': {
+                title: 'ANAK DENGAN GANGGUAN BICARA DAN BAHASA',
+                content: `
+                    <h3>DEFINISI</h3>
+                    <p>Gangguan bicara merupakan kondisi yang ditandai dengan adanya kesulitan dalam menghasilkan bunyi ucapan yang benar atau mengalami masalah dengan suara atau kelancaran bicara, yang dapat menghalangi komunikasi. Sementara itu, gangguan bahasa ditandai dengan adanya kesulitan dalam memperoleh dan menggunakan bahasa, yang disebabkan oleh kekurangan dalam memahami atau menghasilkan kosa kata, struktur kalimat, dan wacana.</p>
+
+                    <h3>KARAKTERISTIK</h3>
+                    <ol>
+                        <li><strong>Anak dengan Gangguan Bicara</strong>
+                            <ul>
+                                <li>Anak dengan gangguan bicara seperti artikulasi, kelancaran, atau suara umumnya tetap mampu mengikuti pembelajaran di kelas reguler.</li>
+                                <li>Kemampuan akademik mereka biasanya tidak terganggu oleh masalah bicara yang ringan.</li>
+                                <li>Anak dengan gangguan bicara berat, seperti gagap, cenderung enggan berbicara di depan umum, sehingga menghambat partisipasi dalam diskusi kelas, kerja kelompok, atau presentasi.</li>
+                                <li>Gangguan biacara seringkali membuat kepercayaan diri menurun dan interaksi sosial menjadi terbatas.</li>
+                                <li>Jika tidak ditangani, kondisi ini dapat memengaruhi hubungan sosial, pilihan karier, dan kualitas hidup di masa depan.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Anak dengan Gangguan Bahasa</strong>
+                            <ul>
+                                <li>Anak kesulitan menyampaikan ide, menjawab pertanyaan, atau mengikuti ujian meskipun tahu jawabannya.</li>
+                                <li>Anak sulit memahami instruksi lisan, sehingga sering salah mengerjakan atau tidak menyelesaikan tugas.</li>
+                                <li>Anak tidak mampu menggunakan bahasa secara sosial, seperti memulai percakapan, memberi respons, atau memahami isyarat nonverbal.</li>
+                                <li>Anak cenderung mengucapkan hal yang tidak relevan, mengganggu teman, atau bingung saat ingin bergabung dalam percakapan atau bermainan.</li>
+                                <li>Gangguan ini menghambat hubungan sosial dan menyulitkan anak bergaul dengan teman sebaya.</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>AKOMODASI DAN STRATEGI MENGAJAR</h3>
+                    <ul class="no-margin-ul">
+                        <li>Gunakan bantuan visual seperti huruf tebal, garis bawah, atau warna mencolok untuk menyoroti informasi penting.</li>
+                        <li>Gunakan metode lain untuk mengungkapkan gagasan, misalnya menggunakan bantuan media gambar atau ilustrasi.</li>
+                        <li>Berikan instruksi secara perlahan dan bertahap agar siswa lebih mudah memahami dan mengikuti instruksi tersebut. Jika diperlukan, ulangi penjelasan dengan kata-kata sederhana dan jelas.</li>
+                        <li><strong>Mnemonik</strong> adalah teknik belajar yang membantu anak mengingat informasi dengan lebih mudah melalui singkatan, akronim, atau frasa sederhana. Strategi ini bermanfaat karena menyederhanakan instruksi atau konsep yang sulit menjadi bentuk yang lebih mudah diingat. Contohnya, untuk mengingat warna pelangi, guru dapat menggunakan singkatan “MeJiKuHiBiNiU”.</li>
+                        <li>Ajak siswa berdiskusi dalam kelompok kecil untuk melatih keterampilan berbicara dan mendengarkan.</li>
+                        <li>Guru juga harus memberi contoh cara berkomunikasi yang baik, seperti menyapa, mendengarkan dengan sopan, dan merespons secara tepat.</li>
+                        <li><strong>Terapi bicara</strong> (oleh atau dengan pengawasan terapis wicara). Siswa dengan gangguan bicara dilatih mengucapkan kata dengan jelas dan mengurangi gagap. Siswa dengan gangguan bahasa dibantu memahami dan menggunakan bahasa dalam situasi sosial, seperti diskusi atau tanya jawab.</li>
+                        <li><strong>Terapi oral motorik</strong> untuk menguatkan otot mulut yang digunakan saat berbicara. Terapi ini dapat dilakukan dengan latihan seperti minum pakai sedotan, meniup balon, atau terompet.</li>
+                    </ul>
+
+                    <div class="article-reference">
+                        <h3>REFERENSI</h3>
+                        <ul>
+                            <li>Smith, Deborah Deutsch, Naomi Chowdhuri Tyler, and Kimberly Garner Skow. 2018. Introduction to Contemporary Special Edication: New Horizons (2nd Ed.). USA: Pearson Education.</li>
+                            <li>Association, American Psychiatric. 2013. Diagnostic and Statisti-Cal Manual of Mental Disorders, Fifth Edition. Arlington, VA: American Psychiatric Association.</li>
+                            <li>Herliawati, L., & Rohmalia. (2024). Strategi Pengembangan Kecakapan Berbahasa Anak Speech Delay. 7(5), 464–472.</li>
+                            <li>Masitoh. (2019). Gangguan Bahasa dalam Perkembangan Bicara Anak. Jurnal Elsa, Volume 17</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'gangguan-emosional-dan-perilaku': {
+                title: 'ANAK DENGAN GANGGUAN EMOSIONAL DAN PERILAKU',
+                content: `
+                    <h3>DEFINISI</h3>
+                    <p>Gangguan emosional atau perilaku adalah kondisi yang ditandai dengan respons emosi atau perilaku yang tidak sesuai dengan usia, budaya, atau lingkungan, dan mengganggu pencapaian akademik, sosial, atau perkembangan pribadi. Gangguan ini bukan reaksi sementara, tetapi muncul secara konsisten di dua lingkungan (minimal salah satunya di sekolah), dan tidak membaik meski sudah mendapat intervensi pendidikan umum karena kondisinya terlalu kompleks. Gangguan ini bisa terjadi bersamaan dengan disabilitas lain, dan mencakup skizofrenia, gangguan suasana hati, kecemasan, dan gangguan perilaku jangka panjang yang memengaruhi kemampuan belajar.</p>
+
+                    <h3>KARAKTERISTIK</h3>
+                    <ol>
+                        <li><strong>Perilaku Eksternal <em>(Externalizing Behavior)</em></strong>
+                            <p>Anak menunjukkan perilaku yang melanggar norma sosial dan aturan, seperti:</p>
+                            <ul>
+                                <li>Agresi fisik dan verbal (memukul, membentak)</li>
+                                <li>Hiperaktif dan impulsif</li>
+                                <li>Tidak patuh terhadap guru atau aturan</li>
+                                <li>Merusak properti, bersikap kasar, atau menggunakan gestur tidak sopan</li>
+                                <li>Menunjukkan perilaku obsesif/kompulsif</li>
+                                <li>Mengabaikan peringatan atau teguran</li>
+                            </ul>
+                        </li>
+                        <li><strong>Perilaku Internal <em>(Internalizing Behavior)</em></strong>
+                            <p>Anak cenderung menarik diri dan mengalami tekanan emosional, seperti:</p>
+                            <ul>
+                                <li>Kecemasan, depresi, atau rasa rendah diri</li>
+                                <li>Rasa malu berlebihan atau ketakutan tanpa sebab</li>
+                                <li>Gangguan makan (anoreksia, bulimia)</li>
+                                <li>Pemikiran atau tindakan menyakiti diri sendiri, termasuk ide untuk bunuh diri</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>AKOMODASI DAN STRATEGI MENGAJAR</h3>
+                    <ul class="no-margin-ul">
+                        <li>Membuat dan menerapkan aturan untuk melatih kedisiplinan siswa di kelas, lingkungan sekolah, dan luar sekolah.</li>
+                        <li>Menegakkan peraturan secara adil bagi seluruh siswa dengan konsekuensi yang wajar dan sesuai.</li>
+                        <li>Merancang pembelajaran yang mendorong kerjasama dan kedekatan antar siswa, baik dalam kelompok kecil maupun besar.</li>
+                        <li>Berikan siswa pilihan dalam mengerjakan tugas agar mereka merasa lebih dihargai dan punya kendali atas belajarnya. Misalnya, saat belajar tentang hewan, guru bisa memberi pilihan: menggambar hewan dan menulis fakta sederhana, membuat kerajinan hewan dari kertas, atau menceritakan hewan favorit di depan kelas.</li>
+                        <li>Memberi waktu tambahan saat ujian atau mengerjakan tugas membantu mengurangi tekanan, terutama bagi siswa yang cemas atau mudah lelah karena depresi.</li>
+                    </ul>
+
+                    <div class="article-reference">
+                        <h3>REFERENSI</h3>
+                        <ul>
+                            <li>Smith, Deborah Deutsch, Naomi Chowdhuri Tyler, and Kimberly Garner Skow. 2018. Introduction to Contemporary Special Edication: New Horizons (2nd Ed.). USA: Pearson Education.</li>
+                            <li>Hallahan, DP, JM Kauffman, and PC Pullen. 2014. Exceptional Learners: An Introduction to Special Education. England: Pearson Education Limited.</li>
+                            <li>Sujarwanto, & Rofiah, K. (2020). Manajemen Pendidikan Anak Dengan Gangguan Emosi Perilaku. CV. Jakad Media Publishing.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'spektrum-autis': {
+                title: 'ANAK DENGAN AUTISM SPECTRUM DISORDER (ASD)',
+                content: `
+                    <h3>DEFINISI</h3>
+                    <p>Autism Spectrum Disorder (ASD) merupakan suatu kondisi yang ditandai oleh keterbatasan dalam kemampuan berinteraksi sosial dan berkomunikasi, disertai dengan ketertarikan yang intens pada hal-hal tertentu serta pola perilaku yang bersifat repetitif.</p>
+
+                    <h3>KARAKTERISTIK</h3>
+                    <ul>
+                        <li>Anak dengan ASD kesulitan memulai atau merespons interaksi sosial, seperti menyapa atau bergiliran bicara.</li>
+                        <li>Jarang melakukan kontak mata dan ekspresi wajahnya tidak sesuai situasi.</li>
+                        <li>Sulit memahami bahasa tubuh orang lain.</li>
+                        <li>Kurang minat bersosialisasi dan jarang bermain pura-pura.</li>
+                        <li>Sulit memahami situasi sosial dan perasaan orang lain.</li>
+                        <li>Biasanya punya sedikit teman dan lebih suka menyendiri.</li>
+                        <li>Sering melakukan gerakan atau ritual berulang, seperti mengepakkan tangan.</li>
+                        <li>Sangat terganggu oleh perubahan kecil dan ingin rutinitas yang konsisten setiap hari.</li>
+                        <li>Memiliki minat yang terbatas tapi sangat intens, misalnya hanya tertarik pada satu topik tertentu.</li>
+                        <li>Sensitif berlebihan terhadap suara, cahaya, atau tekstur makanan dan pakaian (hiperresponsif).</li>
+                        <li>Kadang tidak bereaksi terhadap rangsangan yang berbahaya (hiporesponsif).</li>
+                    </ul>
+
+                    <h3>AKOMODASI DAN STRATEGI MENGAJAR</h3>
+                    <ol>
+                        <li><strong>Pendamping Sebaya</strong>
+                            <p>Anak dengan ASD sering kesulitan memulai percakapan atau menjaga interaksi. Memasangkannya dengan teman sebaya yang sabar dan memiliki keterampilan sosial yang baik dapat membantu anak belajar cara berinteraksi, seperti bergiliran bicara, bekerja sama, dan bermain bersama. Pendampingan ini juga membangun rasa percaya diri dan rasa diterima di lingkungan sekolah.</p>
+                        </li>
+                        <li><strong>Buat Rutinitas dan Jadwal yang Konsisten</strong>
+                            <p>Anak dengan ASD merasa lebih aman jika kegiatan berlangsung secara teratur. Gunakan jadwal visual (misalnya gambar makan, belajar, bermain) yang ditempel di kelas untuk membantu anak memahami urutan aktivitas, mengurangi kecemasan saat transisi kegiatan, dan meningkatkan kemandirian.</p>
+                        </li>
+                        <li><strong>Fokus pada Kemampuan dan Minat Khusus Siswa</strong>
+                            <p>Anak dengan ASD sering memiliki minat khusus yang sangat kuat, misalnya kereta api, dinosaurus, menggambar, atau membangun sesuatu. Guru perlu memanfaatkan minat tersebut untuk menarik perhatian dan meningkatkan keterlibatan anak dalam pembelajaran. Hal ini dapat dilakukan dengan cara:</p>
+                            <ul>
+                                <li>Cari tahu minat khusus anak, lalu kaitkan pelajaran dengan minat tersebut.</li>
+                                <li>Gunakan minat sebagai sumber motivasi dan dukungan emosional.</li>
+                                <li>Beri kesempatan anak menunjukkan keahliannya di depan teman.</li>
+                                <li>Dorong teman sekelas untuk menghargai keunikan dan kekuatan anak.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Pemberian Instruksi Secara Jelas, Tegas, Bertahap, dan Berulang</strong>
+                            <p>Anak dengan ASD membutuhkan instruksi yang singkat, jelas, dan tidak bertele-tele. Mereka cenderung tidak langsung merespon instruksi, bahkan tampak acuh. Karena itu, guru harus sabar dan tetap konsisten memberikan perintah secara bertahap dan sesuai kemampuan anak.</p>
+                        </li>
+                        <li><strong>Sistem Komunikasi Alternatif dan Augmentatif</strong>
+                            <p>Untuk anak yang belum dapat berbicara dengan baik, sistem seperti <em>Picture Exchange Communication System (PECS)</em> dapat digunakan agar mereka bisa menyampaikan keinginan atau menjawab pertanyaan melalui gambar. KAA membantu anak lebih aktif dalam berkomunikasi dan terlibat dalam kegiatan kelas.</p>
+                        </li>
+                    </ol>
+
+                    <div class="article-reference">
+                        <h3>REFERENSI</h3>
+                        <ul>
+                            <li>Smith, Deborah Deutsch, Naomi Chowdhuri Tyler, and Kimberly Garner Skow. 2018. Introduction to Contemporary Special Edication: New Horizons (2nd Ed.). USA: Pearson Education.</li>
+                            <li>Hallahan, DP, JM Kauffman, and PC Pullen. 2014. Exceptional Learners: An Introduction to Special Education. England: Pearson Education Limited.</li>
+                            <li>Heward, William, Sheila Alber-Morgan, and Moira Konrad. 2018. “Exceptional Children: An Introduction to Special Education 11th Edition.” Pearson 640.</li>
+                            <li>Melani, A., Rufaeda, J. J., Masfia, I., & Fahmy, Z. (2024). Strategi peningkatan keterampilan berbicara pada anak autis di pusat kegiatan belajar masyarakat talenta semarang. 8(5), 411–419.</li>
+                            <li>Lindsay, S., Proulx, M., Scott, H., & Thomson, N. (2014). Exploring teachers’ strategies for including children with autism spectrum disorder in mainstream classrooms. International Journal of Inclusive Education, 18(2), 101–122. https://doi.org/10.1080/13603116.2012.758320</li>
+                        </ul>
+                    </div>
+                `
+            },
+            'adhd': {
+                title: 'ANAK DENGAN ATTENTION DEFICIT HYPERACTIVE DISORDER (ADHD)',
+                content: `
+                    <h3>DEFINISI</h3>
+                    <p>Attention Deficit Hyperactivity Disorder (ADHD) adalah kondisi yang ditandai dengan adanya kesulitan dalam mempertahankan perhatian, perilaku hiperaktif, atau tindakan impulsif, sehingga mengganggu fungsi atau perkembangan individu.</p>
+
+                    <h3>KARAKTERISTIK</h3>
+                    <ul>
+                        <li>Anak dengan ADHD kesulitan merencanakan dan menyusun tugas secara teratur.</li>
+                        <li>Mudah terdistraksi oleh suara, gerakan, atau hal-hal kecil di sekitar.</li>
+                        <li>Fokus belajar tidak bertahan lama, sehingga tugas sering tidak selesai.</li>
+                        <li>Sering lupa membawa atau mengerjakan tugas, dan hasil pekerjaan cenderung kurang rapi.</li>
+                        <li>Anak menunjukkan perilaku impulsif, seperti bicara tanpa izin atau bereaksi spontan.</li>
+                        <li>Cenderung sangat aktif (hiperaktif), sulit duduk tenang dalam waktu lama.</li>
+                        <li>Sering melanggar aturan kelas, baik secara sengaja maupun tidak sengaja.</li>
+                        <li>Anak dengan ADHD sering mengalami penolakan dari teman sebaya.</li>
+                        <li>Berisiko menjadi korban *bullying* karena perilakunya dianggap mengganggu.</li>
+                        <li>Cenderung menarik diri dan menghabiskan waktu sendiri (misalnya bermain game).</li>
+                        <li>Sulit mengelola emosi, mudah frustrasi atau marah dalam situasi sosial yang menantang.</li>
+                    </ul>
+                    
+                    <h3>AKOMODASI DAN STRATEGI MENGAJAR</h3>
+                    <ul>
+                        <li>Tempatkan meja anak di barisan depan dekat dengan meja guru, serta jauh dari jendela atau pintu untuk menghindari gangguan dan supaya mudah diarahkan.</li>
+                        <li>Pecah tugas besar menjadi langkah-langkah kecil, lalu beri umpan balik setelah tiap langkah selesai. Guru juga bisa memberi *reward* ketika anak mengerjakan tugas dengan baik.</li>
+                        <li>Gunakan *checklist* agar anak tetap terorganisir dan tidak melupakan langkah kerja.</li>
+                        <li>Sediakan kesempatan anak bergerak untuk menyalurkan energi, seperti memperbolehkan berdiri saat belajar, membantu membawa barang, melakukan aktifitas fisik sebelum belajar, atau menggunakan alat bantu sensorik seperti *stress ball*.</li>
+                        <li>Sisipkan istirahat singkat saat pembelajaran agar anak bisa mengatur ulang fokus, misalnya dengan menggambar atau relaksasi.</li>
+                        <li>Gunakan rutinitas kelas yang teratur, petunjuk yang jelas, dan beri pemberitahuan jika ada perubahan aktifitas.</li>
+                        <li>Menggunakan media konkret yang menarik untuk memusatkan perhatian anak.</li>
+                    </ul>
+
+                    <div class="article-reference">
+                        <h3>REFERENSI</h3>
+                        <ul>
+                            <li>Smith, Deborah Deutsch, Naomi Chowdhuri Tyler, and Kimberly Garner Skow. 2018. Introduction to Contemporary Special Edication: New Horizons (2nd Ed.). USA: Pearson Education.</li>
+                            <li>Association, American Psychiatric. 2013. Diagnostic and Statisti-Cal Manual of Mental Disorders, Fifth Edition. Arlington, VA: American Psychiatric Association.</li>
+                            <li>Pramesti, A. E. P., Rizqullah, A. I., Ridahani Widiastuti, & Minsih. (2024). Special Assistant Teacher Strategies in Implementing Learning for ADHD Children at Elementary School 01 Telagasari.8(1), 37–47.</li>
+                            <li>Rahmawati, A. D., Lisnawati, D., & Windari, A. R. (2024). Strategi Guru dalam Menangani Anak ADHD (Attention Deficit Hiperactivity Disorder) dalam Pembelajaran di Kelas 2 SD Negeri Kalicacing 02 Salatiga. Jurnal Pendidikan Guru Sekolah Dasar, 1(3), 7. https://doi.org/10.47134/pgsd.v1i3.317</li>
+                        </ul>
+                    </div>
+                `
+            },
+        };
+
+        function getOtherArticles(currentKey) {
+            const allKeys = Object.keys(articles);
+            return allKeys.filter(key => key !== currentKey);
+        }
+
+        function createRecomendationsSection(currentKey) {
+            const otherArticleKeys = getOtherArticles(currentKey);
+            let recomendationsHTML = `
+                <hr>
+                <div class="recomendations-section">
+                    <h3>Baca juga artikel lainnya:</h3>
+                    <ul>
+            `;
+            otherArticleKeys.forEach(key => {
+                const title = articles[key].title;
+                const url = `artikel.html?klasifikasi=${key}`;
+                recomendationsHTML += `<li><a href="${url}">${title}</a></li>`;
+            });
+            recomendationsHTML += `
+                    </ul>
+                </div>
+            `;
+            return recomendationsHTML;
+        }
+
+        function createHomeButton() {
+            return `
+                <div class="back-home-button-container">
+                    <a href="index.html" class="back-home-button">Kembali ke Beranda</a>
+                </div>
+            `;
+        }
+
+        if (klasifikasi && articles[klasifikasi]) {
+            const article = articles[klasifikasi];
+            pageTitle.innerText = article.title;
+            const contentWithButtonAndRecomendations = `
+                <h2>${article.title}</h2>
+                ${article.content.replace(/\*([^*]+)\*/g, '<em>$1</em>')}
+                ${createHomeButton()}
+                ${createRecomendationsSection(klasifikasi)}
+            `;
+            articleContainer.innerHTML = contentWithButtonAndRecomendations;
+        } else {
+            pageTitle.innerText = "Artikel Tidak Ditemukan";
+            articleContainer.innerHTML = `
+                <h2>Artikel Tidak Ditemukan</h2>
+                <p>Maaf, artikel yang Anda cari tidak tersedia. Silakan pilih artikel dari menu navigasi.</p>
+                ${createHomeButton()}
+            `;
+        }
+    });
+</script>
+</body>
+</html>
