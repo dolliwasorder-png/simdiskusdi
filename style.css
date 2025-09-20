@@ -1182,3 +1182,18 @@ main {
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+
+/* Ukuran logo untuk tampilan desktop dan layar besar */
+.logo-img {
+    width: 130px; /* Atur lebar logo untuk desktop */
+    height: auto; /* Memastikan rasio aspek logo tetap terjaga */
+}
+
+/* ------------------------------------------- */
+/* Media query untuk tampilan mobile */
+/* Logo akan mengecil saat lebar layar 768px atau kurang */
+@media (max-width: 768px) {
+    .logo-img {
+        width: 120px; /* Atur lebar logo yang lebih kecil untuk mobile */
+    }
+}
