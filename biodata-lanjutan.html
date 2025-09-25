@@ -111,39 +111,50 @@
         </a>
     </div>
 
-    <script src="nav.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const klasifikasi = urlParams.get('klasifikasi');
-            const formTitle = document.getElementById('dynamic-title');
-            const klasifikasiInput = document.getElementById('klasifikasi-input');
+<script src="nav.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const klasifikasi = urlParams.get('klasifikasi');
+        const formTitle = document.getElementById('dynamic-title');
+        const klasifikasiInput = document.getElementById('klasifikasi-input');
+        const form = document.getElementById('lanjutan-form');
 
-            const titles = {
-                'hambatan-intelektual-ringan': 'Hambatan Intelektual Ringan',
-                'disleksia': 'Gangguan Belajar Spesifik (Disleksia)',
-                'disgrafia': 'Gangguan Belajar Spesifik (Disgrafia)',
-                'diskalkulia': 'Gangguan Belajar Spesifik (Diskalkulia)',
-                'gangguan-bicara-bahasa': 'Gangguan Bicara dan Bahasa',
-                'gangguan-emosional-perilaku': 'Gangguan Emosional dan Perilaku',
-                'spektrum-autis': 'Spektrum Autis',
-                'adhd': 'ADHD'
+        const titles = {
+            'hambatan-intelektual-ringan': 'Hambatan Intelektual Ringan',
+            'disleksia': 'Gangguan Belajar Spesifik (Disleksia)',
+            'disgrafia': 'Gangguan Belajar Spesifik (Disgrafia)',
+            'diskalkulia': 'Gangguan Belajar Spesifik (Diskalkulia)',
+            'gangguan-bicara-bahasa': 'Gangguan Bicara dan Bahasa',
+            'gangguan-emosional-perilaku': 'Gangguan Emosional dan Perilaku',
+            'spektrum-autis': 'Spektrum Autis',
+            'adhd': 'ADHD'
+        };
+
+        if (klasifikasi && titles[klasifikasi]) {
+            const titleText = titles[klasifikasi];
+            document.title = `Identifikasi Lanjutan: ${titleText}`;
+            formTitle.innerText = `Formulir Identifikasi Lanjutan: ${titleText}`;
+            klasifikasiInput.value = klasifikasi;
+        } else {
+            document.title = "Formulir Identifikasi Lanjutan";
+            formTitle.innerText = "Formulir Identifikasi Lanjutan";
+        }
+
+        form.addEventListener('submit', function(event) {
+            const nama = document.getElementById('nama').value;
+            const usia = document.getElementById('usia').value;
+            const penanggungJawab = document.getElementById('penanggungJawab').value;
+
+            const biodata = {
+                namaAnak: nama,
+                usiaAnak: usia,
+                pengisiInstrumen: penanggungJawab
             };
 
-            // Mengubah judul halaman dan formulir secara dinamis
-            if (klasifikasi && titles[klasifikasi]) {
-                const titleText = titles[klasifikasi];
-                document.title = `Identifikasi Lanjutan: ${titleText}`;
-                formTitle.innerText = `Formulir Identifikasi Lanjutan: ${titleText}`;
-                
-                // Menetapkan nilai input tersembunyi
-                klasifikasiInput.value = klasifikasi;
-            } else {
-                // Atur judul default jika parameter tidak ada atau tidak valid
-                document.title = "Formulir Identifikasi Lanjutan";
-                formTitle.innerText = "Formulir Identifikasi Lanjutan";
-            }
+            sessionStorage.setItem('biodata', JSON.stringify(biodata));
         });
-    </script>
+    });
+</script>
 </body>
 </html>

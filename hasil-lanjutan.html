@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Skrining</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="js/html2pdf.bundle.min.js"></script>
+    <style>
+        /* CSS Umum untuk halaman */
+        body {
+            background-color: #f0f2f5;
+        }
+
+        .header, .main-nav, .whatsapp-button-container {
+            display: none; /* Sembunyikan header dan tombol di halaman hasil untuk tampilan dokumen */
+        }
+        
+        .result-container {
+            background-color: #fff;
+            padding: 2rem;
+            margin: 2rem auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+        }
+
+        /* Gaya Dokumen Resmi */
+        .document-header {
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .document-header h1 {
+            font-family: 'Times New Roman', serif;
+            font-size: 2rem;
+            margin: 0;
+            color: #333;
+        }
+
+        .document-header p {
+            margin: 0.2rem 0;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .patient-info, .result-section {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            font-family: Arial, sans-serif;
+        }
+
+        .patient-info h3, .result-section h3 {
+            margin-top: 0;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .info-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item strong {
+            display: inline-block;
+            width: 150px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .question-text {
+            flex: 1;
+            font-size: 0.95rem;
+        }
+
+        .answer-status {
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+
+        .answer-status.ya {
+            background-color: #e74c3c; /* Merah untuk 'Ya' */
+        }
+
+        .answer-status.tidak {
+            background-color: #2ecc71; /* Hijau untuk 'Tidak' */
+        }
+
+        .document-footer {
+            margin-top: 3rem;
+            text-align: right;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .signature-line {
+            width: 250px;
+            margin: 0 0 5px auto;
+            border-bottom: 1px solid #333;
+        }
+
+        .signature-name {
+            margin: 0;
+        }
+        
+        .download-button-container {
+            text-align: center;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        
+        .download-button {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .download-button:hover {
+            background-color: #3498db;
+        }
+        
+        /* Media Query untuk cetak */
+        @media print {
+            body {
+                background-color: #fff;
+            }
+            .result-container {
+                box-shadow: none;
+                margin: 0;
+                max-width: 100%;
+            }
+            .header, .main-nav, .whatsapp-button-container, .download-button-container {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header fixed-header">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="index.html" class="logo-link">
+                    <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" class="logo-img">
+                </a>
+                <div class="header-content">
+                    <h1 class="header-title">Sistem Informasi dan Identifikasi ABK</h1>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li class="dropdown" id="identifikasi-dropdown">
+                        <a href="#" class="dropdown-toggle">Identifikasi <i class="fas fa-chevron-down arrow-icon"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="biodata.html">Identifikasi Awal</a></li>
+                            <li><a href="biodata-lanjutan.html">Identifikasi Lanjutan</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="artikel-dropdown">
+                        <a href="#" class="dropdown-toggle">Artikel <i class="fas fa-chevron-down arrow-icon"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Hambatan Intelektual Ringan</a></li>
+                            <li><a href="#">Gangguan Belajar Spesifik</a></li>
+                            <li><a href="#">Gangguan Bicara dan Bahasa</a></li>
+                            <li><a href="#">Gangguan Emosional dan Perilaku</a></li>
+                            <li><a href="#">Spektrum Autis</a></li>
+                            <li><a href="#">ADHD</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">Tentang Web</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="result-container" id="document-to-print">
+            
+            <div class="document-header">
+                <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" style="width: 80px; margin-bottom: 10px;">
+                <h1>LAPORAN HASIL SKRINING IDENTIFIKASI</h1>
+                <p>Sistem Informasi dan Identifikasi Anak Berkebutuhan Khusus (SIMDIKSUS)</p>
+                <p>Sekolah Luar Biasa (SLB) ABC</p>
+            </div>
+
+            <div class="patient-info">
+                <h3>Informasi Data Diri</h3>
+                <div class="info-item">
+                    <strong>Nama Anak:</strong> <span id="nama-anak"></span>
+                </div>
+                <div class="info-item">
+                    <strong>Usia Anak:</strong> <span id="usia-anak"></span>
+                </div>
+                <div class="info-item">
+                    <strong>Pengisi Instrumen:</strong> <span id="pengisi-instrumen"></span>
+                </div>
+                <div class="info-item">
+                    <strong>Tanggal Pengisian:</strong> <span id="tanggal-pengisian"></span>
+                </div>
+            </div>
+
+            <div class="result-section">
+                <h3 id="result-title">Hasil Skrining:</h3>
+                <div id="result-summary"></div>
+                <div id="result-details"></div>
+            </div>
+            
+            <div class="result-section">
+                <h3>Rekomendasi</h3>
+                <div id="recommendation-container"></div>
+            </div>
+
+            <div class="document-footer">
+                <p>Disusun oleh,</p>
+                <div class="signature-line"></div>
+                <p class="signature-name" id="signature-name-text"></p>
+            </div>
+        </div>
+
+        <div class="download-button-container">
+            <button class="download-button" id="download-pdf-button">
+                <i class="fas fa-file-pdf"></i> Unduh Laporan sebagai PDF
+            </button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SIMDIKSUS. Semua hak cipta dilindungi.</p>
+    </footer>
+    
+    <div class="whatsapp-button-container">
+        <a href="https://wa.me/6281234567890?text=Halo%20saya%20ingin%20bertanya%20mengenai%20website%20skrining%20ABK" target="_blank" class="whatsapp-button">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" class="whatsapp-icon">
+            Butuh Bantuan?
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pindahkan tag script nav.js ke dalam blok ini
+            var navScript = document.createElement('script');
+            navScript.src = 'nav.js';
+            document.head.appendChild(navScript);
+
+            const results = JSON.parse(sessionStorage.getItem('finalSkriningResults'));
+            
+            const resultTitle = document.getElementById('result-title');
+            const namaAnakEl = document.getElementById('nama-anak');
+            const usiaAnakEl = document.getElementById('usia-anak');
+            const pengisiInstrumenEl = document.getElementById('pengisi-instrumen');
+            const tanggalPengisianEl = document.getElementById('tanggal-pengisian');
+            const signatureNameEl = document.getElementById('signature-name-text');
+            const summaryContainer = document.getElementById('result-summary');
+            const detailsContainer = document.getElementById('result-details');
+            const recommendationContainer = document.getElementById('recommendation-container');
+            const downloadButton = document.getElementById('download-pdf-button');
+
+            if (!results) {
+                resultTitle.innerText = "Hasil Tidak Ditemukan";
+                summaryContainer.innerHTML = "<p>Data skrining tidak valid. Silakan kembali ke halaman skrining untuk mengisi ulang.</p>";
+                detailsContainer.innerHTML = "";
+                return;
+            }
+
+            const { namaAnak, usiaAnak, pengisiInstrumen, tanggalPengisian, klasifikasi, namaKlasifikasi, totalPertanyaan, jumlahYa, answers } = results;
+
+            // Menampilkan biodata anak dan tanggal
+            namaAnakEl.innerText = namaAnak;
+            usiaAnakEl.innerText = `${usiaAnak} tahun`;
+            pengisiInstrumenEl.innerText = pengisiInstrumen;
+            tanggalPengisianEl.innerText = tanggalPengisian;
+            signatureNameEl.innerText = `(${pengisiInstrumen})`;
+
+            // Menampilkan judul dan ringkasan
+            resultTitle.innerText = `Hasil Skrining: ${namaKlasifikasi}`;
+            summaryContainer.innerHTML = `
+                <p>Berdasarkan instrumen skrining **${namaKlasifikasi}**, anak yang bernama **${namaAnak}** menunjukkan indikasi sebagai berikut:</p>
+                <p>Jumlah indikasi "Ya": **${jumlahYa}** dari **${totalPertanyaan}** pertanyaan.</p>
+            `;
+            
+            // Menampilkan rincian jawaban
+            answers.forEach((item, index) => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+
+                const answerClass = item.answer === 'ya' ? 'ya' : 'tidak';
+
+                resultItem.innerHTML = `
+                    <div class="question-text">${index + 1}. ${item.question}</div>
+                    <div class="answer-status ${answerClass}">${item.answer.charAt(0).toUpperCase() + item.answer.slice(1)}</div>
+                `;
+                detailsContainer.appendChild(resultItem);
+            });
+
+            // Menentukan dan menampilkan rekomendasi
+            let recommendationText = '';
+            let isStrongIndication = false;
+
+            if (klasifikasi === 'hambatan-intelektual-ringan' && jumlahYa >= 6) {
+                isStrongIndication = true;
+            } else if (klasifikasi === 'spektrum-autis' && jumlahYa >= 7) {
+                isStrongIndication = true;
+            } else if (klasifikasi === 'adhd' && jumlahYa >= 8) {
+                isStrongIndication = true;
+            } else if (klasifikasi === 'gangguan-bicara-bahasa' && jumlahYa >= 6) {
+                isStrongIndication = true;
+            } else if (klasifikasi === 'disleksia' && jumlahYa >= 4) {
+                isStrongIndication = true;
+            } else if (klasifikasi === 'disgrafia' && jumlahYa >= 5) {
+                isStrongIndication = true;
+            } else if (klasifikasi === 'diskalkulia' && jumlahYa >= 4) {
+                isStrongIndication = true;
+            } else if (jumlahYa >= 2) {
+                isStrongIndication = true;
+            }
+            
+            if (isStrongIndication) {
+                recommendationText = `
+                    <p>Berdasarkan hasil skrining, anak Anda menunjukkan **indikasi kuat** terhadap **${namaKlasifikasi}**. Sangat disarankan untuk segera melakukan konsultasi dengan psikolog, terapis, atau tenaga ahli pendidikan khusus untuk mendapatkan diagnosis dan penanganan yang lebih akurat dan terperinci.</p>
+                    <p>Skrining ini **bukanlah diagnosis medis** melainkan hanya langkah awal untuk mengenali kemungkinan hambatan belajar atau perkembangan anak.</p>
+                `;
+            } else {
+                recommendationText = `
+                    <p>Berdasarkan hasil skrining, anak Anda tidak menunjukkan indikasi kuat terhadap **${namaKlasifikasi}**. Meskipun demikian, terus lakukan observasi dan jika Anda memiliki kekhawatiran, jangan ragu untuk berkonsultasi dengan profesional pendidikan atau kesehatan.</p>
+                    <p>Skrining ini **bukanlah diagnosis medis** melainkan hanya langkah awal untuk mengenali kemungkinan hambatan belajar atau perkembangan anak.</p>
+                `;
+            }
+
+            recommendationContainer.innerHTML = recommendationText;
+
+            // Menangani pengunduhan PDF
+            downloadButton.addEventListener('click', function() {
+                // Tambahkan penundaan 500 milidetik (0.5 detik)
+                setTimeout(function() {
+                    const element = document.getElementById('document-to-print');
+                    const opt = {
+                        margin:       [10, 10, 10, 10],
+                        filename:     `Laporan-Skrining-${namaAnak}-${tanggalPengisian}.pdf`,
+                        image:        { type: 'jpeg', quality: 0.98 },
+                        html2canvas:  { scale: 2 },
+                        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                    };
+                    html2pdf().set(opt).from(element).save();
+                }, 500); // Penundaan dalam milidetik
+            });
+            
+            // Hapus data dari sessionStorage setelah selesai
+            sessionStorage.removeItem('finalSkriningResults');
+            sessionStorage.removeItem('biodata');
+        });
+    </script>
+</body>
+</html>
