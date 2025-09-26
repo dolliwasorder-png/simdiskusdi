@@ -25,10 +25,10 @@
         .document-header {
             text-align: center;
             border-bottom: 2px solid #333;
-            padding: 1rem 2rem; /* Tambahkan padding agar tidak terlalu mepet di PDF */
+            padding: 1rem 2rem; 
             margin: 0 auto 2rem auto;
             max-width: 800px;
-            background-color: #fff; /* Pastikan background putih */
+            background-color: #fff; 
         }
 
         .document-header h1 {
@@ -47,7 +47,7 @@
         .result-container {
             background-color: #fff;
             padding: 2rem;
-            margin: 0 auto; /* Margin di atas sudah di header, ini 0 */
+            margin: 0 auto; 
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 800px;
@@ -60,7 +60,7 @@
             padding: 1.5rem;
             margin-bottom: 2rem;
             font-family: Arial, sans-serif;
-            page-break-inside: avoid; /* PENTING: Untuk menghindari pemotongan di tengah blok */
+            page-break-inside: avoid;
             page-break-after: auto; 
             page-break-before: auto;
         }
@@ -135,25 +135,42 @@
             margin: 0;
         }
         
+        /* CSS Baru untuk Tombol */
         .download-button-container {
             text-align: center;
             margin: 2rem auto;
             max-width: 800px;
+            display: flex; /* Mengatur tata letak dalam satu baris */
+            justify-content: center; /* Memposisikan di tengah */
+            gap: 20px; /* Jarak antar tombol */
         }
         
-        .download-button {
+        .action-button { /* Kelas baru untuk kedua tombol */
             padding: 1rem 2rem;
             font-size: 1rem;
-            background-color: #2980b9;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            text-decoration: none; /* Untuk tombol link */
+            display: inline-block;
+        }
+        
+        .download-button { 
+            background-color: #2980b9;
         }
         
         .download-button:hover {
             background-color: #3498db;
+        }
+
+        .home-button {
+            background-color: #7f8c8d; /* Warna abu-abu yang netral */
+        }
+        
+        .home-button:hover {
+            background-color: #95a5a6;
         }
         
         @media print {
@@ -246,7 +263,11 @@
         </div>
 
         <div class="download-button-container">
-            <button class="download-button" id="download-pdf-button">
+            <a href="index.html" class="action-button home-button">
+                <i class="fas fa-home"></i> Ke Halaman Utama
+            </a>
+            
+            <button class="action-button download-button" id="download-pdf-button">
                 <i class="fas fa-file-pdf"></i> Unduh Laporan sebagai PDF
             </button>
         </div>
