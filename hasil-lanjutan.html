@@ -6,33 +6,29 @@
     <title>Hasil Skrining</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
     <style>
-        /* CSS Umum untuk halaman */
+        /* Gaya CSS untuk Tampilan Dokumen */
         body {
             background-color: #f0f2f5;
         }
 
+        /* Sembunyikan elemen navigasi dan tombol di dokumen PDF */
         .header, .main-nav, .whatsapp-button-container {
-            display: none; 
+            display: none;
         }
         
-        .result-container {
-            background-color: #fff;
-            padding: 2rem;
-            margin: 2rem auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-        }
-
-        /* Gaya Dokumen Resmi */
+        /* Elemen header yang akan diulang di setiap halaman PDF */
         .document-header {
             text-align: center;
             border-bottom: 2px solid #333;
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
-            page-break-after: avoid; 
+            padding: 1rem 2rem; 
+            margin: 0 auto 2rem auto;
+            max-width: 800px;
+            background-color: #fff; 
         }
 
         .document-header h1 {
@@ -47,21 +43,32 @@
             font-size: 0.9rem;
             color: #555;
         }
+        
+        .result-container {
+            background-color: #fff;
+            padding: 2rem;
+            margin: 0 auto; 
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+        }
 
-        .patient-info, .result-section {
+        /* Memaksa elemen penting tidak terpotong di tengah halaman */
+        .patient-info, .result-section, .document-footer {
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 1.5rem;
             margin-bottom: 2rem;
             font-family: Arial, sans-serif;
-            /* PENTING: Mencegah elemen terpotong di tengah halaman */
-            page-break-inside: avoid; 
-            break-inside: avoid;
-        }
-
-        .result-item, .info-item, .result-section p {
             page-break-inside: avoid;
-            break-inside: avoid;
+            page-break-after: auto; 
+            page-break-before: auto;
+        }
+        
+        /* Pastikan paragraf dan item hasil tidak terpotong */
+        .info-item, .result-item, .result-section p {
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
 
         .patient-info h3, .result-section h3 {
@@ -70,6 +77,7 @@
             padding-bottom: 0.5rem;
             margin-bottom: 1rem;
             font-size: 1.2rem;
+            page-break-after: avoid;
         }
         
         .info-item strong {
@@ -83,6 +91,15 @@
             align-items: center;
             padding: 0.75rem 0;
             border-bottom: 1px solid #eee;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .question-text {
+            flex: 1;
+            font-size: 0.95rem;
         }
 
         .answer-status {
@@ -105,10 +122,7 @@
             margin-top: 3rem;
             text-align: right;
             font-family: 'Times New Roman', serif;
-            /* KRITIS: Memaksa footer di halaman baru jika tidak muat */
             page-break-before: auto;
-            page-break-inside: avoid;
-            break-inside: avoid;
         }
         
         .signature-line {
@@ -116,18 +130,22 @@
             margin: 0 0 5px auto;
             border-bottom: 1px solid #333;
         }
+
+        .signature-name {
+            margin: 0;
+        }
         
-        /* Gaya Tombol (Diatur berdampingan) */
+        /* CSS Baru untuk Tombol */
         .download-button-container {
             text-align: center;
             margin: 2rem auto;
             max-width: 800px;
-            display: flex; 
-            justify-content: center; 
-            gap: 20px; 
+            display: flex; /* Mengatur tata letak dalam satu baris */
+            justify-content: center; /* Memposisikan di tengah */
+            gap: 20px; /* Jarak antar tombol */
         }
         
-        .action-button {
+        .action-button { /* Kelas baru untuk kedua tombol */
             padding: 1rem 2rem;
             font-size: 1rem;
             color: white;
@@ -135,11 +153,11 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            text-decoration: none; 
+            text-decoration: none; /* Untuk tombol link */
             display: inline-block;
         }
-
-        .download-button {
+        
+        .download-button { 
             background-color: #2980b9;
         }
         
@@ -148,40 +166,68 @@
         }
 
         .home-button {
-            background-color: #7f8c8d;
+            background-color: #7f8c8d; /* Warna abu-abu yang netral */
         }
-
+        
         .home-button:hover {
             background-color: #95a5a6;
         }
         
-        /* Media Query untuk cetak */
         @media print {
             .result-container {
                 box-shadow: none;
-                margin: 0;
-                max-width: 100%;
-            }
-            .header, .main-nav, .whatsapp-button-container, .download-button-container {
-                display: none;
             }
         }
     </style>
 </head>
 <body>
 
-    <header class="header fixed-header">...</header>
+    <header class="header fixed-header">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="index.html" class="logo-link">
+                    <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" class="logo-img">
+                </a>
+                <div class="header-content">
+                    <h1 class="header-title">Sistem Informasi dan Identifikasi ABK</h1>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li class="dropdown" id="identifikasi-dropdown">
+                        <a href="#" class="dropdown-toggle">Identifikasi <i class="fas fa-chevron-down arrow-icon"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="biodata.html">Identifikasi Awal</a></li>
+                            <li><a href="biodata-lanjutan.html">Identifikasi Lanjutan</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="artikel-dropdown">
+                        <a href="#" class="dropdown-toggle">Artikel <i class="fas fa-chevron-down arrow-icon"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Hambatan Intelektual Ringan</a></li>
+                            <li><a href="#">Gangguan Belajar Spesifik</a></li>
+                            <li><a href="#">Gangguan Bicara dan Bahasa</a></li>
+                            <li><a href="#">Gangguan Emosional dan Perilaku</a></li>
+                            <li><a href="#">Spektrum Autis</a></li>
+                            <li><a href="#">ADHD</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">Tentang Web</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
     <main>
+        <div class="document-header">
+            <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" style="width: 80px; margin-bottom: 10px;">
+            <h1>LAPORAN HASIL SKRINING IDENTIFIKASI</h1>
+            <p>Sistem Informasi dan Identifikasi Anak Berkebutuhan Khusus (SIMDIKSUS)</p>
+            <p>Sekolah Luar Biasa (SLB) ABC</p>
+        </div>
+
         <div class="result-container" id="document-to-print">
             
-            <div class="document-header">
-                <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" style="width: 80px; margin-bottom: 10px;">
-                <h1>LAPORAN HASIL SKRINING IDENTIFIKASI</h1>
-                <p>Sistem Informasi dan Identifikasi Anak Berkebutuhan Khusus (SIMDIKSUS)</p>
-                <p>Sekolah Luar Biasa (SLB) ABC</p>
-            </div>
-
             <div class="patient-info">
                 <h3>Informasi Data Diri</h3>
                 <div class="info-item">
@@ -197,8 +243,6 @@
                     <strong>Tanggal Pengisian:</strong> <span id="tanggal-pengisian"></span>
                 </div>
             </div>
-
-            <div style="height: 0; margin-bottom: 20px; page-break-after: auto;"></div>
 
             <div class="result-section">
                 <h3 id="result-title">Hasil Skrining:</h3>
@@ -229,12 +273,22 @@
         </div>
     </main>
 
-    <footer>...</footer>
+    <footer>
+        <p>&copy; 2025 SIMDIKSUS. Semua hak cipta dilindungi.</p>
+    </footer>
     
-    <div class="whatsapp-button-container">...</div>
+    <div class="whatsapp-button-container">
+        <a href="https://wa.me/6281234567890?text=Halo%20saya%20ingin%20bertanya%20mengenai%20website%20skrining%20ABK" target="_blank" class="whatsapp-button">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" class="whatsapp-icon">
+            Butuh Bantuan?
+        </a>
+    </div>
 
     <script src="nav.js"></script>
     <script>
+        // Akses jsPDF dari window.jspdf
+        const { jsPDF } = window.jspdf;
+
         document.addEventListener('DOMContentLoaded', function() {
             const results = JSON.parse(sessionStorage.getItem('finalSkriningResults'));
             
@@ -250,6 +304,7 @@
             const recommendationContainer = document.getElementById('recommendation-container');
             const downloadButton = document.getElementById('download-pdf-button');
             const elementToPrint = document.getElementById('document-to-print'); 
+            const documentHeader = document.querySelector('.document-header'); // Dapatkan elemen header
 
             if (!results) {
                 resultTitle.innerText = "Hasil Tidak Ditemukan";
@@ -273,16 +328,12 @@
             answers.forEach((item, index) => {
                 const resultItem = document.createElement('div');
                 resultItem.className = 'result-item';
-                
                 const answerClass = item.answer === 'ya' ? 'ya' : 'tidak';
-                resultItem.innerHTML = `
-                    <div class="question-text">${index + 1}. ${item.question}</div>
-                    <div class="answer-status ${answerClass}">${item.answer.charAt(0).toUpperCase() + item.answer.slice(1)}</div>
-                `;
+                resultItem.innerHTML = `<div class="question-text">${index + 1}. ${item.question}</div><div class="answer-status ${answerClass}">${item.answer.charAt(0).toUpperCase() + item.answer.slice(1)}</div>`;
                 detailsContainer.appendChild(resultItem);
             });
 
-            // Logika rekomendasi (tetap sama)
+            // Logika rekomendasi 
             let recommendationText = '';
             let isStrongIndication = (klasifikasi === 'hambatan-intelektual-ringan' && jumlahYa >= 6) || 
                                      (klasifikasi === 'spektrum-autis' && jumlahYa >= 7) || 
@@ -302,33 +353,95 @@
 
 
             // =======================================================
-            // FUNGSI UTAMA DOWNLOAD PDF DENGAN html2pdf.js
+            // FUNGSI UTAMA DOWNLOAD PDF MULTI-HALAMAN DENGAN HEADER BERULANG
             // =======================================================
             downloadButton.addEventListener('click', function() {
                 alert('Proses mengunduh laporan akan dimulai. Mohon tunggu...');
-                // Sembunyikan tombol saat proses download agar tidak ikut tercetak jika ada delay
-                document.querySelector('.download-button-container').style.display = 'none';
+                
+                downloadButton.style.display = 'none';
+                
+                // 1. Konversi elemen HTML ke Canvas
+                html2canvas(elementToPrint, {
+                    scale: 3, 
+                    useCORS: true, 
+                    allowTaint: true,
+                    scrollY: -window.scrollY 
+                }).then(async canvas => {
+                    const imgData = canvas.toDataURL('image/jpeg', 1.0); 
 
-                const opt = {
-                    margin: [10, 10, 10, 10], // Margin PDF (mm)
-                    filename: `Laporan-Skrining-${namaAnak}-${tanggalPengisian}.pdf`,
-                    image: { type: 'jpeg', quality: 0.98 },
-                    // Skala 3 memberikan resolusi yang lebih tajam
-                    html2canvas: { scale: 3, logging: false, dpi: 192, letterRendering: true }, 
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                    // Mengaktifkan fitur pemecahan halaman otomatis, memaksa elemen besar tidak terpotong.
-                    pagebreak: { 
-                        mode: ['avoid-all', 'css', 'legacy'] 
+                    // Konversi header terpisah ke canvas untuk diulang
+                    const headerCanvas = await html2canvas(documentHeader, { scale: 3, useCORS: true, allowTaint: true });
+                    const headerImgData = headerCanvas.toDataURL('image/jpeg', 1.0);
+                    
+                    // 2. Inisialisasi jsPDF (Ukuran A4 sudah default)
+                    const pdf = new jsPDF('p', 'mm', 'a4'); 
+                    
+                    const pdfWidth = pdf.internal.pageSize.getWidth(); 
+                    const pdfHeight = pdf.internal.pageSize.getHeight(); 
+                    
+                    const canvasWidth = canvas.width;
+                    const canvasHeight = canvas.height;
+                    
+                    // Hitung tinggi gambar isi dokumen (proporsional)
+                    const contentImgHeight = (canvasHeight * pdfWidth) / canvasWidth;
+
+                    // Variabel untuk pemecahan halaman
+                    let heightLeft = contentImgHeight;
+                    let position = 0; 
+                    
+                    // ----------------------------------------------------
+                    // FUNGSI MEMBANTU: Menggambar Header
+                    // ----------------------------------------------------
+                    const drawHeader = (pdf) => {
+                        // Skalakan header agar sesuai lebar PDF
+                        const headerProps = pdf.getImageProperties(headerImgData);
+                        const headerScale = pdfWidth / headerProps.width;
+                        const finalHeaderHeight = headerProps.height * headerScale;
+                        
+                        // Tambahkan header gambar (di koordinat Y=0)
+                        pdf.addImage(headerImgData, 'JPEG', 0, 0, pdfWidth, finalHeaderHeight);
+                        return finalHeaderHeight; 
+                    };
+                    
+                    // ----------------------------------------------------
+                    // 3. Tambahkan Halaman Pertama
+                    // ----------------------------------------------------
+                    const firstHeaderHeight = drawHeader(pdf);
+                    
+                    // Tambahkan gambar konten utama, dimulai dari bawah header
+                    pdf.addImage(imgData, 'JPEG', 0, firstHeaderHeight, pdfWidth, contentImgHeight);
+                    
+                    // Kurangi tinggi konten yang sudah ditampilkan di halaman pertama
+                    heightLeft -= (pdfHeight - firstHeaderHeight);
+
+                    // ----------------------------------------------------
+                    // 4. Tambahkan Halaman Berikutnya (dengan Header Berulang)
+                    // ----------------------------------------------------
+                    while (heightLeft > 0) {
+                        pdf.addPage();
+                        
+                        // Gambar header di halaman baru
+                        const currentHeaderHeight = drawHeader(pdf); 
+                        
+                        // Hitung posisi baru konten: (Tinggi halaman A4 - Tinggi Header) adalah ruang cetak
+                        position -= (pdfHeight - currentHeaderHeight); 
+                        
+                        // Tambahkan gambar konten, posisi Y dihitung relatif terhadap header
+                        pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, contentImgHeight);
+
+                        // Kurangi tinggi konten yang tersisa
+                        heightLeft -= (pdfHeight - currentHeaderHeight);
                     }
-                };
 
-                html2pdf().set(opt).from(elementToPrint).save().then(() => {
-                    // Tampilkan kembali tombol setelah proses selesai
-                    document.querySelector('.download-button-container').style.display = 'flex';
+                    // 5. Simpan/Unduh File
+                    pdf.save(`Laporan-Skrining-${namaAnak}-${tanggalPengisian}.pdf`);
+
+                    downloadButton.style.display = 'block';
+
                 }).catch(error => {
                     console.error("Gagal membuat PDF:", error);
-                    document.querySelector('.download-button-container').style.display = 'flex';
-                    alert("Terjadi kesalahan saat mengunduh dokumen. Coba muat ulang halaman.");
+                    downloadButton.style.display = 'block'; 
+                    alert("Terjadi kesalahan saat mengunduh dokumen. Pastikan koneksi internet stabil dan coba muat ulang halaman.");
                 });
             });
             // =======================================================
