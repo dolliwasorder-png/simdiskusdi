@@ -50,19 +50,25 @@
             color: #555;
         }
 
-        .patient-info, .result-section {
+        /* Memaksa elemen penting tidak terpotong di tengah halaman */
+        .patient-info, .result-section, .document-footer {
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 1.5rem;
             margin-bottom: 2rem;
             font-family: Arial, sans-serif;
-            /* Tambahan CSS untuk Page Break */
-            page-break-after: avoid; /* Hindari page break setelah bagian ini */
-            page-break-before: auto; /* Izinkan page break sebelum bagian ini jika perlu */
-            break-inside: avoid; /* Hindari elemen terpotong di tengah */
+            /* PENTING: Untuk print media query agar elemen tidak terpotong */
+            page-break-inside: avoid;
+            page-break-after: auto; 
+            page-break-before: auto;
+        }
+        
+        /* Pastikan paragraf dan item hasil tidak terpotong */
+        .info-item, .result-item, .result-section p {
+            page-break-inside: avoid;
+            page-break-after: auto;
         }
 
-        /* Khusus untuk elemen h3 di dalam bagian, untuk page break yang lebih baik */
         .patient-info h3, .result-section h3 {
             margin-top: 0;
             border-bottom: 1px solid #ddd;
@@ -72,11 +78,6 @@
             page-break-after: avoid;
         }
         
-        .info-item {
-            margin-bottom: 0.5rem;
-            page-break-inside: avoid; /* Hindari baris terpotong */
-        }
-
         .info-item strong {
             display: inline-block;
             width: 150px;
@@ -88,7 +89,6 @@
             align-items: center;
             padding: 0.75rem 0;
             border-bottom: 1px solid #eee;
-            page-break-inside: avoid; /* Hindari item hasil terpotong */
         }
 
         .result-item:last-child {
@@ -120,8 +120,7 @@
             margin-top: 3rem;
             text-align: right;
             font-family: 'Times New Roman', serif;
-            page-break-before: auto; /* Izinkan footer untuk pindah halaman */
-            page-break-inside: avoid; /* Hindari footer terpotong */
+            page-break-before: auto;
         }
         
         .signature-line {
@@ -155,17 +154,13 @@
             background-color: #3498db;
         }
         
+        /* Media query khusus untuk print (walaupun html2canvas mengabaikannya, ini praktik yang baik) */
         @media print {
-            body {
-                background-color: #fff;
-            }
             .result-container {
                 box-shadow: none;
-                margin: 0;
-                max-width: 100%;
             }
-            .header, .main-nav, .whatsapp-button-container, .download-button-container {
-                display: none;
+            .document-footer {
+                page-break-before: always;
             }
         }
     </style>
@@ -338,7 +333,7 @@
 
 
             // =======================================================
-            // FUNGSI DOWNLOAD PDF MULTI-HALAMAN (Memperbaiki Pemotongan & Merapikan)
+            // FUNGSI DOWNLOAD PDF MULTI-HALAMAN (RAPI)
             // =======================================================
             downloadButton.addEventListener('click', function() {
                 alert('Proses mengunduh laporan akan dimulai. Mohon tunggu...');
@@ -350,15 +345,16 @@
                 html2canvas(elementToPrint, {
                     scale: 3, 
                     useCORS: true, 
-                    allowTaint: true 
+                    allowTaint: true,
+                    scrollY: -window.scrollY // Pastikan rendering dimulai dari bagian atas konten
                 }).then(canvas => {
                     const imgData = canvas.toDataURL('image/jpeg', 1.0); 
 
                     // 2. Inisialisasi jsPDF
                     const pdf = new jsPDF('p', 'mm', 'a4'); 
                     
-                    const pdfWidth = pdf.internal.pageSize.getWidth(); // Lebar A4 (210 mm)
-                    const pdfHeight = pdf.internal.pageSize.getHeight(); // Tinggi A4 (297 mm)
+                    const pdfWidth = pdf.internal.pageSize.getWidth(); 
+                    const pdfHeight = pdf.internal.pageSize.getHeight(); 
                     
                     const canvasHeight = canvas.height;
                     const canvasWidth = canvas.width;
@@ -366,21 +362,27 @@
                     // Hitung tinggi gambar yang disesuaikan dengan lebar PDF (proporsional)
                     const imgHeight = (canvasHeight * pdfWidth) / canvasWidth;
 
-                    // 3. Logika Multi-Halaman
+                    // 3. Logika Multi-Halaman dengan Padding Tambahan
                     let heightLeft = imgHeight;
-                    let position = 0; // Posisi awal di halaman PDF (0 = paling atas)
+                    let position = 0; 
 
                     // Tambahkan halaman pertama
                     pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
                     heightLeft -= pdfHeight;
+                    
+                    // Padding vertikal tambahan (misalnya 10 mm) untuk meminimalkan potongan di tengah paragraf
+                    const pagePadding = 10; 
 
                     // Tambahkan halaman berikutnya jika masih ada konten
-                    // Loop ini terus berjalan selama ada konten yang tersisa
                     while (heightLeft > 0) { 
-                        // Pindahkan posisi ke "atas" untuk menampilkan bagian berikutnya dari gambar kanvas
+                        // Pindahkan posisi ke "atas" (negative) seukuran satu halaman PDF + padding
                         position -= pdfHeight; 
-                        pdf.addPage(); // Tambah halaman baru
-                        pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
+                        
+                        pdf.addPage(); 
+                        // Tambahkan gambar dengan posisi yang digeser
+                        pdf.addImage(imgData, 'JPEG', 0, position + pagePadding, pdfWidth, imgHeight);
+                        
+                        // Kurangi sisa tinggi dengan tinggi halaman
                         heightLeft -= pdfHeight;
                     }
 
@@ -393,7 +395,7 @@
                 }).catch(error => {
                     console.error("Gagal membuat PDF:", error);
                     downloadButton.style.display = 'block'; 
-                    alert("Terjadi kesalahan saat mengunduh dokumen. Pastikan semua file termuat dengan baik.");
+                    alert("Terjadi kesalahan saat mengunduh dokumen. Coba muat ulang halaman atau periksa konsol.");
                 });
             });
             // =======================================================
