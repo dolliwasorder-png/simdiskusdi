@@ -32,7 +32,6 @@
             border-bottom: 2px solid #333;
             padding-bottom: 1rem;
             margin-bottom: 2rem;
-            /* Pastikan header tidak terpotong jika ada pemisah halaman */
             page-break-after: avoid; 
         }
 
@@ -49,7 +48,7 @@
             color: #555;
         }
 
-        .patient-info, .result-section, .document-footer {
+        .patient-info, .result-section {
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 1.5rem;
@@ -60,7 +59,6 @@
             break-inside: avoid;
         }
 
-        /* Pastikan item-item di dalam section juga tidak terpotong */
         .result-item, .info-item, .result-section p {
             page-break-inside: avoid;
             break-inside: avoid;
@@ -107,6 +105,10 @@
             margin-top: 3rem;
             text-align: right;
             font-family: 'Times New Roman', serif;
+            /* KRITIS: Memaksa footer di halaman baru jika tidak muat */
+            page-break-before: auto;
+            page-break-inside: avoid;
+            break-inside: avoid;
         }
         
         .signature-line {
@@ -115,14 +117,14 @@
             border-bottom: 1px solid #333;
         }
         
-        /* Tombol CSS Baru (Diatur berdampingan) */
+        /* Gaya Tombol (Diatur berdampingan) */
         .download-button-container {
             text-align: center;
             margin: 2rem auto;
             max-width: 800px;
-            display: flex; /* Aktifkan Flexbox */
-            justify-content: center; /* Posisikan tombol di tengah */
-            gap: 20px; /* Beri jarak antar tombol */
+            display: flex; 
+            justify-content: center; 
+            gap: 20px; 
         }
         
         .action-button {
@@ -133,7 +135,7 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            text-decoration: none; /* Untuk tombol link */
+            text-decoration: none; 
             display: inline-block;
         }
 
@@ -145,7 +147,7 @@
             background-color: #3498db;
         }
 
-        .home-button { /* Gaya untuk tombol home */
+        .home-button {
             background-color: #7f8c8d;
         }
 
@@ -195,6 +197,8 @@
                     <strong>Tanggal Pengisian:</strong> <span id="tanggal-pengisian"></span>
                 </div>
             </div>
+
+            <div style="height: 0; margin-bottom: 20px; page-break-after: auto;"></div>
 
             <div class="result-section">
                 <h3 id="result-title">Hasil Skrining:</h3>
@@ -269,7 +273,6 @@
             answers.forEach((item, index) => {
                 const resultItem = document.createElement('div');
                 resultItem.className = 'result-item';
-                // Penting: tambahkan CSS page-break-inside: avoid ke .result-item jika style.css belum ada
                 
                 const answerClass = item.answer === 'ya' ? 'ya' : 'tidak';
                 resultItem.innerHTML = `
@@ -303,7 +306,8 @@
             // =======================================================
             downloadButton.addEventListener('click', function() {
                 alert('Proses mengunduh laporan akan dimulai. Mohon tunggu...');
-                downloadButton.style.display = 'none';
+                // Sembunyikan tombol saat proses download agar tidak ikut tercetak jika ada delay
+                document.querySelector('.download-button-container').style.display = 'none';
 
                 const opt = {
                     margin: [10, 10, 10, 10], // Margin PDF (mm)
@@ -319,10 +323,11 @@
                 };
 
                 html2pdf().set(opt).from(elementToPrint).save().then(() => {
-                    downloadButton.style.display = 'block';
+                    // Tampilkan kembali tombol setelah proses selesai
+                    document.querySelector('.download-button-container').style.display = 'flex';
                 }).catch(error => {
                     console.error("Gagal membuat PDF:", error);
-                    downloadButton.style.display = 'block'; 
+                    document.querySelector('.download-button-container').style.display = 'flex';
                     alert("Terjadi kesalahan saat mengunduh dokumen. Coba muat ulang halaman.");
                 });
             });
