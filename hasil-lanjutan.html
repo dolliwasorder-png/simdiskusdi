@@ -6,29 +6,32 @@
     <title>Hasil Skrining</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        /* Gaya CSS untuk Tampilan Dokumen */
+        /* CSS Umum untuk halaman */
         body {
             background-color: #f0f2f5;
         }
 
-        /* Sembunyikan elemen navigasi dan tombol di dokumen PDF */
         .header, .main-nav, .whatsapp-button-container {
-            display: none;
+            display: none; /* Sembunyikan header dan tombol di halaman hasil untuk tampilan dokumen */
         }
         
-        /* Elemen header yang akan diulang di setiap halaman PDF */
+        .result-container {
+            background-color: #fff;
+            padding: 2rem;
+            margin: 2rem auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+        }
+
+        /* Gaya Dokumen Resmi */
         .document-header {
             text-align: center;
             border-bottom: 2px solid #333;
-            padding: 1rem 2rem; 
-            margin: 0 auto 2rem auto;
-            max-width: 800px;
-            background-color: #fff; 
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
         }
 
         .document-header h1 {
@@ -43,32 +46,13 @@
             font-size: 0.9rem;
             color: #555;
         }
-        
-        .result-container {
-            background-color: #fff;
-            padding: 2rem;
-            margin: 0 auto; 
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-        }
 
-        /* Memaksa elemen penting tidak terpotong di tengah halaman */
-        .patient-info, .result-section, .document-footer {
+        .patient-info, .result-section {
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 1.5rem;
             margin-bottom: 2rem;
             font-family: Arial, sans-serif;
-            page-break-inside: avoid;
-            page-break-after: auto; 
-            page-break-before: auto;
-        }
-        
-        /* Pastikan paragraf dan item hasil tidak terpotong */
-        .info-item, .result-item, .result-section p {
-            page-break-inside: avoid;
-            page-break-after: auto;
         }
 
         .patient-info h3, .result-section h3 {
@@ -77,9 +61,12 @@
             padding-bottom: 0.5rem;
             margin-bottom: 1rem;
             font-size: 1.2rem;
-            page-break-after: avoid;
         }
         
+        .info-item {
+            margin-bottom: 0.5rem;
+        }
+
         .info-item strong {
             display: inline-block;
             width: 150px;
@@ -111,18 +98,17 @@
         }
 
         .answer-status.ya {
-            background-color: #e74c3c;
+            background-color: #e74c3c; /* Merah untuk 'Ya' */
         }
 
         .answer-status.tidak {
-            background-color: #2ecc71;
+            background-color: #2ecc71; /* Hijau untuk 'Tidak' */
         }
 
         .document-footer {
             margin-top: 3rem;
             text-align: right;
             font-family: 'Times New Roman', serif;
-            page-break-before: auto;
         }
         
         .signature-line {
@@ -135,47 +121,39 @@
             margin: 0;
         }
         
-        /* CSS Baru untuk Tombol */
         .download-button-container {
             text-align: center;
             margin: 2rem auto;
             max-width: 800px;
-            display: flex; /* Mengatur tata letak dalam satu baris */
-            justify-content: center; /* Memposisikan di tengah */
-            gap: 20px; /* Jarak antar tombol */
         }
         
-        .action-button { /* Kelas baru untuk kedua tombol */
+        .download-button {
             padding: 1rem 2rem;
             font-size: 1rem;
+            background-color: #2980b9;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            text-decoration: none; /* Untuk tombol link */
-            display: inline-block;
-        }
-        
-        .download-button { 
-            background-color: #2980b9;
         }
         
         .download-button:hover {
             background-color: #3498db;
         }
-
-        .home-button {
-            background-color: #7f8c8d; /* Warna abu-abu yang netral */
-        }
         
-        .home-button:hover {
-            background-color: #95a5a6;
-        }
-        
+        /* Media Query untuk cetak */
         @media print {
+            body {
+                background-color: #fff;
+            }
             .result-container {
                 box-shadow: none;
+                margin: 0;
+                max-width: 100%;
+            }
+            .header, .main-nav, .whatsapp-button-container, .download-button-container {
+                display: none;
             }
         }
     </style>
@@ -219,15 +197,15 @@
     </header>
 
     <main>
-        <div class="document-header">
-            <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" style="width: 80px; margin-bottom: 10px;">
-            <h1>LAPORAN HASIL SKRINING IDENTIFIKASI</h1>
-            <p>Sistem Informasi dan Identifikasi Anak Berkebutuhan Khusus (SIMDIKSUS)</p>
-            <p>Sekolah Luar Biasa (SLB) ABC</p>
-        </div>
-
         <div class="result-container" id="document-to-print">
             
+            <div class="document-header">
+                <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" style="width: 80px; margin-bottom: 10px;">
+                <h1>LAPORAN HASIL SKRINING IDENTIFIKASI</h1>
+                <p>Sistem Informasi dan Identifikasi Anak Berkebutuhan Khusus (SIMDIKSUS)</p>
+                <p>Sekolah Luar Biasa (SLB) ABC</p>
+            </div>
+
             <div class="patient-info">
                 <h3>Informasi Data Diri</h3>
                 <div class="info-item">
@@ -263,11 +241,7 @@
         </div>
 
         <div class="download-button-container">
-            <a href="index.html" class="action-button home-button">
-                <i class="fas fa-home"></i> Ke Halaman Utama
-            </a>
-            
-            <button class="action-button download-button" id="download-pdf-button">
+            <button class="download-button" id="download-pdf-button">
                 <i class="fas fa-file-pdf"></i> Unduh Laporan sebagai PDF
             </button>
         </div>
@@ -286,13 +260,9 @@
 
     <script src="nav.js"></script>
     <script>
-        // Akses jsPDF dari window.jspdf
-        const { jsPDF } = window.jspdf;
-
         document.addEventListener('DOMContentLoaded', function() {
             const results = JSON.parse(sessionStorage.getItem('finalSkriningResults'));
             
-            // Definisikan elemen
             const resultTitle = document.getElementById('result-title');
             const namaAnakEl = document.getElementById('nama-anak');
             const usiaAnakEl = document.getElementById('usia-anak');
@@ -303,8 +273,6 @@
             const detailsContainer = document.getElementById('result-details');
             const recommendationContainer = document.getElementById('recommendation-container');
             const downloadButton = document.getElementById('download-pdf-button');
-            const elementToPrint = document.getElementById('document-to-print'); 
-            const documentHeader = document.querySelector('.document-header'); // Dapatkan elemen header
 
             if (!results) {
                 resultTitle.innerText = "Hasil Tidak Ditemukan";
@@ -315,137 +283,84 @@
 
             const { namaAnak, usiaAnak, pengisiInstrumen, tanggalPengisian, klasifikasi, namaKlasifikasi, totalPertanyaan, jumlahYa, answers } = results;
 
-            // Logika pengisian data ke elemen HTML
+            // Menampilkan biodata anak dan tanggal
             namaAnakEl.innerText = namaAnak;
             usiaAnakEl.innerText = `${usiaAnak} tahun`;
             pengisiInstrumenEl.innerText = pengisiInstrumen;
             tanggalPengisianEl.innerText = tanggalPengisian;
             signatureNameEl.innerText = `(${pengisiInstrumen})`;
-            
+
+            // Menampilkan judul dan ringkasan
             resultTitle.innerText = `Hasil Skrining: ${namaKlasifikasi}`;
-            summaryContainer.innerHTML = `<p>Berdasarkan instrumen skrining **${namaKlasifikasi}**, anak yang bernama **${namaAnak}** menunjukkan indikasi sebagai berikut:</p><p>Jumlah indikasi "Ya": **${jumlahYa}** dari **${totalPertanyaan}** pertanyaan.</p>`;
+            summaryContainer.innerHTML = `
+                <p>Berdasarkan instrumen skrining **${namaKlasifikasi}**, anak yang bernama **${namaAnak}** menunjukkan indikasi sebagai berikut:</p>
+                <p>Jumlah indikasi "Ya": **${jumlahYa}** dari **${totalPertanyaan}** pertanyaan.</p>
+            `;
             
+            // Menampilkan rincian jawaban
             answers.forEach((item, index) => {
                 const resultItem = document.createElement('div');
                 resultItem.className = 'result-item';
+
                 const answerClass = item.answer === 'ya' ? 'ya' : 'tidak';
-                resultItem.innerHTML = `<div class="question-text">${index + 1}. ${item.question}</div><div class="answer-status ${answerClass}">${item.answer.charAt(0).toUpperCase() + item.answer.slice(1)}</div>`;
+
+                resultItem.innerHTML = `
+                    <div class="question-text">${index + 1}. ${item.question}</div>
+                    <div class="answer-status ${answerClass}">${item.answer.charAt(0).toUpperCase() + item.answer.slice(1)}</div>
+                `;
                 detailsContainer.appendChild(resultItem);
             });
 
-            // Logika rekomendasi 
+            // Menentukan dan menampilkan rekomendasi
             let recommendationText = '';
-            let isStrongIndication = (klasifikasi === 'hambatan-intelektual-ringan' && jumlahYa >= 6) || 
-                                     (klasifikasi === 'spektrum-autis' && jumlahYa >= 7) || 
-                                     (klasifikasi === 'adhd' && jumlahYa >= 8) || 
-                                     (klasifikasi === 'gangguan-bicara-bahasa' && jumlahYa >= 6) || 
-                                     (klasifikasi === 'disleksia' && jumlahYa >= 4) || 
-                                     (klasifikasi === 'disgrafia' && jumlahYa >= 5) || 
-                                     (klasifikasi === 'diskalkulia' && jumlahYa >= 4) || 
-                                     (jumlahYa >= 2);
+            let isStrongIndication = false;
+
+            if (klasifikasi === 'hambatan-intelektual-ringan' && jumlahYa >= 6) {
+                isStrongIndication = true;
+            } else if (klasifikasi === 'spektrum-autis' && jumlahYa >= 7) {
+                isStrongIndication = true;
+            } else if (klasifikasi === 'adhd' && jumlahYa >= 8) {
+                isStrongIndication = true;
+            } else if (klasifikasi === 'gangguan-bicara-bahasa' && jumlahYa >= 6) {
+                isStrongIndication = true;
+            } else if (klasifikasi === 'disleksia' && jumlahYa >= 4) {
+                isStrongIndication = true;
+            } else if (klasifikasi === 'disgrafia' && jumlahYa >= 5) {
+                isStrongIndication = true;
+            } else if (klasifikasi === 'diskalkulia' && jumlahYa >= 4) {
+                isStrongIndication = true;
+            } else if (jumlahYa >= 2) {
+                isStrongIndication = true;
+            }
             
             if (isStrongIndication) {
-                recommendationText = `<p>Berdasarkan hasil skrining, anak Anda menunjukkan **indikasi kuat** terhadap **${namaKlasifikasi}**. Sangat disarankan untuk segera melakukan konsultasi dengan psikolog, terapis, atau tenaga ahli pendidikan khusus untuk mendapatkan diagnosis dan penanganan yang lebih akurat dan terperinci.</p><p>Skrining ini **bukanlah diagnosis medis** melainkan hanya langkah awal untuk mengenali kemungkinan hambatan belajar atau perkembangan anak.</p>`;
+                recommendationText = `
+                    <p>Berdasarkan hasil skrining, anak Anda menunjukkan **indikasi kuat** terhadap **${namaKlasifikasi}**. Sangat disarankan untuk segera melakukan konsultasi dengan psikolog, terapis, atau tenaga ahli pendidikan khusus untuk mendapatkan diagnosis dan penanganan yang lebih akurat dan terperinci.</p>
+                    <p>Skrining ini **bukanlah diagnosis medis** melainkan hanya langkah awal untuk mengenali kemungkinan hambatan belajar atau perkembangan anak.</p>
+                `;
             } else {
-                recommendationText = `<p>Berdasarkan hasil skrining, anak Anda tidak menunjukkan indikasi kuat terhadap **${namaKlasifikasi}**. Meskipun demikian, terus lakukan observasi dan jika Anda memiliki kekhawatiran, jangan ragu untuk berkonsultasi dengan profesional pendidikan atau kesehatan.</p><p>Skrining ini **bukanlah diagnosis medis** melainkan hanya langkah awal untuk mengenali kemungkinan hambatan belajar atau perkembangan anak.</p>`;
+                recommendationText = `
+                    <p>Berdasarkan hasil skrining, anak Anda tidak menunjukkan indikasi kuat terhadap **${namaKlasifikasi}**. Meskipun demikian, terus lakukan observasi dan jika Anda memiliki kekhawatiran, jangan ragu untuk berkonsultasi dengan profesional pendidikan atau kesehatan.</p>
+                    <p>Skrining ini **bukanlah diagnosis medis** melainkan hanya langkah awal untuk mengenali kemungkinan hambatan belajar atau perkembangan anak.</p>
+                `;
             }
+
             recommendationContainer.innerHTML = recommendationText;
 
-
-            // =======================================================
-            // FUNGSI UTAMA DOWNLOAD PDF MULTI-HALAMAN DENGAN HEADER BERULANG
-            // =======================================================
+            // Menangani pengunduhan PDF
             downloadButton.addEventListener('click', function() {
-                alert('Proses mengunduh laporan akan dimulai. Mohon tunggu...');
-                
-                downloadButton.style.display = 'none';
-                
-                // 1. Konversi elemen HTML ke Canvas
-                html2canvas(elementToPrint, {
-                    scale: 3, 
-                    useCORS: true, 
-                    allowTaint: true,
-                    scrollY: -window.scrollY 
-                }).then(async canvas => {
-                    const imgData = canvas.toDataURL('image/jpeg', 1.0); 
-
-                    // Konversi header terpisah ke canvas untuk diulang
-                    const headerCanvas = await html2canvas(documentHeader, { scale: 3, useCORS: true, allowTaint: true });
-                    const headerImgData = headerCanvas.toDataURL('image/jpeg', 1.0);
-                    
-                    // 2. Inisialisasi jsPDF (Ukuran A4 sudah default)
-                    const pdf = new jsPDF('p', 'mm', 'a4'); 
-                    
-                    const pdfWidth = pdf.internal.pageSize.getWidth(); 
-                    const pdfHeight = pdf.internal.pageSize.getHeight(); 
-                    
-                    const canvasWidth = canvas.width;
-                    const canvasHeight = canvas.height;
-                    
-                    // Hitung tinggi gambar isi dokumen (proporsional)
-                    const contentImgHeight = (canvasHeight * pdfWidth) / canvasWidth;
-
-                    // Variabel untuk pemecahan halaman
-                    let heightLeft = contentImgHeight;
-                    let position = 0; 
-                    
-                    // ----------------------------------------------------
-                    // FUNGSI MEMBANTU: Menggambar Header
-                    // ----------------------------------------------------
-                    const drawHeader = (pdf) => {
-                        // Skalakan header agar sesuai lebar PDF
-                        const headerProps = pdf.getImageProperties(headerImgData);
-                        const headerScale = pdfWidth / headerProps.width;
-                        const finalHeaderHeight = headerProps.height * headerScale;
-                        
-                        // Tambahkan header gambar (di koordinat Y=0)
-                        pdf.addImage(headerImgData, 'JPEG', 0, 0, pdfWidth, finalHeaderHeight);
-                        return finalHeaderHeight; 
-                    };
-                    
-                    // ----------------------------------------------------
-                    // 3. Tambahkan Halaman Pertama
-                    // ----------------------------------------------------
-                    const firstHeaderHeight = drawHeader(pdf);
-                    
-                    // Tambahkan gambar konten utama, dimulai dari bawah header
-                    pdf.addImage(imgData, 'JPEG', 0, firstHeaderHeight, pdfWidth, contentImgHeight);
-                    
-                    // Kurangi tinggi konten yang sudah ditampilkan di halaman pertama
-                    heightLeft -= (pdfHeight - firstHeaderHeight);
-
-                    // ----------------------------------------------------
-                    // 4. Tambahkan Halaman Berikutnya (dengan Header Berulang)
-                    // ----------------------------------------------------
-                    while (heightLeft > 0) {
-                        pdf.addPage();
-                        
-                        // Gambar header di halaman baru
-                        const currentHeaderHeight = drawHeader(pdf); 
-                        
-                        // Hitung posisi baru konten: (Tinggi halaman A4 - Tinggi Header) adalah ruang cetak
-                        position -= (pdfHeight - currentHeaderHeight); 
-                        
-                        // Tambahkan gambar konten, posisi Y dihitung relatif terhadap header
-                        pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, contentImgHeight);
-
-                        // Kurangi tinggi konten yang tersisa
-                        heightLeft -= (pdfHeight - currentHeaderHeight);
-                    }
-
-                    // 5. Simpan/Unduh File
-                    pdf.save(`Laporan-Skrining-${namaAnak}-${tanggalPengisian}.pdf`);
-
-                    downloadButton.style.display = 'block';
-
-                }).catch(error => {
-                    console.error("Gagal membuat PDF:", error);
-                    downloadButton.style.display = 'block'; 
-                    alert("Terjadi kesalahan saat mengunduh dokumen. Pastikan koneksi internet stabil dan coba muat ulang halaman.");
-                });
+                const element = document.getElementById('document-to-print');
+                const opt = {
+                    margin:       [10, 10, 10, 10],
+                    filename:     `Laporan-Skrining-${namaAnak}-${tanggalPengisian}.pdf`,
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2 },
+                    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+                html2pdf().set(opt).from(element).save();
             });
-            // =======================================================
             
+            // Hapus data dari sessionStorage setelah selesai
             sessionStorage.removeItem('finalSkriningResults');
             sessionStorage.removeItem('biodata');
         });
