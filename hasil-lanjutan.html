@@ -21,20 +21,14 @@
             display: none;
         }
         
-        .result-container {
-            background-color: #fff;
-            padding: 2rem;
-            margin: 2rem auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-        }
-
+        /* Elemen header yang akan diulang di setiap halaman PDF */
         .document-header {
             text-align: center;
             border-bottom: 2px solid #333;
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
+            padding: 1rem 2rem; /* Tambahkan padding agar tidak terlalu mepet di PDF */
+            margin: 0 auto 2rem auto;
+            max-width: 800px;
+            background-color: #fff; /* Pastikan background putih */
         }
 
         .document-header h1 {
@@ -49,6 +43,15 @@
             font-size: 0.9rem;
             color: #555;
         }
+        
+        .result-container {
+            background-color: #fff;
+            padding: 2rem;
+            margin: 0 auto; /* Margin di atas sudah di header, ini 0 */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+        }
 
         /* Memaksa elemen penting tidak terpotong di tengah halaman */
         .patient-info, .result-section, .document-footer {
@@ -57,8 +60,7 @@
             padding: 1.5rem;
             margin-bottom: 2rem;
             font-family: Arial, sans-serif;
-            /* PENTING: Untuk print media query agar elemen tidak terpotong */
-            page-break-inside: avoid;
+            page-break-inside: avoid; /* PENTING: Untuk menghindari pemotongan di tengah blok */
             page-break-after: auto; 
             page-break-before: auto;
         }
@@ -154,13 +156,9 @@
             background-color: #3498db;
         }
         
-        /* Media query khusus untuk print (walaupun html2canvas mengabaikannya, ini praktik yang baik) */
         @media print {
             .result-container {
                 box-shadow: none;
-            }
-            .document-footer {
-                page-break-before: always;
             }
         }
     </style>
@@ -204,15 +202,15 @@
     </header>
 
     <main>
+        <div class="document-header">
+            <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" style="width: 80px; margin-bottom: 10px;">
+            <h1>LAPORAN HASIL SKRINING IDENTIFIKASI</h1>
+            <p>Sistem Informasi dan Identifikasi Anak Berkebutuhan Khusus (SIMDIKSUS)</p>
+            <p>Sekolah Luar Biasa (SLB) ABC</p>
+        </div>
+
         <div class="result-container" id="document-to-print">
             
-            <div class="document-header">
-                <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" style="width: 80px; margin-bottom: 10px;">
-                <h1>LAPORAN HASIL SKRINING IDENTIFIKASI</h1>
-                <p>Sistem Informasi dan Identifikasi Anak Berkebutuhan Khusus (SIMDIKSUS)</p>
-                <p>Sekolah Luar Biasa (SLB) ABC</p>
-            </div>
-
             <div class="patient-info">
                 <h3>Informasi Data Diri</h3>
                 <div class="info-item">
@@ -285,6 +283,7 @@
             const recommendationContainer = document.getElementById('recommendation-container');
             const downloadButton = document.getElementById('download-pdf-button');
             const elementToPrint = document.getElementById('document-to-print'); 
+            const documentHeader = document.querySelector('.document-header'); // Dapatkan elemen header
 
             if (!results) {
                 resultTitle.innerText = "Hasil Tidak Ditemukan";
@@ -313,7 +312,7 @@
                 detailsContainer.appendChild(resultItem);
             });
 
-            // Logika rekomendasi (diasumsikan sudah benar)
+            // Logika rekomendasi 
             let recommendationText = '';
             let isStrongIndication = (klasifikasi === 'hambatan-intelektual-ringan' && jumlahYa >= 6) || 
                                      (klasifikasi === 'spektrum-autis' && jumlahYa >= 7) || 
@@ -333,74 +332,99 @@
 
 
             // =======================================================
-            // FUNGSI DOWNLOAD PDF MULTI-HALAMAN (RAPI)
+            // FUNGSI UTAMA DOWNLOAD PDF MULTI-HALAMAN DENGAN HEADER BERULANG
             // =======================================================
             downloadButton.addEventListener('click', function() {
                 alert('Proses mengunduh laporan akan dimulai. Mohon tunggu...');
                 
-                // Sembunyikan tombol unduh agar tidak ikut tercetak
                 downloadButton.style.display = 'none';
-
+                
                 // 1. Konversi elemen HTML ke Canvas
                 html2canvas(elementToPrint, {
                     scale: 3, 
                     useCORS: true, 
                     allowTaint: true,
-                    scrollY: -window.scrollY // Pastikan rendering dimulai dari bagian atas konten
-                }).then(canvas => {
+                    scrollY: -window.scrollY 
+                }).then(async canvas => {
                     const imgData = canvas.toDataURL('image/jpeg', 1.0); 
 
-                    // 2. Inisialisasi jsPDF
+                    // Konversi header terpisah ke canvas untuk diulang
+                    const headerCanvas = await html2canvas(documentHeader, { scale: 3, useCORS: true, allowTaint: true });
+                    const headerImgData = headerCanvas.toDataURL('image/jpeg', 1.0);
+                    
+                    // 2. Inisialisasi jsPDF (Ukuran A4 sudah default)
                     const pdf = new jsPDF('p', 'mm', 'a4'); 
                     
                     const pdfWidth = pdf.internal.pageSize.getWidth(); 
                     const pdfHeight = pdf.internal.pageSize.getHeight(); 
                     
-                    const canvasHeight = canvas.height;
                     const canvasWidth = canvas.width;
+                    const canvasHeight = canvas.height;
                     
-                    // Hitung tinggi gambar yang disesuaikan dengan lebar PDF (proporsional)
-                    const imgHeight = (canvasHeight * pdfWidth) / canvasWidth;
+                    // Hitung tinggi gambar isi dokumen (proporsional)
+                    const contentImgHeight = (canvasHeight * pdfWidth) / canvasWidth;
 
-                    // 3. Logika Multi-Halaman dengan Padding Tambahan
-                    let heightLeft = imgHeight;
+                    // Variabel untuk pemecahan halaman
+                    let heightLeft = contentImgHeight;
                     let position = 0; 
-
-                    // Tambahkan halaman pertama
-                    pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
-                    heightLeft -= pdfHeight;
                     
-                    // Padding vertikal tambahan (misalnya 10 mm) untuk meminimalkan potongan di tengah paragraf
-                    const pagePadding = 10; 
+                    // ----------------------------------------------------
+                    // FUNGSI MEMBANTU: Menggambar Header
+                    // ----------------------------------------------------
+                    const drawHeader = (pdf) => {
+                        // Skalakan header agar sesuai lebar PDF
+                        const headerProps = pdf.getImageProperties(headerImgData);
+                        const headerScale = pdfWidth / headerProps.width;
+                        const finalHeaderHeight = headerProps.height * headerScale;
+                        
+                        // Tambahkan header gambar (di koordinat Y=0)
+                        pdf.addImage(headerImgData, 'JPEG', 0, 0, pdfWidth, finalHeaderHeight);
+                        return finalHeaderHeight; 
+                    };
+                    
+                    // ----------------------------------------------------
+                    // 3. Tambahkan Halaman Pertama
+                    // ----------------------------------------------------
+                    const firstHeaderHeight = drawHeader(pdf);
+                    
+                    // Tambahkan gambar konten utama, dimulai dari bawah header
+                    pdf.addImage(imgData, 'JPEG', 0, firstHeaderHeight, pdfWidth, contentImgHeight);
+                    
+                    // Kurangi tinggi konten yang sudah ditampilkan di halaman pertama
+                    heightLeft -= (pdfHeight - firstHeaderHeight);
 
-                    // Tambahkan halaman berikutnya jika masih ada konten
-                    while (heightLeft > 0) { 
-                        // Pindahkan posisi ke "atas" (negative) seukuran satu halaman PDF + padding
-                        position -= pdfHeight; 
+                    // ----------------------------------------------------
+                    // 4. Tambahkan Halaman Berikutnya (dengan Header Berulang)
+                    // ----------------------------------------------------
+                    while (heightLeft > 0) {
+                        pdf.addPage();
                         
-                        pdf.addPage(); 
-                        // Tambahkan gambar dengan posisi yang digeser
-                        pdf.addImage(imgData, 'JPEG', 0, position + pagePadding, pdfWidth, imgHeight);
+                        // Gambar header di halaman baru
+                        const currentHeaderHeight = drawHeader(pdf); 
                         
-                        // Kurangi sisa tinggi dengan tinggi halaman
-                        heightLeft -= pdfHeight;
+                        // Hitung posisi baru konten: (Tinggi halaman A4 - Tinggi Header) adalah ruang cetak
+                        position -= (pdfHeight - currentHeaderHeight); 
+                        
+                        // Tambahkan gambar konten, posisi Y dihitung relatif terhadap header
+                        pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, contentImgHeight);
+
+                        // Kurangi tinggi konten yang tersisa
+                        heightLeft -= (pdfHeight - currentHeaderHeight);
                     }
 
-                    // 4. Simpan/Unduh File
+                    // 5. Simpan/Unduh File
                     pdf.save(`Laporan-Skrining-${namaAnak}-${tanggalPengisian}.pdf`);
 
-                    // Tampilkan kembali tombol unduh
                     downloadButton.style.display = 'block';
 
                 }).catch(error => {
                     console.error("Gagal membuat PDF:", error);
                     downloadButton.style.display = 'block'; 
-                    alert("Terjadi kesalahan saat mengunduh dokumen. Coba muat ulang halaman atau periksa konsol.");
+                    alert("Terjadi kesalahan saat mengunduh dokumen. Pastikan koneksi internet stabil dan coba muat ulang halaman.");
                 });
             });
             // =======================================================
             
-            // Hapus data dari sessionStorage setelah selesai
             sessionStorage.removeItem('finalSkriningResults');
             sessionStorage.removeItem('biodata');
         });
