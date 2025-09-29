@@ -264,8 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // LOGIKA HASIL & UNDUH PDF (HASIL.HTML)
-   // ... (Bagian atas script.js Anda, termasuk logika Navigasi, Quiz, Biodata, Kuesioner, dan definisi classifications & thresholds)
+// ... (Bagian atas script.js Anda, termasuk logika Navigasi, Quiz, Biodata, Kuesioner, dan definisi classifications & thresholds)
 
 // LOGIKA HASIL & UNDUH PDF (HASIL.HTML) - BAGIAN INI DIMODIFIKASI
 const resultContainer = document.getElementById('document-to-print'); // Mengacu pada div utama
@@ -284,7 +283,7 @@ if (resultContainer) {
     const summaryContainer = document.getElementById('result-summary');
     const detailsContainer = document.getElementById('result-details');
     const recommendationContainer = document.getElementById('recommendation-container');
-    const lanjutBtn = document.getElementById('lanjut-identifikasi-btn');
+    // Tombol lanjut identifikasi sudah dihapus di HTML
 
     if (biodata && categoryScores) {
         const recommendedClassifications = [];
@@ -327,10 +326,9 @@ if (resultContainer) {
                     ${recommendedClassifications.map(c => `<li>**${c}** (Ambang Batas: ${thresholds[c]}, Skor Anak: ${categoryScores[c]})</li>`).join('')}
                 </ul>
                 <p>Total jawaban **"Ya"** pada kuesioner: **${totalYaCount}** dari 29 pertanyaan.</p>
-                <p>Disarankan untuk melanjutkan ke langkah **Identifikasi Lanjutan** atau segera berkonsultasi dengan profesional.</p>
+                <p>Disarankan untuk melanjutkan ke langkah identifikasi lanjutan atau segera berkonsultasi dengan profesional.</p>
             `;
-            detailsContainer.innerHTML = detailsHtml || "<p>Tidak ada indikasi kuat yang melebihi ambang batas pada setiap kategori.</p>";
-            lanjutBtn.style.display = 'inline-block'; // Tampilkan tombol lanjut
+            detailsContainer.innerHTML = detailsHtml;
         } else {
             hasilTitle = "Perkembangan Terlihat Baik";
             rekomendasiText = `
@@ -339,7 +337,6 @@ if (resultContainer) {
                 <p>Tetap pantau terus perkembangannya dan berikan stimulasi yang positif.</p>
             `;
             detailsContainer.innerHTML = "<p>Tidak ada indikasi kuat yang melebihi ambang batas pada setiap kategori.</p>";
-            lanjutBtn.style.display = 'none'; // Sembunyikan tombol lanjut
         }
         
         summaryContainer.innerHTML = `<p style="font-size: 1.1rem; font-weight: bold;">Kesimpulan Skrining: ${hasilTitle}</p>`;
@@ -349,7 +346,7 @@ if (resultContainer) {
         resultContainer.innerHTML = `<p class="error-message" style="color: red; padding: 20px;">Data hasil skrining tidak ditemukan. Mohon ulangi proses skrining dari <a href="biodata.html">halaman biodata</a>.</p>`;
     }
 
-    // Fungsi Unduh PDF menggunakan html2pdf.js
+    // Fungsi Unduh PDF menggunakan html2pdf.js - DIFIKSI UNTUK PAGE BREAK
     if (downloadPdfBtn) {
         downloadPdfBtn.addEventListener('click', function() {
             alert('Proses mengunduh laporan akan dimulai. Mohon tunggu...');
@@ -357,28 +354,27 @@ if (resultContainer) {
             // Sembunyikan tombol aksi saat proses download
             const buttonContainer = document.querySelector('.download-button-container');
             if (buttonContainer) buttonContainer.style.display = 'none';
-            if (lanjutBtn) lanjutBtn.style.display = 'none';
 
             const opt = {
                 margin: 10,
                 filename: `Laporan-Skrining-Awal-${biodata.nama}-${tanggalPengisianEl.innerText}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 3, logging: false, dpi: 192, letterRendering: true },
+                // Meningkatkan skala dan DPI untuk hasil gambar yang lebih tajam
+                html2canvas: { scale: 4, logging: false, dpi: 300, letterRendering: true }, 
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                // Menggunakan 'avoid-all' untuk menghindari pemotongan di dalam elemen
+                pagebreak: { mode: 'avoid-all' } 
             };
 
             // Menggunakan elemen 'document-to-print' sebagai konten PDF
             html2pdf().set(opt).from(resultContainer).save().then(() => {
                 // Tampilkan kembali tombol setelah proses download selesai/gagal
                 if (buttonContainer) buttonContainer.style.display = 'flex';
-                if (lanjutBtn && recommendedClassifications.length > 0) lanjutBtn.style.display = 'inline-block';
             }).catch(error => {
                 console.error("Gagal membuat PDF:", error);
                 alert("Terjadi kesalahan saat mengunduh dokumen. Coba muat ulang halaman.");
                 // Tampilkan kembali tombol jika terjadi error
                 if (buttonContainer) buttonContainer.style.display = 'flex';
-                if (lanjutBtn && recommendedClassifications.length > 0) lanjutBtn.style.display = 'inline-block';
             });
         });
     }
