@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let resultContent = '';
         const resultTitle = iyaCount >= 3 ? "Hasil Anda: Perlu Perhatian Lebih" : "Hasil Anda: Perkembangan Terlihat Baik";
         const resultText = iyaCount >= 3
-            ? "Berdasarkan jawaban Anda, terdapat beberapa tanda yang mengindikasikan perlunya perhatian lebih terhadap perkembangan anak. Anda dapat melanjutkan ke langkah **'Identifikasi Awal'** untuk skrining yang lebih mendalam."
+            ? "Berdasarkan jawaban Anda, terdapat beberapa tanda yang mengindikasikan perlunya perhatian lebih terhadap perkembangan anak. Anda dapat melanjutkan ke langkah **'Identifikasi Awal'** untuk pengidentifikasian yang lebih mendalam."
             : "Hasil menunjukkan bahwa tidak ada tanda yang signifikan. Namun, teruslah pantau perkembangan anak Anda. Jika ada kekhawatiran di masa depan, jangan ragu untuk kembali menggunakan alat ini.";
 
         const resultAction = iyaCount >= 3
@@ -264,11 +264,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-// ... (Bagian atas script.js Anda, termasuk logika Navigasi, Quiz, Biodata, Kuesioner, dan definisi classifications & thresholds)
+// ... (Pastikan semua kode di atas ini tetap sama seperti sebelumnya)
 
-// LOGIKA HASIL & UNDUH PDF (HASIL.HTML) - BAGIAN INI DIMODIFIKASI
-const resultContainer = document.getElementById('document-to-print'); // Mengacu pada div utama
-const downloadPdfBtn = document.getElementById('download-pdf-button'); // ID tombol yang baru
+// --- FUNGSI BARU UNTUK FORMAT TEKS (MENGGANTI **TEKS** MENJADI <strong>TEKS</strong>) ---
+function formatTextToHtml(text) {
+    // Regex untuk menemukan **teks** dan menggantinya dengan <strong>teks</strong>
+    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+}
+// -----------------------------------------------------------------------------------
+
+
+// LOGIKA HASIL & UNDUH PDF (HASIL.HTML) - TELAH DIFORMAT ULANG
+const resultContainer = document.getElementById('document-to-print');
+const downloadPdfBtn = document.getElementById('download-pdf-button');
 
 if (resultContainer) {
     const biodata = JSON.parse(localStorage.getItem('biodata'));
@@ -283,7 +291,6 @@ if (resultContainer) {
     const summaryContainer = document.getElementById('result-summary');
     const detailsContainer = document.getElementById('result-details');
     const recommendationContainer = document.getElementById('recommendation-container');
-    // Tombol lanjut identifikasi sudah dihapus di HTML
 
     if (biodata && categoryScores) {
         const recommendedClassifications = [];
@@ -295,11 +302,11 @@ if (resultContainer) {
             if (categoryScores[category] >= thresholds[category]) {
                 recommendedClassifications.push(category);
                 
-                // Siapkan rincian skor
+                // Siapkan rincian indikasi (TANPA SKOR)
                 detailsHtml += `
                     <div class="result-item" style="font-weight: bold; background-color: #f7f7f7; padding: 10px;">
-                        <div class="question-text">Indikasi **${category}**</div>
-                        <div class="answer-status ya">Skor: ${categoryScores[category]}/${classifications[category].length}</div>
+                        <div class="question-text">Indikasi ${formatTextToHtml('**' + category + '**')}</div>
+                        <div class="answer-status ya">Indikasi</div>
                     </div>
                 `;
             }
@@ -309,85 +316,79 @@ if (resultContainer) {
         
         // --- PENGISIAN DATA DIRI ---
         namaAnakEl.innerText = biodata.nama;
-        usiaAnakEl.innerText = `${biodata.usia} tahun`;
+        usiaAnakEl.innerText = biodata.usia ? `${biodata.usia} tahun` : ''; // Menambahkan cek jika usia kosong
         pengisiInstrumenEl.innerText = biodata.penanggungJawab;
         tanggalPengisianEl.innerText = tanggal;
         signatureNameEl.innerText = `(${biodata.penanggungJawab})`;
 
-        // --- PENGISIAN RINGKASAN ---
+        // --- PENGISIAN RINGKASAN & REKOMENDASI ---
         let hasilTitle = "";
         let rekomendasiText = "";
 
         if (recommendedClassifications.length > 0) {
             hasilTitle = "Perlu Perhatian Lebih";
+            
+            // Menggunakan formatTextToHtml pada list item
+            const listItemsHtml = recommendedClassifications.map(c => `<li>${formatTextToHtml('**' + c + '**')}</li>`).join('');
+
             rekomendasiText = `
-                <p>Berdasarkan jawaban kuesioner, anak Anda menunjukkan **indikasi** terhadap beberapa kategori perkembangan khusus. Hasil skrining menunjukkan kebutuhan perhatian pada klasifikasi berikut:</p>
+                <p>Berdasarkan jawaban kuesioner, anak Anda menunjukkan **indikasi** terhadap beberapa kategori perkembangan khusus. Hasil identifikasi menunjukkan kebutuhan perhatian pada klasifikasi berikut:</p>
                 <ul style="list-style-type: disc; padding-left: 25px; margin-top: 15px;">
-                    ${recommendedClassifications.map(c => `<li>**${c}** (Ambang Batas: ${thresholds[c]}, Skor Anak: ${categoryScores[c]})</li>`).join('')}
+                    ${listItemsHtml}
                 </ul>
-                <p>Total jawaban **"Ya"** pada kuesioner: **${totalYaCount}** dari 29 pertanyaan.</p>
-                <p>Disarankan untuk melanjutkan ke langkah identifikasi lanjutan atau segera berkonsultasi dengan profesional.</p>
+                <p>Identifikasi ini adalah langkah awal. Sangat disarankan untuk segera melakukan identifikasi lanjutan berdasarkan rekomendasi klasifikasi diatas. </p>
             `;
             detailsContainer.innerHTML = detailsHtml;
         } else {
             hasilTitle = "Perkembangan Terlihat Baik";
             rekomendasiText = `
-                <p>Berdasarkan jawaban kuesioner, perkembangan anak terlihat baik dan sesuai dengan tahapan usianya.</p>
-                <p>Tidak ada skor kategori yang mencapai ambang batas yang ditentukan. Total jawaban **"Ya"** pada kuesioner: **${totalYaCount}** dari 29 pertanyaan.</p>
-                <p>Tetap pantau terus perkembangannya dan berikan stimulasi yang positif.</p>
+                <p>Berdasarkan hasil identifikasi, anak Anda tidak menunjukkan **indikasi kuat** terhadap kategori kebutuhan khusus yang diujikan.</p>
+                <p>Meskipun demikian, terus pantau perkembangan anak. Jika Anda memiliki kekhawatiran, jangan ragu untuk berkonsultasi dengan profesional pendidikan atau kesehatan.</p>
             `;
             detailsContainer.innerHTML = "<p>Tidak ada indikasi kuat yang melebihi ambang batas pada setiap kategori.</p>";
         }
         
-        summaryContainer.innerHTML = `<p style="font-size: 1.1rem; font-weight: bold;">Kesimpulan Skrining: ${hasilTitle}</p>`;
-        recommendationContainer.innerHTML = rekomendasiText;
+        // Menggunakan formatTextToHtml untuk summary
+        summaryContainer.innerHTML = formatTextToHtml(`<p style="font-size: 1.1rem; font-weight: bold;">Kesimpulan Identifikasi Awal: **${hasilTitle}**</p>`);
+        recommendationContainer.innerHTML = formatTextToHtml(rekomendasiText);
 
+        
+        // Hapus data yang tidak diperlukan lagi
+        localStorage.removeItem('biodata');
+        localStorage.removeItem('categoryScores');
+        
     } else {
-        resultContainer.innerHTML = `<p class="error-message" style="color: red; padding: 20px;">Data hasil skrining tidak ditemukan. Mohon ulangi proses skrining dari <a href="biodata.html">halaman biodata</a>.</p>`;
+        resultContainer.innerHTML = `<p class="error-message" style="color: red; padding: 20px;">Data hasil identifikasi tidak ditemukan. Mohon ulangi proses pengidentifikasian dari <a href="biodata.html">halaman biodata</a>.</p>`;
     }
 
-    // ... (Pastikan semua kode di atas ini tetap sama seperti sebelumnya)
+    // Fungsi Unduh PDF menggunakan html2pdf.js - Tetap menggunakan pengaturan default
+    if (downloadPdfBtn) {
+        downloadPdfBtn.addEventListener('click', function() {
+            alert('Proses mengunduh laporan akan dimulai. Mohon tunggu...');
+            
+            window.scrollTo(0, 0);
 
-// ... (Pastikan semua kode di atas ini tetap sama seperti sebelumnya)
+            const buttonContainer = document.querySelector('.download-button-container');
+            if (buttonContainer) buttonContainer.style.display = 'none';
 
-// Fungsi Unduh PDF menggunakan html2pdf.js - KEMBALI KE PENGATURAN DEFAULT
-if (downloadPdfBtn) {
-    downloadPdfBtn.addEventListener('click', function() {
-        alert('Proses mengunduh laporan akan dimulai. Mohon tunggu...');
-        
-        // Pastikan posisi scroll di atas untuk hasil capture yang akurat
-        window.scrollTo(0, 0);
+            const opt = {
+                margin: 10,
+                filename: `Laporan-Skrining-Awal-${biodata.nama}-${tanggalPengisianEl.innerText}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 3, logging: false, dpi: 192, letterRendering: true }, 
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['css', 'legacy'] } 
+            };
 
-        // Sembunyikan tombol aksi saat proses download
-        const buttonContainer = document.querySelector('.download-button-container');
-        if (buttonContainer) buttonContainer.style.display = 'none';
-
-        // --- PENGATURAN MINIMALIS PDF ---
-        const opt = {
-            margin: 10, // Margin kembali ke 10mm di semua sisi
-            filename: `Laporan-Skrining-Awal-${biodata.nama}-${tanggalPengisianEl.innerText}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            // Skala 3 adalah titik tengah yang baik untuk kualitas
-            html2canvas: { scale: 3, logging: false, dpi: 192, letterRendering: true }, 
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            // Menggunakan mode default yang menghormati CSS page-break-inside
-            pagebreak: { mode: ['css', 'legacy'] } 
-        };
-        // --- AKHIR PENGATURAN MINIMALIS PDF ---
-
-        // Menggunakan elemen 'document-to-print' sebagai konten PDF
-        html2pdf().set(opt).from(resultContainer).save().then(() => {
-            // Tampilkan kembali tombol setelah proses download selesai/gagal
-            if (buttonContainer) buttonContainer.style.display = 'flex';
-        }).catch(error => {
-            console.error("Gagal membuat PDF:", error);
-            alert("Terjadi kesalahan saat mengunduh dokumen. Coba muat ulang halaman. (Lihat Console Log untuk detail)");
-            // Tampilkan kembali tombol jika terjadi error
-            if (buttonContainer) buttonContainer.style.display = 'flex';
+            html2pdf().set(opt).from(resultContainer).save().then(() => {
+                if (buttonContainer) buttonContainer.style.display = 'flex';
+            }).catch(error => {
+                console.error("Gagal membuat PDF:", error);
+                alert("Terjadi kesalahan saat mengunduh dokumen. Coba muat ulang halaman. (Lihat Console Log untuk detail)");
+                if (buttonContainer) buttonContainer.style.display = 'flex';
+            });
         });
-    });
-}
-
+    }
 }
 // ... (Sisa script.js Anda)
 });
