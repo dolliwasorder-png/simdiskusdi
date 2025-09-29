@@ -346,38 +346,42 @@ if (resultContainer) {
         resultContainer.innerHTML = `<p class="error-message" style="color: red; padding: 20px;">Data hasil skrining tidak ditemukan. Mohon ulangi proses skrining dari <a href="biodata.html">halaman biodata</a>.</p>`;
     }
 
-    // Fungsi Unduh PDF menggunakan html2pdf.js - DIFIKSI UNTUK PAGE BREAK
-    if (downloadPdfBtn) {
-        downloadPdfBtn.addEventListener('click', function() {
-            alert('Proses mengunduh laporan akan dimulai. Mohon tunggu...');
-            
-            // Sembunyikan tombol aksi saat proses download
-            const buttonContainer = document.querySelector('.download-button-container');
-            if (buttonContainer) buttonContainer.style.display = 'none';
+    // ... (Pastikan semua kode di atas ini tetap sama seperti sebelumnya)
 
-            const opt = {
-                margin: 10,
-                filename: `Laporan-Skrining-Awal-${biodata.nama}-${tanggalPengisianEl.innerText}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                // Meningkatkan skala dan DPI untuk hasil gambar yang lebih tajam
-                html2canvas: { scale: 4, logging: false, dpi: 300, letterRendering: true }, 
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                // Menggunakan 'avoid-all' untuk menghindari pemotongan di dalam elemen
-                pagebreak: { mode: 'avoid-all' } 
-            };
+// Fungsi Unduh PDF menggunakan html2pdf.js - DIFIKSI UNTUK PAGE BREAK
+if (downloadPdfBtn) {
+    downloadPdfBtn.addEventListener('click', function() {
+        alert('Proses mengunduh laporan akan dimulai. Mohon tunggu...');
+        
+        // Sembunyikan tombol aksi saat proses download
+        const buttonContainer = document.querySelector('.download-button-container');
+        if (buttonContainer) buttonContainer.style.display = 'none';
 
-            // Menggunakan elemen 'document-to-print' sebagai konten PDF
-            html2pdf().set(opt).from(resultContainer).save().then(() => {
-                // Tampilkan kembali tombol setelah proses download selesai/gagal
-                if (buttonContainer) buttonContainer.style.display = 'flex';
-            }).catch(error => {
-                console.error("Gagal membuat PDF:", error);
-                alert("Terjadi kesalahan saat mengunduh dokumen. Coba muat ulang halaman.");
-                // Tampilkan kembali tombol jika terjadi error
-                if (buttonContainer) buttonContainer.style.display = 'flex';
-            });
+        // --- PENGATURAN OPTIMALISASI PDF ---
+        const opt = {
+            margin: 10,
+            filename: `Laporan-Skrining-Awal-${biodata.nama}-${tanggalPengisianEl.innerText}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            // Skala 3 adalah titik tengah yang baik untuk kualitas dan mencegah pemotongan.
+            html2canvas: { scale: 3, logging: false, dpi: 192, letterRendering: true }, 
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            // Menggunakan mode 'css' dan 'legacy' untuk menghormati CSS page-break-inside: avoid;
+            pagebreak: { mode: ['css', 'legacy'] } 
+        };
+        // --- AKHIR PENGATURAN OPTIMALISASI PDF ---
+
+        // Menggunakan elemen 'document-to-print' sebagai konten PDF
+        html2pdf().set(opt).from(resultContainer).save().then(() => {
+            // Tampilkan kembali tombol setelah proses download selesai/gagal
+            if (buttonContainer) buttonContainer.style.display = 'flex';
+        }).catch(error => {
+            console.error("Gagal membuat PDF:", error);
+            alert("Terjadi kesalahan saat mengunduh dokumen. Coba muat ulang halaman. (Lihat Console Log untuk detail)");
+            // Tampilkan kembali tombol jika terjadi error
+            if (buttonContainer) buttonContainer.style.display = 'flex';
         });
-    }
+    });
+}
 }
 // ... (Sisa script.js Anda)
 });
