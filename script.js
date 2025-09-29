@@ -265,121 +265,123 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // LOGIKA HASIL & UNDUH PDF (HASIL.HTML)
-    const resultContainer = document.getElementById('result-container');
-    const downloadPdfBtn = document.getElementById('download-pdf-btn');
+   // ... (Bagian atas script.js Anda, termasuk logika Navigasi, Quiz, Biodata, Kuesioner, dan definisi classifications & thresholds)
 
-    if (resultContainer) {
-        const biodata = JSON.parse(localStorage.getItem('biodata'));
-        const categoryScores = JSON.parse(localStorage.getItem('categoryScores'));
+// LOGIKA HASIL & UNDUH PDF (HASIL.HTML) - BAGIAN INI DIMODIFIKASI
+const resultContainer = document.getElementById('document-to-print'); // Mengacu pada div utama
+const downloadPdfBtn = document.getElementById('download-pdf-button'); // ID tombol yang baru
 
-        if (biodata && categoryScores) {
-            const recommendedClassifications = [];
-            let totalYaCount = 0;
+if (resultContainer) {
+    const biodata = JSON.parse(localStorage.getItem('biodata'));
+    const categoryScores = JSON.parse(localStorage.getItem('categoryScores'));
 
-            for (const category in categoryScores) {
-                totalYaCount += categoryScores[category];
-                if (categoryScores[category] >= thresholds[category]) {
-                    recommendedClassifications.push(category);
-                }
+    // Definisikan elemen HTML
+    const namaAnakEl = document.getElementById('nama-anak');
+    const usiaAnakEl = document.getElementById('usia-anak');
+    const pengisiInstrumenEl = document.getElementById('pengisi-instrumen');
+    const tanggalPengisianEl = document.getElementById('tanggal-pengisian');
+    const signatureNameEl = document.getElementById('signature-name-text');
+    const summaryContainer = document.getElementById('result-summary');
+    const detailsContainer = document.getElementById('result-details');
+    const recommendationContainer = document.getElementById('recommendation-container');
+    const lanjutBtn = document.getElementById('lanjut-identifikasi-btn');
+
+    if (biodata && categoryScores) {
+        const recommendedClassifications = [];
+        let totalYaCount = 0;
+        let detailsHtml = '';
+
+        for (const category in categoryScores) {
+            totalYaCount += categoryScores[category];
+            if (categoryScores[category] >= thresholds[category]) {
+                recommendedClassifications.push(category);
+                
+                // Siapkan rincian skor
+                detailsHtml += `
+                    <div class="result-item" style="font-weight: bold; background-color: #f7f7f7; padding: 10px;">
+                        <div class="question-text">Indikasi **${category}**</div>
+                        <div class="answer-status ya">Skor: ${categoryScores[category]}/${classifications[category].length}</div>
+                    </div>
+                `;
             }
-
-            let hasilTitle = "";
-            let rekomendasiText = "";
-            let recommendedListHtml = "";
-
-            if (recommendedClassifications.length > 0) {
-                hasilTitle = "Perlu Perhatian Lebih";
-                rekomendasiText = `Berdasarkan jawaban kuesioner, terdapat beberapa tanda yang mengindikasikan perlunya perhatian lebih terhadap perkembangan anak pada klasifikasi berikut. Disarankan untuk melanjutkan ke langkah identifikasi lanjutan atau berkonsultasi dengan tenaga ahli.`;
-
-                recommendedListHtml = `<ul style="list-style-type: disc; padding-left: 20px; margin-top: 15px;">`;
-                recommendedClassifications.forEach(category => {
-                    recommendedListHtml += `<li><strong>${category}</strong></li>`;
-                });
-                recommendedListHtml += `</ul>`;
-            } else {
-                hasilTitle = "Perkembangan Terlihat Baik";
-                rekomendasiText = "Berdasarkan jawaban kuesioner, perkembangan anak terlihat baik dan sesuai dengan tahapan usianya. Tetap pantau terus perkembangannya dan berikan stimulasi yang positif.";
-            }
-
-            const tanggal = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-
-            const documentContent = `
-                <div class="document-header">
-                    <h1 class="document-title">LAPORAN HASIL SKRINING AWAL</h1>
-                    <p class="document-subtitle">Sistem Informasi dan Identifikasi Anak Berkebutuhan Khusus</p>
-                </div>
-                <div class="document-body">
-                    <div class="info-section">
-                        <p>Dokumen ini adalah ringkasan hasil skrining awal yang dilakukan pada ${tanggal} oleh **${biodata.penanggungJawab}**.</p>
-                        <p>Hasil ini bersifat informatif dan tidak dapat digunakan sebagai diagnosis medis.</p>
-                    </div>
-
-                    <div class="bio-section">
-                        <h3 class="section-title-doc">Data Subjek</h3>
-                        <div class="info-item">
-                            <p><strong>Nama Anak:</strong> ${biodata.nama}</p>
-                            <p><strong>Usia Anak:</strong> ${biodata.usia} tahun</p>
-                            <p><strong>Pengisi Instrumen:</strong> ${biodata.penanggungJawab}</p>
-                        </div>
-                    </div>
-
-                    <div class="result-section">
-                        <h3 class="section-title-doc">Hasil dan Rekomendasi</h3>
-                        <div class="info-card">
-                            <div class="card-icon">
-                                <i class="fas ${recommendedClassifications.length > 0 ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i>
-                            </div>
-                            <h4 class="card-title">Kesimpulan Skrining: **${hasilTitle}**</h4>
-                            <p class="card-text">Total jawaban "Ya" pada kuesioner: **${totalYaCount}** dari 29 pertanyaan.</p>
-                        </div>
-                        <p class="rekomendasi-text">${rekomendasiText}</p>
-                        ${recommendedListHtml}
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('document-content').innerHTML = documentContent;
-
-        } else {
-            resultContainer.innerHTML = `<p class="error-message">Data tidak ditemukan. Mohon ulangi proses skrining dari awal.</p>`;
         }
+
+        const tanggal = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+        // --- PENGISIAN DATA DIRI ---
+        namaAnakEl.innerText = biodata.nama;
+        usiaAnakEl.innerText = `${biodata.usia} tahun`;
+        pengisiInstrumenEl.innerText = biodata.penanggungJawab;
+        tanggalPengisianEl.innerText = tanggal;
+        signatureNameEl.innerText = `(${biodata.penanggungJawab})`;
+
+        // --- PENGISIAN RINGKASAN ---
+        let hasilTitle = "";
+        let rekomendasiText = "";
+
+        if (recommendedClassifications.length > 0) {
+            hasilTitle = "Perlu Perhatian Lebih";
+            rekomendasiText = `
+                <p>Berdasarkan jawaban kuesioner, anak Anda menunjukkan **indikasi** terhadap beberapa kategori perkembangan khusus. Hasil skrining menunjukkan kebutuhan perhatian pada klasifikasi berikut:</p>
+                <ul style="list-style-type: disc; padding-left: 25px; margin-top: 15px;">
+                    ${recommendedClassifications.map(c => `<li>**${c}** (Ambang Batas: ${thresholds[c]}, Skor Anak: ${categoryScores[c]})</li>`).join('')}
+                </ul>
+                <p>Total jawaban **"Ya"** pada kuesioner: **${totalYaCount}** dari 29 pertanyaan.</p>
+                <p>Disarankan untuk melanjutkan ke langkah **Identifikasi Lanjutan** atau segera berkonsultasi dengan profesional.</p>
+            `;
+            detailsContainer.innerHTML = detailsHtml || "<p>Tidak ada indikasi kuat yang melebihi ambang batas pada setiap kategori.</p>";
+            lanjutBtn.style.display = 'inline-block'; // Tampilkan tombol lanjut
+        } else {
+            hasilTitle = "Perkembangan Terlihat Baik";
+            rekomendasiText = `
+                <p>Berdasarkan jawaban kuesioner, perkembangan anak terlihat baik dan sesuai dengan tahapan usianya.</p>
+                <p>Tidak ada skor kategori yang mencapai ambang batas yang ditentukan. Total jawaban **"Ya"** pada kuesioner: **${totalYaCount}** dari 29 pertanyaan.</p>
+                <p>Tetap pantau terus perkembangannya dan berikan stimulasi yang positif.</p>
+            `;
+            detailsContainer.innerHTML = "<p>Tidak ada indikasi kuat yang melebihi ambang batas pada setiap kategori.</p>";
+            lanjutBtn.style.display = 'none'; // Sembunyikan tombol lanjut
+        }
+        
+        summaryContainer.innerHTML = `<p style="font-size: 1.1rem; font-weight: bold;">Kesimpulan Skrining: ${hasilTitle}</p>`;
+        recommendationContainer.innerHTML = rekomendasiText;
+
+    } else {
+        resultContainer.innerHTML = `<p class="error-message" style="color: red; padding: 20px;">Data hasil skrining tidak ditemukan. Mohon ulangi proses skrining dari <a href="biodata.html">halaman biodata</a>.</p>`;
     }
 
-    // Fungsi Unduh PDF
+    // Fungsi Unduh PDF menggunakan html2pdf.js
     if (downloadPdfBtn) {
         downloadPdfBtn.addEventListener('click', function() {
-            const content = document.getElementById('document-content');
+            alert('Proses mengunduh laporan akan dimulai. Mohon tunggu...');
+            
+            // Sembunyikan tombol aksi saat proses download
+            const buttonContainer = document.querySelector('.download-button-container');
+            if (buttonContainer) buttonContainer.style.display = 'none';
+            if (lanjutBtn) lanjutBtn.style.display = 'none';
 
-            html2canvas(content, {
-                scale: 2,
-                useCORS: true,
-                windowWidth: content.scrollWidth,
-                windowHeight: content.scrollHeight
-            }).then(canvas => {
-                const imgData = canvas.toDataURL('image/jpeg', 1.0);
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const imgWidth = 210;
-                const pageHeight = 297;
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                let heightLeft = imgHeight;
-                let position = 0;
+            const opt = {
+                margin: 10,
+                filename: `Laporan-Skrining-Awal-${biodata.nama}-${tanggalPengisianEl.innerText}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 3, logging: false, dpi: 192, letterRendering: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
 
-                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
-
-                pdf.save("Laporan-Skrining-ABK.pdf");
+            // Menggunakan elemen 'document-to-print' sebagai konten PDF
+            html2pdf().set(opt).from(resultContainer).save().then(() => {
+                // Tampilkan kembali tombol setelah proses download selesai/gagal
+                if (buttonContainer) buttonContainer.style.display = 'flex';
+                if (lanjutBtn && recommendedClassifications.length > 0) lanjutBtn.style.display = 'inline-block';
             }).catch(error => {
                 console.error("Gagal membuat PDF:", error);
-                alert("Maaf, terjadi kesalahan saat mengunduh file PDF.");
+                alert("Terjadi kesalahan saat mengunduh dokumen. Coba muat ulang halaman.");
+                // Tampilkan kembali tombol jika terjadi error
+                if (buttonContainer) buttonContainer.style.display = 'flex';
+                if (lanjutBtn && recommendedClassifications.length > 0) lanjutBtn.style.display = 'inline-block';
             });
         });
     }
+}
+// ... (Sisa script.js Anda)
 });
