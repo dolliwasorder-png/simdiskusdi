@@ -348,40 +348,47 @@ if (resultContainer) {
 
     // ... (Pastikan semua kode di atas ini tetap sama seperti sebelumnya)
 
-// Fungsi Unduh PDF menggunakan html2pdf.js - DIFIKSI UNTUK PAGE BREAK
-if (downloadPdfBtn) {
-    downloadPdfBtn.addEventListener('click', function() {
-        alert('Proses mengunduh laporan akan dimulai. Mohon tunggu...');
-        
-        // Sembunyikan tombol aksi saat proses download
-        const buttonContainer = document.querySelector('.download-button-container');
-        if (buttonContainer) buttonContainer.style.display = 'none';
+// ... (Pastikan semua kode di atas ini tetap sama seperti sebelumnya)
 
-        // --- PENGATURAN OPTIMALISASI PDF ---
-        const opt = {
-            margin: 10,
-            filename: `Laporan-Skrining-Awal-${biodata.nama}-${tanggalPengisianEl.innerText}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            // Skala 3 adalah titik tengah yang baik untuk kualitas dan mencegah pemotongan.
-            html2canvas: { scale: 3, logging: false, dpi: 192, letterRendering: true }, 
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            // Menggunakan mode 'css' dan 'legacy' untuk menghormati CSS page-break-inside: avoid;
-            pagebreak: { mode: ['css', 'legacy'] } 
-        };
-        // --- AKHIR PENGATURAN OPTIMALISASI PDF ---
+    // Fungsi Unduh PDF menggunakan html2pdf.js - DIFIKSI UNTUK PAGE BREAK
+    if (downloadPdfBtn) {
+        downloadPdfBtn.addEventListener('click', function() {
+            alert('Proses mengunduh laporan akan dimulai. Mohon tunggu...');
+            
+            // 1. Pastikan posisi scroll di atas untuk hasil capture yang akurat
+            window.scrollTo(0, 0);
 
-        // Menggunakan elemen 'document-to-print' sebagai konten PDF
-        html2pdf().set(opt).from(resultContainer).save().then(() => {
-            // Tampilkan kembali tombol setelah proses download selesai/gagal
-            if (buttonContainer) buttonContainer.style.display = 'flex';
-        }).catch(error => {
-            console.error("Gagal membuat PDF:", error);
-            alert("Terjadi kesalahan saat mengunduh dokumen. Coba muat ulang halaman. (Lihat Console Log untuk detail)");
-            // Tampilkan kembali tombol jika terjadi error
-            if (buttonContainer) buttonContainer.style.display = 'flex';
+            // Sembunyikan tombol aksi saat proses download
+            const buttonContainer = document.querySelector('.download-button-container');
+            if (buttonContainer) buttonContainer.style.display = 'none';
+
+            // --- PENGATURAN OPTIMALISASI PDF ---
+            const opt = {
+                // Margin diubah menjadi array [atas, kanan, bawah, kiri] untuk kontrol lebih baik
+                margin: [15, 10, 10, 10], // Margin atas sedikit diperbesar
+                filename: `Laporan-Skrining-Awal-${biodata.nama}-${tanggalPengisianEl.innerText}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                // Membiarkan skala default (atau skala yang terakhir disarankan 3)
+                html2canvas: { scale: 3, logging: false, dpi: 192, letterRendering: true }, 
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                // Menggunakan mode 'avoid-all' untuk mencoba menghindari pemotongan pada elemen blok
+                pagebreak: { mode: 'avoid-all' } 
+            };
+            // --- AKHIR PENGATURAN OPTIMALISASI PDF ---
+
+            // Menggunakan elemen 'document-to-print' sebagai konten PDF
+            html2pdf().set(opt).from(resultContainer).save().then(() => {
+                // Tampilkan kembali tombol setelah proses download selesai/gagal
+                if (buttonContainer) buttonContainer.style.display = 'flex';
+            }).catch(error => {
+                console.error("Gagal membuat PDF:", error);
+                alert("Terjadi kesalahan saat mengunduh dokumen. Coba muat ulang halaman. (Lihat Console Log untuk detail)");
+                // Tampilkan kembali tombol jika terjadi error
+                if (buttonContainer) buttonContainer.style.display = 'flex';
+            });
         });
-    });
-}
+    }
+
 }
 // ... (Sisa script.js Anda)
 });
