@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const resultTitle = iyaCount >= 3 ? "Hasil Anda: Perlu Perhatian Lebih" : "Hasil Anda: Perkembangan Terlihat Baik";
         const resultText = iyaCount >= 3
             ? "Berdasarkan jawaban Anda, terdapat beberapa tanda yang mengindikasikan perlunya perhatian lebih terhadap perkembangan anak. Anda dapat melanjutkan ke langkah **'Identifikasi Awal'** untuk pengidentifikasian yang lebih mendalam."
-            : "Hasil menunjukkan bahwa tidak ada tanda yang signifikan. Namun, teruslah pantau perkembangan anak Anda. Jika ada kekhawatiran di masa depan, jangan ragu untuk kembali menggunakan alat ini.";
+            : "Hasil menunjukkan bahwa tidak ada tanda yang signifikan. Namun, teruslah pantau perkembangan ananda. Jika ada kekhawatiran di masa depan, jangan ragu untuk kembali menggunakan alat ini.";
 
         const resultAction = iyaCount >= 3
             ? `<a href="biodata.html" class="cta-button">Mulai Identifikasi Awal</a>`
@@ -332,7 +332,7 @@ if (resultContainer) {
             const listItemsHtml = recommendedClassifications.map(c => `<li>${formatTextToHtml('**' + c + '**')}</li>`).join('');
 
             rekomendasiText = `
-                <p>Berdasarkan jawaban kuesioner, anak Anda menunjukkan **indikasi** terhadap beberapa kategori perkembangan khusus. Hasil identifikasi menunjukkan kebutuhan perhatian pada klasifikasi berikut:</p>
+                <p>Berdasarkan jawaban kuesioner, ananda menunjukkan **indikasi** terhadap beberapa kategori perkembangan khusus. Hasil identifikasi menunjukkan kebutuhan perhatian pada klasifikasi berikut:</p>
                 <ul style="list-style-type: disc; padding-left: 25px; margin-top: 15px;">
                     ${listItemsHtml}
                 </ul>
@@ -342,7 +342,7 @@ if (resultContainer) {
         } else {
             hasilTitle = "Perkembangan Terlihat Baik";
             rekomendasiText = `
-                <p>Berdasarkan hasil identifikasi, anak Anda tidak menunjukkan **indikasi kuat** terhadap kategori kebutuhan khusus yang diujikan.</p>
+                <p>Berdasarkan hasil identifikasi, ananda tidak menunjukkan **indikasi kuat** terhadap kategori kebutuhan khusus yang diujikan.</p>
                 <p>Meskipun demikian, terus pantau perkembangan anak. Jika Anda memiliki kekhawatiran, jangan ragu untuk berkonsultasi dengan profesional pendidikan atau kesehatan.</p>
             `;
             detailsContainer.innerHTML = "<p>Tidak ada indikasi kuat yang melebihi ambang batas pada setiap kategori.</p>";
