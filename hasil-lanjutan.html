@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hasil Skrining</title>
+    <title>Hasil Identifikasi</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
@@ -221,9 +221,9 @@
     <main>
         <div class="document-header">
             <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" style="width: 80px; margin-bottom: 10px;">
-            <h1>LAPORAN HASIL SKRINING IDENTIFIKASI</h1>
+            <h1>LAPORAN HASIL IDENTIFIKASI LANJUTAN</h1>
             <p>Sistem Informasi dan Identifikasi Anak Berkebutuhan Khusus (SIMDIKSUS)</p>
-            <p>Sekolah Luar Biasa (SLB) ABC</p>
+            <p><i>email: anisasririzky@gmail.com</i> || <i>whatsapp: 085173362041</i></p>
         </div>
 
         <div class="result-container" id="document-to-print">
@@ -245,7 +245,7 @@
             </div>
 
             <div class="result-section">
-                <h3 id="result-title">Hasil Skrining:</h3>
+                <h3 id="result-title">Hasil Identifikasi:</h3>
                 <div id="result-summary"></div>
                 <div id="result-details"></div>
             </div>
@@ -256,7 +256,7 @@
             </div>
 
             <div class="document-footer">
-                <p>Disusun oleh,</p>
+                <p>Pengisi Instrumen,</p>
                 <div class="signature-line"></div>
                 <p class="signature-name" id="signature-name-text"></p>
             </div>
@@ -278,7 +278,7 @@
     </footer>
     
     <div class="whatsapp-button-container">
-        <a href="https://wa.me/6281234567890?text=Halo%20saya%20ingin%20bertanya%20mengenai%20website%20skrining%20ABK" target="_blank" class="whatsapp-button">
+        <a href="https://wa.me/6285173362041?text=Halo%20saya%20ingin%20bertanya%20mengenai%20website%20identifikasi%20ABK" target="_blank" class="whatsapp-button">
             <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" class="whatsapp-icon">
             Butuh Bantuan?
         </a>
@@ -345,9 +345,9 @@
                                      (jumlahYa >= 2);
             
             if (isStrongIndication) {
-                recommendationText = `<p>Berdasarkan hasil skrining, anak Anda menunjukkan **indikasi kuat** terhadap **${namaKlasifikasi}**. Sangat disarankan untuk segera melakukan konsultasi dengan psikolog, terapis, atau tenaga ahli pendidikan khusus untuk mendapatkan diagnosis dan penanganan yang lebih akurat dan terperinci.</p><p>Skrining ini **bukanlah diagnosis medis** melainkan hanya langkah awal untuk mengenali kemungkinan hambatan belajar atau perkembangan anak.</p>`;
+                recommendationText = `<p>Berdasarkan hasil identifikasi, ananda menunjukkan <b>indikasi kuat</b> terhadap <b>${namaKlasifikasi}</b>. Sangat disarankan untuk segera melakukan konsultasi dengan psikolog, terapis, atau tenaga ahli pendidikan khusus untuk mendapatkan diagnosis dan penanganan yang lebih akurat dan terperinci.</p><p>identifikasi ini <b>bukanlah diagnosis medis</b> melainkan langkah awal untuk mengenali kemungkinan hambatan belajar dan perkembangan anak.</p>`;
             } else {
-                recommendationText = `<p>Berdasarkan hasil skrining, anak Anda tidak menunjukkan indikasi kuat terhadap **${namaKlasifikasi}**. Meskipun demikian, terus lakukan observasi dan jika Anda memiliki kekhawatiran, jangan ragu untuk berkonsultasi dengan profesional pendidikan atau kesehatan.</p><p>Skrining ini **bukanlah diagnosis medis** melainkan hanya langkah awal untuk mengenali kemungkinan hambatan belajar atau perkembangan anak.</p>`;
+                recommendationText = `<p>Berdasarkan hasil identifikasi, ananda tidak menunjukkan indikasi kuat terhadap <b>${namaKlasifikasi}</b>. Meskipun demikian, terus lakukan observasi dan jika Anda memiliki kekhawatiran, jangan ragu untuk berkonsultasi dengan profesional pendidikan atau kesehatan.</p><p>Identifikasi ini <b>bukanlah diagnosis medis</b> melainkan langkah awal untuk mengenali kemungkinan hambatan belajar dan perkembangan anak.</p>`;
             }
             recommendationContainer.innerHTML = recommendationText;
 

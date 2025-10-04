@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const resultTitle = iyaCount >= 3 ? "Hasil Anda: Perlu Perhatian Lebih" : "Hasil Anda: Perkembangan Terlihat Baik";
         const resultText = iyaCount >= 3
             ? "Berdasarkan jawaban Anda, terdapat beberapa tanda yang mengindikasikan perlunya perhatian lebih terhadap perkembangan anak. Anda dapat melanjutkan ke langkah **'Identifikasi Awal'** untuk pengidentifikasian yang lebih mendalam."
-            : "Hasil menunjukkan bahwa tidak ada tanda yang signifikan. Namun, teruslah pantau perkembangan ananda. Jika ada kekhawatiran di masa depan, jangan ragu untuk kembali menggunakan alat ini.";
+            : "Hasil menunjukkan bahwa tidak ada tanda yang signifikan. Namun, teruslah pantau perkembangan ananda. Jika ada kekhawatiran di masa depan, jangan ragu untuk kembali menggunakan website ini.";
 
         const resultAction = iyaCount >= 3
             ? `<a href="biodata.html" class="cta-button">Mulai Identifikasi Awal</a>`
@@ -305,8 +305,8 @@ if (resultContainer) {
                 // Siapkan rincian indikasi (TANPA SKOR)
                 detailsHtml += `
                     <div class="result-item" style="font-weight: bold; background-color: #f7f7f7; padding: 10px;">
-                        <div class="question-text">Indikasi ${formatTextToHtml('**' + category + '**')}</div>
-                        <div class="answer-status ya">Indikasi</div>
+                        <div class="question-text">${formatTextToHtml('**' + category + '**')}</div>
+                        <div class="answer-status ya">Terindikasi</div>
                     </div>
                 `;
             }

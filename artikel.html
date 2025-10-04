@@ -6,82 +6,99 @@
     <title id="page-title">Artikel</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Desain Artikel Modern */
-        .article-content {
-            background-color: #f9f9f9;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            padding: 3.5rem;
-            margin-top: 2rem;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .article-content h2 {
-            font-size: 3rem;
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 2rem;
-            font-weight: 700;
-        }
-        .article-content h3 {
-            font-size: 1.8rem;
-            color: #34495e;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 0.5rem;
-        }
-        .article-content h4 {
-            font-size: 1.4rem;
-            color: #34495e;
-            margin-top: 1.5rem;
-            margin-bottom: 0.8rem;
-        }
-        .article-content p {
-            font-size: 1.15rem;
-            line-height: 1.9;
-            color: #555;
-            text-align: justify;
-            margin-bottom: 1.5rem;
-        }
-        .article-content ul, 
-        .article-content ol {
-            margin-left: 1.5rem;
-            line-height: 1.9;
-            margin-bottom: 1.5rem;
-        }
-        .article-content li {
-            margin-bottom: 0.8rem;
-        }
-        .article-content ul.no-margin-ul li {
-            margin-bottom: 0.5rem;
-        }
-        .article-content ul.no-margin-ul p {
-            margin-bottom: 0;
-        }
-        .article-content strong {
-            color: #2c3e50;
-        }
-        .article-reference {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px dashed #ccc;
-        }
-        .article-reference h3 {
-            font-size: 1.5rem;
-            color: #7f8c8d;
-            border-bottom: none;
-            padding-bottom: 0;
-            margin-bottom: 1rem;
-        }
-        .article-reference ul {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #777;
-        }
-    </style>
+   <style>
+    /* Desain Artikel Modern */
+    .article-content {
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        padding: 3.5rem;
+        margin-top: 2rem;
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* 1. JUDUL UTAMA (H2) - DIKECILKAN */
+    .article-content h2 {
+        font-size: 2.2rem; /* Dikecilkan dari 3rem menjadi 2.2rem */
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 1.5rem; /* Jarak bawah dikurangi */
+        font-weight: 700;
+    }
+    
+    /* 2. SUBJUDUL (H3) - DIKECILKAN */
+    .article-content h3 {
+        font-size: 1.7rem; /* Dikecilkan dari 1.8rem menjadi 1.7rem */
+        color: #34495e;
+        margin-top: 2rem;
+        margin-bottom: 0.8rem; /* Jarak bawah dikurangi */
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 0.5rem;
+    }
+    
+    /* 3. SUBJUDUL KECIL (H4) - DIKECILKAN */
+    .article-content h4 {
+        font-size: 1.25rem; /* Dikecilkan dari 1.4rem menjadi 1.25rem */
+        color: #34495e;
+        margin-top: 1.5rem;
+        margin-bottom: 0.7rem;
+    }
+    
+    /* 4. PARAGRAF (P) - DIKECILKAN DAN LINE HEIGHT DIKURANGI */
+    .article-content p {
+        font-size: 1.05rem; /* Dikecilkan dari 1.15rem menjadi 1.05rem */
+        line-height: 1.7; /* Dikurangi dari 1.9 menjadi 1.7 untuk kerapatan baca */
+        color: #555;
+        text-align: justify;
+        margin-bottom: 1.2rem; /* Jarak bawah dikurangi */
+    }
+    
+    /* Daftar Poin (UL/OL) - LINE HEIGHT DIKURANGI */
+    .article-content ul, 
+    .article-content ol {
+        margin-left: 1.5rem;
+        line-height: 1.7; /* Disamakan dengan paragraf */
+        margin-bottom: 1.2rem;
+    }
+    .article-content li {
+        margin-bottom: 0.6rem; /* Dikurangi */
+    }
+    
+    /* Lainnya tetap sama */
+    .article-content ul.no-margin-ul li {
+        margin-bottom: 0.5rem;
+    }
+    .article-content ul.no-margin-ul p {
+        margin-bottom: 0;
+    }
+    .article-content strong {
+        color: #2c3e50;
+    }
+    .article-reference {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px dashed #ccc;
+    }
+    .article-reference h3 {
+        font-size: 1.4rem; /* Disesuaikan agar lebih kecil dari H3 konten */
+        color: #7f8c8d;
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 1rem;
+    }
+    .article-reference ul {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #777;
+    }
+    /* Asumsikan Anda memiliki kontainer rekomendasi */
+    .recommendation-container p {
+        text-align: justify; /* Menjadikan teks rata kiri-kanan */
+    /* Properti lain seperti font-size, line-height, dll. */
+    }
+</style>
 </head>
 <body>
 
@@ -134,7 +151,7 @@
     </footer>
 
     <div class="whatsapp-button-container">
-        <a href="https://wa.me/6281234567890?text=Halo%20saya%20ingin%20bertanya%20mengenai%20website%20skrining%20ABK" target="_blank" class="whatsapp-button">
+        <a href="https://wa.me/6285173362041?text=Halo%20saya%20ingin%20bertanya%20mengenai%20website%20identifikasi%20ABK" target="_blank" class="whatsapp-button">
             <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" class="whatsapp-icon">
             Butuh Bantuan?
         </a>
@@ -308,6 +325,8 @@
                             <li>Smith, Deborah Deutsch, Naomi Chowdhuri Tyler, and Kimberly Garner Skow. 2018. Introduction to Contemporary Special Edication: New Horizons (2nd Ed.). USA: Pearson Education.</li>
                             <li>Rofiah, N. H. (2015). PROSES IDENTIFIKASI : “MENGENAL ANAK KESULITAN BELAJAR TIPE DISLEKSIA BAGI GURU SEKOLAH DASAR INKLUSI.” INKLUSI, 2, No. 1, 109–124.</li>
                             <li>Suhartono. (2016). Pembelajaran Menulis Untuk Anak Disgrafia di Sekolah Dasar. Transformatika, 12, No.1.</li>
+                            <li>Nijakowska, J. (2020). The Handy Little Guide to Dyslexia: A practical guide to supporting dyslexic students. Pearson. </li>
+                            <li>Sholihah, S. ., Kamiliatus, Z., & Shiddiq, A. (2025). Peran Guru dalam Menangani Kesulitan Belajar Matematika pada Siswa dengan Diskalkulia di SLB Yasmin Sumenep. Jurnal Pendidikan Dan Bahasa, 3(2), 114–123. </li>
                         </ul>
                     </div>
                 `

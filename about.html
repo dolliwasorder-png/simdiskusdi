@@ -4,10 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tentang Web - SIMDIKSUS</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>    
+    <style>
+        /* Gaya Sederhana untuk Halaman Tentang Web */
+        body {
+            background-color: #f0f2f5;
+        }
+        
+        .about-container {
+            max-width: 800px;
+            margin: 5rem auto 2rem;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        /* Tampilan Tim/Foto di Bawah Judul */
+        .signature-area-top-content { /* Nama diubah untuk kejelasan posisi */
+            display: flex;
+            justify-content: center; /* Dipusatkan */
+            gap: 60px; 
+            margin-top: 20px;
+            margin-bottom: 40px; /* Jarak dengan paragraf di bawahnya */
+            text-align: center;
+        }
+
+        .signature-col {
+            width: 45%;
+        }
+
+        .signature-col p {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .signature-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 5px;
+            object-fit: cover;
+            margin: 10px auto;
+            border: 1px solid #ddd;
+        }
+        
+        .signature-name {
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+        
+        .signature-title {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        /* Konten Tekstual */
+        .section {
+            margin-bottom: 20px;
+        }
+        
+        .section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: justify;
+            color: #444;
+        }
+        
+        .section p strong {
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+        
+    </style>
 </head>
-<body>
+<body class="about-page">
 
     <header class="header fixed-header">
         <div class="header-container">
@@ -31,47 +114,41 @@
                     <li class="dropdown" id="artikel-dropdown">
                         <a href="#" class="dropdown-toggle">Artikel <i class="fas fa-chevron-down arrow-icon"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Hambatan Intelektual Ringan</a></li>
-                            <li><a href="#">Gangguan Belajar Spesifik</a></li>
-                            <li><a href="#">Gangguan Bicara dan Bahasa</a></li>
-                            <li><a href="#">Gangguan Emosional dan Perilaku</a></li>
-                            <li><a href="#">Spektrum Autis</a></li>
-                            <li><a href="#">ADHD</a></li>
-                        </ul>
+                            </ul>
                     </li>
-                    <li><a href="about.html">Tentang Web</a></li>
+                    <li><a href="about.html" class="active">Tentang Web</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <main class="main-content">
-        <section class="section about-section">
-            <div class="about-container">
-                <div class="profile-card">
-                    <img src="asset/Writer.jpg" alt="Foto Profil" class="profile-photo">
-                    <h2>Anisa Sri Rizky, S.Pd</h2>
-                    <h3>Program Magister Pendidikan Luar Biasa UNY</h3>
-                    <p>
-                        Halo! Nama saya Anisa. Saya membuat website ini sebagai bagian dari tugas akhir/proyek penelitian untuk membantu orang tua dan pendidik dalam melakukan skrining awal Anak Berkebutuhan Khusus (ABK).
-                    </p>
-                    <p>
-                        Sebagai seseorang yang memiliki ketertarikan di bidang Anak Berkebutuhan khusus, saya berharap alat sederhana ini dapat menjadi jembatan awal untuk mendapatkan pemahaman yang lebih baik dan penanganan yang lebih cepat.
-                    </p>
-                    <div class="contact-info">
-                        <h4>Informasi Kontak:</h4>
-                        <ul>
-                            <li>Email: <a href="mailto:anisasrisrizky@gmail.com">anisasrisrizky@gmail.com</a></li>
-                            <li>WhatsApp: <a href="https://wa.me/6285173362041" target="_blank">085173362041</a></li>
-                        </ul>
-                    </div>
+        <div class="about-container">
+            
+            <h2>Tentang Web</h2>
+            
+            <div class="signature-area-top-content">
+                <div class="signature-col">
+                    <p>Dosen Pembimbing</p>
+                    <img src="asset/dosbing.jpg" alt="Foto Dosen Pembimbing" class="signature-photo rounded-full">
+                    <p class="signature-name">Dr. dr. Atien Nur Chamidah, M.Dis.St</p>
+                    <p class="signature-title">Wakil Dekan bidang Akademik Kemahasiswaan Universitas Negeri Yogyakarta</p>
                 </div>
-                
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="index.html" class="back-button">Kembali ke Beranda</a>
+
+                <div class="signature-col">
+                    <p>Mahasiswa</p>
+                    <img src="asset/mahasiwa.jpg" alt="Foto Mahasiswa" class="signature-photo rounded-full">
+                    <p class="signature-name">Anisa Sri Rizky, S.Pd</p>
+                    <p class="signature-title">Program Magister Pendidikan Luar Biasa <br>Universitas Negeri Yogyakarta</p>
                 </div>
             </div>
-        </section>
+            <div class="section">
+                <p><strong>SIMDIKSUS (Sistem Informasi dan Identifikasi Anak Berkebutuhan Khusus)</strong> merupakan sebuah <i>website</i> yang dirancang sebagai referensi bagi guru sekolah dasar dalam menemu kenali dan memahami Anak Berkebutuhan Khusus (ABK), khususnya yang termasuk kategori high incident disabilities atau ABK yang umum ditemukan di kelas inklusif.</p>
+                <p>Platform web ini dikembangkan oleh Anisa Sri Rizky, S.Pd dengan developer yakni M Alif Gustav, S.Kom sebagai bagian dari penelitian untuk menyelesaikan Magister Pendidikan Luar Biasa di Universitas Negeri Yogyakarta. Adapun penelitian ini berada di bawah bimbingan Dr. dr. Atien Nur Chamidah, M.Dis.St.</p>
+                <p>Dengan dikembangkannya <i>website</i> ini, diharapkan dapat menjadi media pendukung yang memfasilitasi pemahaman awal dan penanganan Anak Berkebutuhan Khusus secara efektif dan efisien, khususnya pada kategori <i>high incident disabilities</i> atau ABK yang umum ditemukan di kelas inklusif.</p>
+            </div>
+            
+        </div>
     </main>
 
     <footer>
@@ -79,15 +156,8 @@
     </footer>
 
     <div class="whatsapp-button-container">
-        <a href="https://wa.me/6281234567890?text=Halo%20saya%20ingin%20bertanya%20mengenai%20website%20skrining%20ABK" target="_blank" class="whatsapp-button">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" class="whatsapp-icon">
-            Butuh Bantuan?
-        </a>
-    </div>
+        </div>
 
     <script src="nav.js"></script>
-    <script src="script.js"></script>
-
 </body>
-
 </html>
