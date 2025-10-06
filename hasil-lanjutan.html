@@ -322,8 +322,8 @@
             tanggalPengisianEl.innerText = tanggalPengisian;
             signatureNameEl.innerText = `(${pengisiInstrumen})`;
             
-            resultTitle.innerText = `Hasil Skrining: ${namaKlasifikasi}`;
-            summaryContainer.innerHTML = `<p>Berdasarkan instrumen skrining **${namaKlasifikasi}**, anak yang bernama **${namaAnak}** menunjukkan indikasi sebagai berikut:</p><p>Jumlah indikasi "Ya": **${jumlahYa}** dari **${totalPertanyaan}** pertanyaan.</p>`;
+            resultTitle.innerText = `Hasil Identifikasi: ${namaKlasifikasi}`;
+            summaryContainer.innerHTML = `<p>Berdasarkan instrumen identifikasi <b>${namaKlasifikasi}</b>, ananda yang bernama <b>${namaAnak}</b> menunjukkan indikasi sebagai berikut:</p><p>Jumlah indikasi "Ya": <b>${jumlahYa}</b> dari <b>${totalPertanyaan}</b> pertanyaan.</p>`;
             
             answers.forEach((item, index) => {
                 const resultItem = document.createElement('div');
