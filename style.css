@@ -1045,3 +1045,48 @@ main {
         width: 120px; /* Atur lebar logo yang lebih kecil untuk mobile */
     }
 }
+
+
+
+/* Container untuk tombol UNY (diletakkan di atas atau dekat tombol WA) */
+
+.uny-link {
+    display: flex;
+    align-items: center;
+    background-color: #2c3e50; /* Warna gelap, serasi dengan desain */
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+
+
+
+.uny-button-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 500;
+}
+
+.uny-button {
+    background-color: #3353d4;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+}
+
+.uny-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
