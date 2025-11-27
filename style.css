@@ -11,6 +11,11 @@ body {
     color: #334e68; /* Dark blue-gray text */
 }
 
+.purposes-img {
+height: 200px; /* Ukuran logo yang proporsional */
+width: auto;
+}
+
 .main-content {
     max-width: 1200px;
     margin: 0 auto;
@@ -552,6 +557,10 @@ main {
         bottom: 15px;
         right: 15px;
     }
+    .purposes-img {
+    height: 120px; /* Ukuran logo yang proporsional */
+    width: auto;
+    }
 }
 
 /* Gaya Halaman Tentang Web */
@@ -646,6 +655,10 @@ main {
     .profile-photo {
         width: 120px;
         height: 120px;
+    }
+    .purposes-img {
+    height: 120px; /* Ukuran logo yang proporsional */
+    width: auto;
     }
 }
 
@@ -998,6 +1011,10 @@ main {
     .form-title {
         font-size: 1.5rem;
     }
+    .purposes-img {
+    height: 120px; /* Ukuran logo yang proporsional */
+    width: auto;
+    }
 }
 
 /* Styling untuk grid tombol klasifikasi yang lebih kecil */
@@ -1044,6 +1061,10 @@ main {
     .logo-img {
         width: 120px; /* Atur lebar logo yang lebih kecil untuk mobile */
     }
+    .purposes-img {
+    height: 120px; /* Ukuran logo yang proporsional */
+    width: auto;
+    }
 }
 
 
@@ -1062,7 +1083,6 @@ main {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
 }
-
 
 
 
@@ -1090,3 +1110,4 @@ main {
     height: 24px;
     margin-right: 8px;
 }
+
