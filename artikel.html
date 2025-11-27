@@ -104,6 +104,95 @@
     width: auto;
     }
 
+
+/* ... (CSS Desktop Anda di sini) ... */
+
+/* =========================================
+   RESPONSIVE MOBILE (Layar Maksimal 768px)
+   ========================================= */
+@media (max-width: 768px) {
+    
+    /* 1. KONTEN UTAMA ARTIKEL */
+    .article-content {
+        padding: 1.5rem; /* Kurangi padding dari 3.5rem menjadi 1.5rem */
+        margin-top: 1rem;
+        box-shadow: none; /* Hilangkan shadow di mobile untuk tampilan lebih bersih */
+        border-radius: 0; /* Opsional: Hilangkan border-radius di mobile */
+    }
+
+    /* 2. UKURAN FONT JUDUL & SUBJUDUL */
+    .article-content h2 {
+        font-size: 1.8rem; /* Perkecil H2 dari 2.2rem */
+        text-align: left; /* Ganti rata tengah menjadi rata kiri */
+        margin-bottom: 1rem;
+    }
+    
+    .article-content h3 {
+        font-size: 1.4rem; /* Perkecil H3 dari 1.7rem */
+        margin-top: 1.5rem;
+    }
+
+    .article-content h4 {
+        font-size: 1.15rem; /* Perkecil H4 dari 1.25rem */
+    }
+    
+    /* 3. PARAGRAF (KETERBACAAN) */
+    .article-content p {
+        font-size: 1rem; /* Perkecil P dari 1.05rem */
+        line-height: 1.6; /* Kurangi line-height dari 1.7 */
+        margin-bottom: 1rem; /* Kurangi jarak bawah */
+    }
+
+    /* 4. DAFTAR (UL/OL) */
+    .article-content ul, 
+    .article-content ol {
+        margin-left: 1rem; /* Kurangi indentasi */
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+    
+    /* 5. GAMBAR INLINE (Penting untuk Gambar yang Ditengahkan) */
+    .article-inline-image {
+        max-width: 100% !important; /* Paksa gambar memenuhi lebar layar */
+        margin: 1.5rem auto !important; /* Kurangi margin atas/bawah */
+    }
+    
+    /* 6. REFERENSI */
+    .article-reference {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+    }
+    
+    .article-reference ul {
+        font-size: 0.9rem;
+    }
+
+    /* 7. REKOMENDASI ARTIKEL */
+    .recomendations-section h3 {
+        font-size: 1.2rem;
+    }
+
+    /* 8. HEADER (Jika belum diatur di style.css utama) */
+    .header-container {
+        flex-direction: column; /* Jika header menggunakan flex, tumpuk ke bawah */
+        align-items: flex-start;
+        padding: 10px 15px;
+    }
+    
+    .main-nav {
+        display: none; /* Sembunyikan menu navigasi utama */
+    }
+    
+    /* Tombol/Kontainer Kembali ke Beranda */
+    .back-home-button-container {
+        text-align: center;
+        margin-top: 2rem;
+    }
+    .back-home-button {
+        padding: 8px 15px;
+        font-size: 0.95rem;
+    }
+}
 </style>
 </head>
 <body>

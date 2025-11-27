@@ -1084,8 +1084,6 @@ main {
     transition: background-color 0.3s ease;
 }
 
-
-
 .uny-button-container {
     position: fixed;
     bottom: 80px;
@@ -1153,8 +1151,8 @@ main {
 /* Penyesuaian responsif untuk gambar dalam artikel */
 @media (max-width: 768px) {
     .article-body .article-inline-image {
-        margin: 1.5rem auto; /* Kurangi margin di mobile */
-        max-width: 95%;      /* Bisa sedikit lebih lebar di mobile */
+        margin: auto; /* Kurangi margin di mobile */
+        max-width: 100%;      /* Bisa sedikit lebih lebar di mobile */
     }
 
     .article-body .article-inline-image figcaption {
