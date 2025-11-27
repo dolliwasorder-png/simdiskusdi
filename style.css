@@ -1111,3 +1111,54 @@ main {
     margin-right: 8px;
 }
 
+
+/* =========================================
+   9.2 GAYA GAMBAR DALAM ARTIKEL
+   ========================================= */
+
+/* Gaya untuk container figure gambar di dalam artikel */
+.article-body .article-inline-image {
+    display: flex;             /* Gunakan Flexbox */
+    flex-direction: column;    /* Konten di dalamnya (img, figcaption) menumpuk */
+    align-items: center;       /* KUNCI: Tengahkan item secara horizontal */
+    margin: 2.5rem auto;       /* Beri margin atas/bawah dan tengahkan blok */
+    max-width: 80%;            /* Batasi lebar gambar agar tidak terlalu lebar di desktop */
+    width: 100%;               /* Pastikan responsif */
+    padding: 0;                /* Hapus padding default figure jika ada */
+    border: 1px solid #e0e0e0; /* Border tipis opsional */
+    border-radius: 8px;        /* Sudut membulat */
+    overflow: hidden;          /* Pastikan border-radius bekerja pada gambar */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* Shadow tipis opsional */
+}
+
+/* Gaya untuk gambar itu sendiri */
+.article-body .article-inline-image img {
+    max-width: 100%;       /* Pastikan gambar tidak melebihi lebar figure */
+    height: auto;          /* Jaga aspek rasio */
+    display: block;        /* Hilangkan ruang kosong di bawah gambar */
+    border-radius: 8px 8px 0 0; /* Bulatkan hanya sudut atas */
+}
+
+/* Gaya untuk keterangan gambar */
+.article-body .article-inline-image figcaption {
+    font-size: 0.85rem;
+    color: #6c757d;
+    text-align: center;
+    padding: 10px 15px;
+    background-color: #f9f9f9;
+    width: 100%;
+    border-top: 1px solid #eee;
+}
+
+/* Penyesuaian responsif untuk gambar dalam artikel */
+@media (max-width: 768px) {
+    .article-body .article-inline-image {
+        margin: 1.5rem auto; /* Kurangi margin di mobile */
+        max-width: 95%;      /* Bisa sedikit lebih lebar di mobile */
+    }
+
+    .article-body .article-inline-image figcaption {
+        font-size: 0.8rem; /* Perkecil font caption di mobile */
+        padding: 8px 10px;
+    }
+}
