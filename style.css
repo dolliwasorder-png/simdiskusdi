@@ -486,11 +486,12 @@ main {
         width: 100%;
         justify-content: center; /* Tengahkan logo dan judul */
         margin-bottom: 1rem; /* Beri jarak dengan nav */
+        margin-left: 0rem;
         gap: 50px;
     }
 
     .header-title {
-        font-size: 1.2rem; /* Perkecil ukuran judul */
+        font-size: 1.5rem; /* Perkecil ukuran judul */
     }
 
     .logo-img {
@@ -1246,7 +1247,7 @@ main {
     
     .separator {
         height: 27px; /* Sesuaikan tinggi garis pemisah */
-        margin: 0 8px; 
+        margin: 0 0px; 
     }
 
     .header-content {
@@ -1254,7 +1255,7 @@ main {
     }
 
     .header-title {
-        font-size: 1em; /* Perkecil ukuran judul SIMDIKSUS */
+        font-size: 1.1em; /* Perkecil ukuran judul SIMDIKSUS */
     }
 
     .main-nav {
