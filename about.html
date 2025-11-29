@@ -88,26 +88,53 @@
             color: #1a1a1a;
         }
 
-        .logo-center-box {
-            text-align: center;
-            margin-bottom: 30px; /* Jarak dari bawah */
-        }
-
-        .logo-center-box img {
-            /* Opsional, hanya jika margin 0 auto diperlukan (jika centering gagal) */
-            display: block;
-            margin: 0 auto; 
+        .logo-linkk {
+            display: flex;
+            margin-right: 5px;
         }
         
+        .logo-imgg {
+            width: 130px; /* Atur lebar logo untuk desktop */
+            height: auto; /* Memastikan rasio aspek logo tetap terjaga */
+        }
+
+        .logo-imgg {
+            height: 60px; /* Ukuran logo yang proporsional */
+            width: auto;
+            margin-right: 8px;
+        }
+
+    @media (max-width: 768px) {
+        .logo-imgg {
+            width: 80px; /* Atur lebar logo yang lebih kecil untuk mobile */
+        }
+        
+        .logo-imgg {
+            height: auto; /* Perkecil ukuran logo */
+            margin-right: 0px;
+        }
+        
+        .header-left .logo-imgg {
+        height: 40px; /* **Perkecil logo** agar lebih minimalis di mobile */
+        }
+
+
+    }
+                
     </style>
 </head>
+
 <body class="about-page">
 
     <header class="header fixed-header">
         <div class="header-container">
             <div class="header-left">
-                <a href="index.html" class="logo-link">
-                    <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" class="logo-img">
+                <a href="index.html" class="logo-linkk">
+                    <img src="asset/uny.png" alt="Logo UNY" class="logo-imgg">
+                </a>
+                    <div class="separator"></div> 
+                <a href="index.html" class="logo-linkk"> 
+                    <img src="asset/logosimplee.png" alt="Logo SIMDIKSUS" class="logo-imgg"> 
                 </a>
                 <div class="header-content">
                     <h1 class="header-title">Sistem Informasi dan Identifikasi ABK</h1>

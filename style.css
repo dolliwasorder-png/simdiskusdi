@@ -34,7 +34,7 @@ width: auto;
 }
 
 .header-container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     padding: 0.5rem 2rem;
     display: flex;
@@ -49,12 +49,13 @@ width: auto;
 
 .logo-link {
     display: flex;
-    margin-right: 20px;
+    margin-right: 5px;
 }
 
 .logo-img {
     height: 60px; /* Ukuran logo yang proporsional */
     width: auto;
+    margin-right: 8px;
 }
 
 .header-title {
@@ -485,6 +486,7 @@ main {
         width: 100%;
         justify-content: center; /* Tengahkan logo dan judul */
         margin-bottom: 1rem; /* Beri jarak dengan nav */
+        gap: 50px;
     }
 
     .header-title {
@@ -493,7 +495,7 @@ main {
 
     .logo-img {
         height: 50px; /* Perkecil ukuran logo */
-        margin-right: 15px;
+        margin-right: 0px;
     }
 
     .main-nav {
@@ -1152,11 +1154,125 @@ main {
 @media (max-width: 768px) {
     .article-body .article-inline-image {
         margin: auto; /* Kurangi margin di mobile */
-        max-width: 100%;      /* Bisa sedikit lebih lebar di mobile */
+        max-width: 80%;      /* Bisa sedikit lebih lebar di mobile */
     }
 
     .article-body .article-inline-image figcaption {
         font-size: 0.8rem; /* Perkecil font caption di mobile */
         padding: 8px 10px;
     }
+}
+
+
+/* style.css */
+
+.header-left {
+    display: flex; /* Menggunakan flexbox untuk mengatur elemen di dalamnya */
+    align-items: center; /* Menyelaraskan item secara vertikal di tengah */
+    gap: 5px; /* Memberi jarak antar elemen (opsional, bisa diatur nanti) */
+}
+
+.header-left .logo-img {
+    height: 60px; /* Atur tinggi logo sesuai kebutuhan Anda */
+    width: auto; /* Biarkan lebar menyesuaikan secara proporsional */
+}
+
+.separator {
+    width: 1px; /* Lebar garis pemisah */
+    height: 43px; /* Tinggi garis pemisah, sesuaikan agar terlihat bagus */
+    background-color: #ccc; /* Warna garis pemisah */
+    margin: 5px 8px; /* Jarak kiri-kanan dari garis pemisah */
+}
+
+.header-content {
+    margin-left: 30px; /* Jarak antara logo terakhir dengan teks "SIMDIKSUS" */
+    /* Pastikan .header-content tidak memiliki 'margin-left' yang terlalu besar dari sebelumnya */
+    /* Jika sebelumnya menggunakan margin-left yang besar, sesuaikan di sini */
+}
+
+.header-title {
+    font-size: 1.5em; /* Sesuaikan ukuran font jika perlu */
+    margin: 0;
+    line-height: 1;
+}
+
+.header-subtitle {
+    margin: 0;
+}
+
+/* Anda mungkin perlu menyesuaikan padding atau margin di .header-container 
+   atau .header untuk mengakomodasi dua logo */
+.header-container {
+    padding: 10px 25px; /* Contoh padding, sesuaikan jika perlu */
+}
+
+/* Jika Anda ingin teks SIMDIKSUS terlihat lebih menonjol di samping logo, 
+   Anda bisa mengatur ulang sedikit gaya .header-left dan .header-content */
+/* Contoh: */
+/*
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+}
+.header-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%; // Untuk menyelaraskan vertikal jika header-left punya tinggi tertentu
+}
+*/
+
+/* --- Bagian Responsif (Media Query) --- */
+
+@media (max-width: 768px) {
+    /* Perubahan untuk perangkat dengan lebar layar 768px atau kurang (Mobile/Tablet) */
+
+    .header-container {
+        flex-direction: column; /* Ubah tata letak header-container menjadi vertikal */
+        align-items: flex-start; /* Sejajarkan item ke kiri */
+        padding: 10px 15px;
+    }
+
+    .header-left {
+        width: 100%;
+        margin-bottom: 10px; /* Tambahkan sedikit jarak di bawah logo dan judul */
+        gap: 12px;
+    }
+    
+    .header-left .logo-img {
+        height: 35px; /* **Perkecil logo** agar lebih minimalis di mobile */
+    }
+    
+    .separator {
+        height: 27px; /* Sesuaikan tinggi garis pemisah */
+        margin: 0 8px; 
+    }
+
+    .header-content {
+        margin-left: 15px; /* Kurangi jarak antara logo dan teks di mobile */
+    }
+
+    .header-title {
+        font-size: 1em; /* Perkecil ukuran judul SIMDIKSUS */
+    }
+
+    .main-nav {
+        width: 100%; /* Pastikan navigasi mengambil lebar penuh */
+    }
+    
+    .main-nav ul {
+        display: flex; /* Navigasi utama tetap horizontal (sesuaikan jika Anda punya menu hamburger) */
+        flex-wrap: wrap; /* Biarkan menu turun ke baris baru jika tidak muat */
+        justify-content: space-around;
+        padding: 0;
+        margin-top: 5px;
+    }
+    
+    .main-nav ul li {
+        margin: 5px 0;
+    }
+
+    /* Jika navigasi dropdown tidak responsif, Anda mungkin perlu CSS tambahan
+       (misalnya, mengubahnya menjadi menu hamburger atau tumpukan vertikal) */
 }
