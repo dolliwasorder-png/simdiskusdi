@@ -339,14 +339,15 @@
 
             // Logika rekomendasi 
             let recommendationText = '';
-            let isStrongIndication = (klasifikasi === 'hambatan-intelektual-ringan' && jumlahYa >= 6) || 
-                                     (klasifikasi === 'spektrum-autis' && jumlahYa >= 7) || 
-                                     (klasifikasi === 'adhd' && jumlahYa >= 8) || 
-                                     (klasifikasi === 'gangguan-bicara-bahasa' && jumlahYa >= 6) || 
-                                     (klasifikasi === 'disleksia' && jumlahYa >= 4) || 
-                                     (klasifikasi === 'disgrafia' && jumlahYa >= 5) || 
-                                     (klasifikasi === 'diskalkulia' && jumlahYa >= 4) || 
-                                     (jumlahYa >= 2);
+            let isStrongIndication = (klasifikasi === 'hambatan-intelektual-ringan' && jumlahYa >= 7) || 
+                                     (klasifikasi === 'spektrum-autis' && jumlahYa >= 8) || 
+                                     (klasifikasi === 'adhd' && jumlahYa >= 11) || 
+                                     (klasifikasi === 'gangguan-bicara-bahasa' && jumlahYa >= 9) || 
+                                     (klasifikasi === 'disleksia' && jumlahYa >= 6) || 
+                                     (klasifikasi === 'disgrafia' && jumlahYa >= 7) || 
+                                     (klasifikasi === 'diskalkulia' && jumlahYa >= 5) || 
+                                     (klasifikasi === 'gangguan-emosional-perilaku' && jumlahYa >= 7); 
+                                    //  (jumlahYa >= 2);
             
             if (isStrongIndication) {
                 recommendationText = `<p>Berdasarkan hasil identifikasi, ananda menunjukkan <b>indikasi kuat</b> terhadap <b>${namaKlasifikasi}</b>. Sangat disarankan untuk segera melakukan konsultasi dengan psikolog, terapis, atau tenaga ahli pendidikan khusus untuk mendapatkan diagnosis dan penanganan yang lebih akurat dan terperinci.</p><p>identifikasi ini <b>bukanlah diagnosis medis</b> melainkan langkah awal untuk mengenali kemungkinan hambatan belajar dan perkembangan anak.</p>`;
